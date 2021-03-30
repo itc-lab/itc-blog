@@ -22,5 +22,7 @@ module.exports = {
   },
   images: {
     domains: ["abs.twimg.com"],
+    loader: "cloudinary",
+    path: "https://res.cloudinary.com/dt8zu6zzd/"
   },
 }

@@ -15,7 +15,8 @@ export const Img = ({ width, height, src, ...p }) => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Image
+          {/* <Image */}
+          <img
             {...p}
             src={`${src}&name=small`}
             layout="fill"

@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "export": "next build && next export"
+    "export": "next build && next export",
+    "serve": "PORT=3000 serve ./out"
   },
   "dependencies": {
     "@mapbox/rehype-prism": "^0.6.0",
@@ -36,5 +37,8 @@
     "sass": "^1.32.7",
     "tailwindcss": "^2.0.4",
     "tocbot": "^4.12.2"
+  },
+  "devDependencies": {
+    "serve": "^11.3.2"
   }
 }

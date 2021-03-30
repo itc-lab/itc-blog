@@ -13,7 +13,8 @@ export default function TweetHeader({ tweet }) {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <Image
+        {/* <Image */}
+        <img
           className={styles.rounded}
           src={avatar}
           alt={tweet.name}
