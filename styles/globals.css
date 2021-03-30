@@ -1,0 +1,123 @@
+@tailwind base;
+
+h1 {
+  @apply text-xl iphone:text-2xl font-bold py-2;
+}
+h2 {
+  @apply text-lg iphone:text-xl font-bold py-1;
+}
+h3 {
+  @apply text-base iphone:text-lg font-bold py-1;
+}
+a {
+  @apply text-blue-600 underline;
+}
+
+@tailwind components;
+
+@media (min-width: theme('screens.md')) { 
+  .content-area {
+    width: calc(100% - theme('spacing.82'));
+  }
+}
+
+@media (max-width: theme('screens.md')) { 
+  .content-area {
+    width: 100%;
+  }
+}
+
+.right-bottom-div-h {
+  height: calc(100vh - theme('spacing.13'));
+}
+.left-div-h {
+  height: calc(100vh - 400px);
+}
+.index-special-width {
+  width: calc(100% - 108px);
+}
+
+@tailwind utilities;
+
+#toggle {
+  display: none;
+}
+
+.toggle-label .hamburger .line {
+  width: 22px;
+  height: 3px;
+  margin-bottom: 5px;
+  background-color: white;
+  transition: all .4s;
+}
+.toggle-label .hamburger .line:nth-of-type(3) {
+  margin-bottom: 0px;
+}
+
+.toggle-label {
+  display: inline-flex;
+  cursor: pointer;
+}
+.hamburger-wrapper{
+  display: flex;
+  align-items: center;
+}
+.hamburger{
+  display: flex;
+  margin-left: 10px;
+  flex-direction: column;
+}
+
+#toggle:checked ~ .toggle-label .hamburger .line:nth-of-type(1) {
+  transform: translateY(8px) rotate(-315deg);
+}
+#toggle:checked ~ .toggle-label .hamburger .line:nth-of-type(2) {
+  opacity: 0;
+}
+#toggle:checked ~ .toggle-label .hamburger .line:nth-of-type(3) {
+  transform: translateY(-8px) rotate(315deg);
+}
+
+.js-toc-content blockquote {
+  border-left: 5px solid turquoise;
+  padding: 5px 0px 5px 5px;
+  background-color: #f4f4f4;
+  border-radius: 4px;
+  /* width: 100%; */
+  /* max-width: 550px; */
+  margin: 0.4em 0px;
+}
+
+.js-toc-content blockquote p {
+  padding: 0px;
+}
+
+.js-toc-content code {
+  background-color: #00000010;
+  padding: 3px 3px;
+  border-radius: 4px;
+}
+
+.twitter-svg {
+  transition: all 0.1s ease-in 0s;
+}
+
+.twitter-svg:hover {
+ fill: #1D9BF0;
+}
+
+.hatena-svg {
+  transition: all 0.1s ease-in 0s;
+}
+
+.hatena-svg:hover {
+ fill: #00A4DE;
+}
+
+.github-svg {
+  transition: all 0.1s ease-in 0s;
+}
+
+.github-svg:hover {
+ fill: #000000;
+}
