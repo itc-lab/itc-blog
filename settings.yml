@@ -6,7 +6,7 @@ general:
     logo: /homelogo.png
     hashtag: blog_itc
     per_page: 2
-    github: https://github.com/itc-tasho
+    github: https://github.com/itc-lab
 blogs:
   - url: https://itccorporation.netlify.app/blogs
     logo: /bloglogo.png
