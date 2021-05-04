@@ -154,22 +154,22 @@ export const getStaticProps = async ({params}) => {
 
   //topic_idがundefinedの場合、全データページ切り替え
   const contents = !topic_id
-                    ? await fetch(`https://itccorporation.microcms.io/api/v1/contents?offset=${offset}&limit=${settings.general[0].per_page}&orders=-updatedAt`, key)
+                    ? await fetch(`${process.env.API_URL}contents?offset=${offset}&limit=${settings.general[0].per_page}&orders=-updatedAt`, key)
                         .then(res => res.json())
                         .catch(() => null)
-                    : await fetch(`https://itccorporation.microcms.io/api/v1/contents?offset=${offset}&limit=${settings.general[0].per_page}&filters=topics[contains]${topic_id}`, key)
+                    : await fetch(`${process.env.API_URL}contents?offset=${offset}&limit=${settings.general[0].per_page}&filters=topics[contains]${topic_id}`, key)
                         .then(res => res.json())
                         .catch(() => null);
-  const topics = await fetch(`https://itccorporation.microcms.io/api/v1/topics?limit=9999`, key)
+  const topics = await fetch(`${process.env.API_URL}topics?limit=9999`, key)
     .then(res => res.json())
     .catch(() => null);
   //topic_idがある場合、関連技術で絞り込み
   const currentTopic = topic_id &&
-                        await fetch(`https://itccorporation.microcms.io/api/v1/topics?filters=id[equals]${topic_id}`, key)
+                        await fetch(`${process.env.API_URL}topics?filters=id[equals]${topic_id}`, key)
                           .then(res => res.json())
                           .catch(() => null);
 
-  const tweets_id_data = await fetch(`https://itccorporation.microcms.io/api/v1/twitter?limit=9999&orders=-updatedAt`, key)
+  const tweets_id_data = await fetch(`${process.env.API_URL}twitter?limit=9999&orders=-updatedAt`, key)
     .then(res => res.json())
     .catch(() => null);
   const twitter_ids = [];
@@ -196,7 +196,7 @@ export const getStaticPaths = async () => {
   const key = {
     headers: {'X-API-KEY': process.env.API_KEY},
   };
-  const total_count_data = await fetch(`https://itccorporation.microcms.io/api/v1/contents/?limit=0`, key)//データは無くて良いので、limit=0
+  const total_count_data = await fetch(`${process.env.API_URL}contents/?limit=0`, key)//データは無くて良いので、limit=0
     .then(res => res.json())
     .catch(() => null);
   const total_pages = Math.ceil(total_count_data.totalCount / settings.general[0].per_page);//coutPosts=全記事数を返す。pages=ページ数
@@ -210,12 +210,12 @@ export const getStaticPaths = async () => {
   //   { params: { slug: ['3'] } }
   // ]
 
-  const topics_id_data = await fetch('https://itccorporation.microcms.io/api/v1/topics?limit=9999&fields=id', key)//関連技術のidだけ抽出
+  const topics_id_data = await fetch(`${process.env.API_URL}topics?limit=9999&fields=id`, key)//関連技術のidだけ抽出
     .then(res => res.json())
     .catch(() => null);
 
   for (const topic of topics_id_data.contents) {
-    const topic_posts = await fetch(`https://itccorporation.microcms.io/api/v1/contents?limit=0&filters=topics[contains]${topic.id}`, key)
+    const topic_posts = await fetch(`${process.env.API_URL}contents?limit=0&filters=topics[contains]${topic.id}`, key)
       .then(res => res.json())
       .catch(() => null);
     const topic_pages = Math.ceil(topic_posts.totalCount / settings.general[0].per_page);

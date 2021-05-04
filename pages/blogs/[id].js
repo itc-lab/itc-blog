@@ -208,11 +208,11 @@ export const getStaticProps = async content => {
   const key = {
     headers: {'X-API-KEY': process.env.API_KEY},
   };
-  const data = await fetch('https://itccorporation.microcms.io/api/v1/contents/' + id, key)
+  const data = await fetch(`${process.env.API_URL}contents/` + id, key)
     .then(res => res.json())
     .catch(() => null);
 
-  const tweets_id_data = await fetch(`https://itccorporation.microcms.io/api/v1/twitter?limit=9999&orders=-updatedAt`, key)
+  const tweets_id_data = await fetch(`${process.env.API_URL}twitter?limit=9999&orders=-updatedAt`, key)
     .then(res => res.json())
     .catch(() => null);
   const twitter_ids = [];
@@ -232,7 +232,7 @@ export const getStaticPaths = async () => {
   const key = {
     headers: {'X-API-KEY': process.env.API_KEY},
   };
-  const data = await fetch('https://itccorporation.microcms.io/api/v1/contents?limit=9999&fields=id', key)
+  const data = await fetch(`${process.env.API_URL}contents?limit=9999&fields=id`, key)
     .then(res => res.json())
     .catch(() => null);
   const paths = data.contents.map(content => `/blogs/${content.id}`);
