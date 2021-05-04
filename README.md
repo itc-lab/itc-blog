@@ -1,34 +1,101 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ITC Engineering Blog
 
-## Getting Started
+<p align="center">
+  <a href="https://itc-engineering-blog.netlify.app/"><img src="https://res.cloudinary.com/dt8zu6zzd/image/upload/v1619948175/itc-engineering-blog-readme.png" alt="ITC Engineering Blog"></a>
+</p>
 
-First, run the development server:
+The Jamstack static site using [microCMS](https://microcms.io) and [Netlify](https://www.netlify.com).  
+Made with [Next.js](https://nextjs.org), [Tailwind CSS](https://tailwindcss.com), [PostCSS](https://postcss.org).
 
-```bash
-npm run dev
-# or
-yarn dev
+## Demo
+
+Access the following demo site:
+
+[ITC Engineering Blog](https://itc-engineering-blog.netlify.app/)
+
+## Features
+- [Next.js](https://nextjs.org) : used for static site generation  
+    - Integrate with [Tailwind CSS](https://tailwindcss.com)  
+    - [PostCSS](https://postcss.org) for processing [Tailwind CSS](https://tailwindcss.com)  
+- microCMS : built with [microCMS](https://microcms.io) for quick posting, maintenance 
+- Table of contents (TOC) : [Tocbot](https://tscanlin.github.io/tocbot/) builds a table of contents (TOC) from headings in an HTML document  
+- Static Tweet : tweets are rendered statically using [static-tweet](https://github.com/lfades/static-tweet), [react-static-tweets](https://github.com/transitive-bullshit/react-static-tweets)  
+- Syntax Highlighting : with [react-syntax-highlighter](https://github.com/react-syntax-highlighter/react-syntax-highlighter)
+- Markdown : supported by [react-markdown](https://github.com/remarkjs/react-markdown)  
+- Pagination : limits the number of posts per page  
+- SEO : [Next SEO](https://github.com/garmeeh/next-seo) supports openGraph and JSON-LD  
+
+## Requirements
+
+- Node.js and npm
+
+## microCMS API Schema
+
+### Twitter
+endpoint: twitter  
+type: リスト形式
+
+| フィールドID | 表示名 | 種類 |
+| ------------- | ------------- | ----- |
+| twitter_id | twitter_id | テキストフィールド |
+| caption | caption | テキストエリア |
+| memo | memo | テキストエリア |
+
+### 関連技術
+endpoint: topics  
+type: リスト形式
+
+| フィールドID | 表示名 | 種類 |
+| ------------- | ------------- | ----- |
+| topics | 関連技術名 | テキストフィールド |
+| logo | ロゴ画像パス | テキストエリア |
+| needs_title | 文字必要有無 | 真偽値 |
+
+### コンテンツ
+endpoint: contents  
+type: リスト形式
+
+| フィールドID | 表示名 | 種類 |
+| ------------- | ------------- | ----- |
+| title | タイトル | テキストフィールド |
+| category | カテゴリ | コンテンツ参照 - 関連技術※１つのみ |
+| topics | 関連技術 | コンテンツ参照 - 関連技術※複数 |
+| content | 記事内容 | テキストエリア |
+| seo_description | 内容の説明 | テキストフィールド |
+| seo_type | openGraph_type | テキストフィールド |
+| seo_authors | openGraph_authors | テキストフィールド |
+| seo_images_url | openGraph_images | テキストエリア |
+| seo_images_width | openGraph_images_width | テキストエリア |
+| seo_images_height | openGraph_images_height | テキストエリア |
+| seo_images_alt | openGraph_images_alt | テキストエリア |
+
+## Getting started
+
+Create a .env.local file similar to .env.example:
+
+```
+API_URL=[microCMS API URL]
+API_KEY=[microCMS API KEY]
+TWITTER_API_TOKEN=[Twitter API Token]
+CDN_URL=[CDN(Cloudinary) URL for images]
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Run the following command on your local environment:
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+```
+git clone --depth=1 https://github.com/itc-lab/itc-blog.git my-project-name
+cd my-project-name
+npm install
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+Then, you can run locally in development mode with live reload:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```
+npm run dev
+```
 
-## Learn More
+Open http://localhost:3000 with your favorite browser to see your project.
 
-To learn more about Next.js, take a look at the following resources:
+## License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+MIT
