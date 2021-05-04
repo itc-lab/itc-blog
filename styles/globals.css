@@ -92,12 +92,6 @@ a {
   padding: 0px;
 }
 
-.js-toc-content code {
-  background-color: #00000010;
-  padding: 3px 3px;
-  border-radius: 4px;
-}
-
 .twitter-svg {
   transition: all 0.1s ease-in 0s;
 }
