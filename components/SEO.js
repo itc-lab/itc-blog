@@ -29,7 +29,7 @@ export const SEO = ({data, url}) => {
             authors: [
                 authors
             ],
-            tags: tags,//記事に関係する言葉 Unix/Linux, Bash/Shell ・・・
+            tags: tags,//Unix/Linux, Bash/Shell ・・・
         },
         images: [
             {
@@ -46,8 +46,6 @@ export const SEO = ({data, url}) => {
         title={data.seo_title ? data.seo_title : `${settings.blogs[0].description} ${data.title}`}
         images={[
             images_url,
-        // 'https://example.com/photos/4x3/photo.jpg',
-        // 'https://example.com/photos/16x9/photo.jpg',
         ]}
         datePublished={data.publishedAt}
         dateModified={data.updatedAt}

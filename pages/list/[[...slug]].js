@@ -3,14 +3,12 @@ import { Layout } from "../../components/Layout";
 import ReactTooltip from 'react-tooltip';
 import Image from 'next/image';
 import settings from '../../settings.yml'
-//import Date from "../components/Date";
 import { TwitterIcon } from "../../components/TwitterIcon";
 import { HatenaIcon } from "../../components/HatenaIcon";
 import { TopicsLinks } from "../../components/TopicsLinks";
 import { Topics } from "../../components/Topics";
 import { Indexes } from "../../components/Indexes";
 import { Pagination } from "../../components/Pagination";
-//import { parseISO, format, formatISO } from "date-fns";
 import Link from 'next/link';
 import getTweets from '../../lib/get-tweets';
 import { ArticleFooter } from "../../components/ArticleFooter";
@@ -24,13 +22,6 @@ export default function Page({ contents, topics, totalCount, thisPage, tweets, t
   useEffect(() => {
     setTooltipVisibility(true);
   }, []);
-
-  const scrollToTop = ()=> {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  }
 
   const title = currentTopic ? `${settings.general[0].name}/${currentTopic.topics}` : settings.general[0].name;
   const url = currentTopic ? `${settings.general[0].url}/${thisPage}/${currentTopic.id}` : `${settings.general[0].url}/${thisPage}`;
@@ -100,9 +91,6 @@ export default function Page({ contents, topics, totalCount, thisPage, tweets, t
                 <div>
                   {/* はてなブックマークアイコン */}
                   <HatenaIcon hatena_href={hatena_href}/>
-                  {/* <button id="scroll-to-top-button" data-tip="一番上へジャンプ" onClick={() => scrollToTop()}>
-                    <svg className="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="32" height="32"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 11l7-7 7 7M5 19l7-7 7 7"></path></svg>
-                  </button> */}
                 </div>
               </div>
             </div>
@@ -142,9 +130,6 @@ export default function Page({ contents, topics, totalCount, thisPage, tweets, t
 }
 
 export const getStaticProps = async ({params}) => {
-  // paramsは、/list/[[...slug]].js のため、/list/2 でリクエストされたら、{ slug: [ 2 ] } になる。
-  // /list/2/yhte0dlvr でリクエストされたら、{ slug: [ 2, 'yhte0dlvr' ] } になる。
-  // /でリクエストが来た時は、params、params.slug = undefined のため、[1]を入れる。→page=1,topic_id=undefinedになる。
   const [page, topic_id] = !params ? [1] : [params.slug[0], params.slug[1]];
 
   const key = {
@@ -203,12 +188,6 @@ export const getStaticPaths = async () => {
   const paths = Array.from(Array(total_pages).keys()).map((it) => ({
     params: { slug: [(it + 1).toString()] },
   }));
-  //ページ数だけのパターン
-  // [
-  //   { params: { slug: ['1'] } },
-  //   { params: { slug: ['2'] } },
-  //   { params: { slug: ['3'] } }
-  // ]
 
   const topics_id_data = await fetch(`${process.env.API_URL}topics?limit=9999&fields=id`, key)//関連技術のidだけ抽出
     .then(res => res.json())
@@ -227,12 +206,7 @@ export const getStaticPaths = async () => {
       });
     }
   }
-  //ページ数とtopic.id(関連技術)絞り込みも追加
-  // [
-  //   { params: { slug: '1', 'xxxxx' } },
-  //   { params: { slug: '2', 'xxxxx' } },
-  //   { params: { slug: '3', 'xxxxx' } }
-  // ]
+
   return {
     paths: paths,
     fallback: false,

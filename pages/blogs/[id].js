@@ -29,17 +29,16 @@ export default function Home({ blog, tweets, tweets_id_data }) {
 
   if (typeof window !== 'undefined') {
     const isBreakpoint = useMediaQuery(768);
-    if ( !isBreakpoint && isCheck ) {setCheckbox(false);tocbot.refresh();}//isCheck = false;//ハンバーガーメニューＯＮのまま画面が大きくなったら、ハンバーガーメニューＯＦＦ。
-    if ( isBreakpoint && !isCheck ) {tocbot.destroy();}//小さい画面かつ、ハンバーガーメニューＯＦＦの場合、tocbotをdestroy
+    if ( !isBreakpoint && isCheck ) {setCheckbox(false);tocbot.refresh();}
+    if ( isBreakpoint && !isCheck ) {tocbot.destroy();}
   }
 
-  const closeWithClickOutSideMethod = (e, setter) => {//目次の中、外のクリックを判定
-    if (e.target === e.currentTarget) {//目次の外側をクリック
+  const closeWithClickOutSideMethod = (e, setter) => {
+    if (e.target === e.currentTarget) {
       tocbot.destroy();
-      setter(false);//isCheck->false
-    } else if (e.target.classList.contains('toc-link')) {//TOCのリンク部分をクリック
-      //isCheck->false
-      setTimeout( function() { tocbot.destroy();setter(false); }, 500 );//scrollSmoothDuration: 420,　スクロール中に描画が起きると、エラーになるため、描画遅延
+      setter(false);
+    } else if (e.target.classList.contains('toc-link')) {
+      setTimeout( function() { tocbot.destroy();setter(false); }, 500 );//スクロール中に描画が起きると、エラーになるため、描画遅延
     }
   };
 

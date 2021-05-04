@@ -21,7 +21,6 @@ export const Indexes = ({contents}) => {
 const IndexContent = ({content, index}) => {
     const last_index = content.topics.length - 1;
     const isUpdate = parseISO(content.updatedAt) > parseISO(content.publishedAt)
-    //console.log( content )
     return (
         <article id={`blogs${content.id}`} className="flex border-t border-gray-400 p-2 iphone:p-4 items-center">
             <Link href={"/blogs/[id]"} as={`/blogs/${content.id}`}>
@@ -29,7 +28,6 @@ const IndexContent = ({content, index}) => {
                     <div className="m-1 relative iphone:w-16 iphone:h-16 md:w-24 md:h-24"><Image src={content.category.logo} layout='fill' objectFit="contain"/></div>
                 </a>
             </Link>
-            {/* <div style={{width: `calc(100% - 108px)`}} className="block"> */}
             <div className="md:index-special-width block"> 
                 <header className="flex items-center justify-between">
                 <div className="mt-1">

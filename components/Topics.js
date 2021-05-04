@@ -3,19 +3,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export const Topics = ({title, topics}) => {
-    // var last_index = 0;
-    // var arr = [];
-    // topics.map( (value, index) => {
-    //     arr[index].id = value.id;
-    //     arr[index].logo = value.logo;
-    //     if (d.needs_title) {
-    //         arr[index].label = d.topics;
-    //     } else {
-    //         arr[index].label = "";
-    //     }
-    //     last_index = index;
-    // });
-
     const last_index = topics.length - 1;
 
     return (

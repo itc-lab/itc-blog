@@ -3,8 +3,6 @@ import settings from '../settings.yml'
 import Link from 'next/link';
 
 export const Pagination = ({ thisPage, totalCount, currentTopic }) => {
-    //console.log( totalCount )
-
     const PER_PAGE = settings.general[0].per_page;
   
     const range = (start, end) =>
