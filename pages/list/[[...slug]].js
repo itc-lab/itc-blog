@@ -44,7 +44,7 @@ export default function Page({ contents, topics, totalCount, thisPage, tweets, t
         <div className="max-w-screen-xl m-auto px-10">
           <div className="flex items-center justify-between h-10">
             <div className="mr-4 flex-shrink-0 items-center">
-              <Link href={"/"} as={"/"}><a><img src={settings.blogs[0].logo} className="object-none"></img></a></Link>
+              <Link href={"/"} as={"/"}><a><Image src={settings.blogs[0].logo} width="200" height="49" /></a></Link>
             </div>
           </div>
         </div>
