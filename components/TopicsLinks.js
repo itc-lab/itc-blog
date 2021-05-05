@@ -12,7 +12,7 @@ export const TopicsLinks = ({topics}) => {
             {topics
                 .map((value, index) => {
                     return (
-                        <Link href={"/list/[[...slug]]"} as={`/list/1/${value.id}`}>
+                        <Link key={`TopicsLinkslist1${value.id}`} href={"/list/[[...slug]]"} as={`/list/1/${value.id}`}>
                         <a className="text-gray-700 mr-2 text-xs md:text-sm leading-relaxed no-underline hover:underline focus:underline cursor-pointer">
                             {value.topics}{index !== last_index && ","}
                         </a>

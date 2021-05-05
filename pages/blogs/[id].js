@@ -65,7 +65,7 @@ export default function Home({ blog, tweets, tweets_id_data }) {
           <div className="max-w-screen-xl m-auto px-10">
             <div className="flex items-center justify-between h-10">
               <div className="mr-4 flex-shrink-0 items-center" onClick={() => setCheckbox(false)}>
-                <Link href={"/"} as={"/"}><a><img src={settings.blogs[0].logo} className="object-none"></img></a></Link>
+              <Link href={"/"} as={"/"}><a><Image src={settings.blogs[0].logo} width="200" height="49" /></a></Link>
               </div>
               <div className="flex-1 text-sm truncate">
                 {blog.title}

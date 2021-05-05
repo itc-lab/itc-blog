@@ -11,7 +11,7 @@ export const ArticleFooter = ({tweets, tweets_id_data}) => {
           {tweets_id_data
             .map((value) => {
                 return (
-                  <Tweet id={value.twitter_id} />
+                  <Tweet key={value.twitter_id} id={value.twitter_id} />
                 )
             })
           }
