@@ -41,10 +41,10 @@ export default function Page({ contents, topics, totalCount, thisPage, tweets, t
   return (
     <Layout title={title} seo_data={seo_data} seo_url={settings.general[0].url}>
       <nav className="sticky top-0 bg-blue-600 text-white z-50 border-t border-b border-l-0 border-r-0 border-gray-200">
-        <div className="max-w-screen-xl m-auto px-10">
-          <div className="flex items-center justify-between h-10">
-            <div className="mr-4 flex-shrink-0 items-center">
-              <Link href={"/"} as={"/"}><a><Image src={settings.blogs[0].logo} width="200" height="49" /></a></Link>
+        <div className="max-w-screen-xl pl-2 iphone:pl-8 md:pl-16">
+          <div className="flex items-center h-10">
+            <div style={{ position: 'relative', width: '230px', height: '80%' }}>
+              <Link href={"/"} as={"/"}><a><Image src={settings.blogs[0].logo} layout='fill' objectFit="contain" /></a></Link>
             </div>
           </div>
         </div>
@@ -58,7 +58,7 @@ export default function Page({ contents, topics, totalCount, thisPage, tweets, t
               {/* currentTopic有り=関連技術で絞り込み有り */}
               {currentTopic && currentTopic.needs_title && currentTopic.topics}
               {!currentTopic ? (
-              <div className="flex items-center justify-center h-20">
+              <div className="flex items-center justify-center h-40">
                 <div style={{ position: 'relative', width: '100%', height: '100%' }}>
                   <Link href={"/"} as={"/"}><a><Image src={settings.general[0].logo} layout='fill' objectFit="contain"/></a></Link>
                 </div>

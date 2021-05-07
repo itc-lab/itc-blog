@@ -1,14 +1,20 @@
 {
-  "short_name": "ITC Blog",
-  "name": "ITC Engineering Blog",
-  "icons": [
-    {
-      "src": "icon.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    }
-  ],
-  "start_url": "https://itccorporation.netlify.app",
-  "background_color": "#000000",
-  "theme_color": "#000000"
+    "name": "ITC Engineering Blog",
+    "short_name": "ITC Blog",
+    "icons": [
+        {
+            "src": "/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "start_url": "https://itccorporation.netlify.app",
+    "theme_color": "#eef2ff",
+    "background_color": "#eef2ff",
+    "display": "standalone"
 }

@@ -62,16 +62,19 @@ export default function Home({ blog, tweets, tweets_id_data }) {
     <>
       <Layout title={title} seo_data={blog} seo_url={`${settings.blogs[0].url}/${blog.id}`}>
         <nav className="sticky top-0 bg-blue-600 text-white z-50 border-t border-b border-l-0 border-r-0 border-gray-200">
-          <div className="max-w-screen-xl m-auto px-10">
-            <div className="flex items-center justify-between h-10">
-              <div className="mr-4 flex-shrink-0 items-center" onClick={() => setCheckbox(false)}>
-              <Link href={"/"} as={"/"}><a><Image src={settings.blogs[0].logo} width="200" height="49" /></a></Link>
+          <div className="max-w-screen-xl pl-1 iphone:pl-8 md:pl-16">
+            <div className="flex items-center h-10">
+              <div className="hidden md:flex" style={{ position: 'relative', width: '230px', height: '80%' }} onClick={() => setCheckbox(false)}>
+                <Link href={"/"} as={"/"}><a><Image src={settings.blogs[0].logo} layout='fill' objectFit="contain" /></a></Link>
               </div>
-              <div className="flex-1 text-sm truncate">
+              <div className="flex md:hidden" style={{ position: 'relative', width: '45px', height: '70%' }} onClick={() => setCheckbox(false)}>
+                <Link href={"/"} as={"/"}><a><Image src={settings.blogs[0].logo_mini} layout='fill' objectFit="contain" /></a></Link>
+              </div>
+              <div className="ml-1 iphone:ml-2 md:ml-6 flex-1 text-sm truncate">
                 {blog.title}
               </div>
               {/* ハンバーガーメニュー md:=幅768px 以上の時は表示しない。*/}
-              <div className="flex md:hidden items-center ml-2 flex-shrink-0">
+              <div className="flex md:hidden items-center ml-2 pr-4 flex-shrink-0">
                 <input type="checkbox" id="toggle" checked={isCheck} onChange={() => setCheckbox(!isCheck)} />
                 <label htmlFor="toggle" className="toggle-label">
                   <div className="hamburger-wrapper">目次
