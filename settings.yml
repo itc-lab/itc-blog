@@ -1,5 +1,5 @@
 general:
-  - url: https://itccorporation.netlify.app
+  - url: https://itc-engineering-blog.netlify.app
     name: ITC Engineering Blog
     description: ITC Engineering Blog - Main Page
     logo: /ITC_Engineering_Blog1.svg
@@ -10,18 +10,18 @@ general:
     company_logo: /ITC_logo.svg
     company_url: https://itccorporation.jp
 blogs:
-  - url: https://itccorporation.netlify.app/blogs
+  - url: https://itc-engineering-blog.netlify.app/blogs
     logo: /ITC_Engineering_Blog2.svg
     logo_mini: /ITC_Engineering_Blog3.svg
-    description: ITC Engineering Blog -
+    description: ITC Engineering Blog/
     type: article
     authors: ITC Engineering Blog
     images:
 # ツイッターカード画像
-        - url: https://itccorporation.netlify.app/blog.png
-          width: 600
-          height: 480
-          alt: ITC Engineering Blog -
+        - url: /Logo.png
+          width: 1200
+          height: 649
+          alt: ITC Engineering Blog
 #        - url: /images/dummy.png
 #          width: 600
 #          height: 480
