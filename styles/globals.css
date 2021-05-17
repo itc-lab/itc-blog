@@ -143,3 +143,35 @@ blockquote.alert {
   border-radius: 4px;
   margin: 0.4em 0px;
 }
+
+/* GitHub Style */
+.js-toc-content table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+}
+
+.js-toc-content table th {
+  font-weight: bold;
+}
+
+.js-toc-content table th,
+.js-toc-content table td {
+  padding: 6px 13px;
+  border: 1px solid #ddd;
+}
+
+.js-toc-content table tr {
+  background-color: #fff;
+  border-top: 1px solid #ccc;
+}
+
+.js-toc-content table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+.js-toc-content a.anchor{
+  display: block;
+  padding-top: 40px;
+  margin-top: -40px;
+}
