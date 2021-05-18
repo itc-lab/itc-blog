@@ -13,7 +13,7 @@ blogs:
   - url: https://itc-engineering-blog.netlify.app/blogs
     logo: /ITC_Engineering_Blog2.svg
     logo_mini: /ITC_Engineering_Blog3.svg
-    description: ITC Engineering Blog/
+    description: ' - ITC Engineering Blog'
     type: article
     authors: ITC Engineering Blog
     images:

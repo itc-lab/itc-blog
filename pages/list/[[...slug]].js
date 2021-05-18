@@ -24,12 +24,12 @@ export default function Page({ contents, topics, totalCount, thisPage, tweets, t
   }, []);
 
   const title = currentTopic ? `${settings.general[0].name}/${currentTopic.topics}` : settings.general[0].name;
-  const url = currentTopic ? `${settings.general[0].url}/${thisPage}/${currentTopic.id}` : `${settings.general[0].url}/${thisPage}`;
+  const url = currentTopic ? `${settings.general[0].url}/list/${thisPage}/${currentTopic.id}` : `${settings.general[0].url}/list/${thisPage}`;
   const twitter_param = "&text=" + encodeURIComponent(title) + `&hashtags=${settings.general[0].hashtag}`;
   const twitter_href = `https://twitter.com/share?url=${url}/${twitter_param}`;
 
-  const hatena_param = "&title=" + encodeURIComponent(title);
-  const hatena_href = `https://b.hatena.ne.jp/add?mode=confirm&url=${url}/${hatena_param}`;
+  const hatena_href = "https://b.hatena.ne.jp/entry/" + encodeURIComponent(url);
+  const hatena_title = encodeURIComponent(title);
 
   const date = new Date();
   let seo_data = {};
@@ -90,7 +90,7 @@ export default function Page({ contents, topics, totalCount, thisPage, tweets, t
                 </div>
                 <div>
                   {/* はてなブックマークアイコン */}
-                  <HatenaIcon hatena_href={hatena_href}/>
+                  <HatenaIcon hatena_href={hatena_href} hatena_title={hatena_title}/>
                 </div>
               </div>
             </div>
@@ -106,7 +106,7 @@ export default function Page({ contents, topics, totalCount, thisPage, tweets, t
                       {/* ツイッターアイコン */}
                       <div className=""><TwitterIcon twitter_href={twitter_href}/></div>
                       {/* はてなブックマークアイコン */}
-                      <div className="ml-5"><HatenaIcon hatena_href={hatena_href}/></div>
+                      <div className="ml-5"><HatenaIcon hatena_href={hatena_href} hatena_title={hatena_title}/></div>
                       {/* シェア(共有)アイコン */}
                       {isMobileOrTablet && (<div className="ml-5"><MobileShare postTitle={title} siteTitle={title} /></div>)} 
                     </div>

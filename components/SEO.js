@@ -19,7 +19,7 @@ export const SEO = ({data, url}) => {
     <>
         <NextSeo
         openGraph={{
-        title: data.seo_title ? data.seo_title : `${settings.blogs[0].description} ${data.title}`,
+        title: data.seo_title ? data.seo_title : `${data.title}${settings.blogs[0].description}`,
         description: description,
         url: url,
         type: type,
@@ -43,7 +43,7 @@ export const SEO = ({data, url}) => {
         />
         <BlogJsonLd
         url={url}
-        title={data.seo_title ? data.seo_title : `${settings.blogs[0].description} ${data.title}`}
+        title={data.seo_title ? data.seo_title : `${data.title}${settings.blogs[0].description}`}
         images={[
             images_url,
         ]}

@@ -49,14 +49,14 @@ export default function Home({ blog, tweets, tweets_id_data }) {
     });
   }
 
-  const title = `${settings.blogs[0].description}${blog.title}`;
+  const title = `${blog.title}${settings.blogs[0].description}`;
   const url = `${settings.blogs[0].url}/${blog.id}`;
 
   const twitter_param = "&text=" + encodeURIComponent(blog.title) + `&hashtags=${settings.general[0].hashtag}`;
   const twitter_href = `https://twitter.com/share?url=${url}${twitter_param}`;
 
-  const hatena_param = "&title=" + encodeURIComponent(title);
-  const hatena_href = `https://b.hatena.ne.jp/add?mode=confirm&url=${url}/${hatena_param}`;
+  const hatena_href = "https://b.hatena.ne.jp/entry/" + encodeURIComponent(url);
+  const hatena_title = encodeURIComponent(title);
 
   return (
     <>
@@ -153,7 +153,7 @@ export default function Home({ blog, tweets, tweets_id_data }) {
                   </div>
                   <div>
                     {/* はてなブックマークアイコン */}
-                    <HatenaIcon hatena_href={hatena_href}/>
+                    <HatenaIcon hatena_href={hatena_href} hatena_title={hatena_title}/>
                   </div>
                 </div>
               </div>
