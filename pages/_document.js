@@ -4,7 +4,7 @@ import { existsGaId, GA_ID } from '../lib/gtag'
 export default class MyDocument extends Document {
   render() {
     return (
-      <html lang="ja">
+      <Html lang="ja">
         <Head>
           {/* Google Analytics */}
           {existsGaId && (
@@ -28,7 +28,7 @@ export default class MyDocument extends Document {
           <Main />
           <NextScript />
         </body>
-      </html>
+      </Html>
     )
   }
 }
