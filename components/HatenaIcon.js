@@ -1,8 +1,19 @@
 import React from 'react';
+import * as gtag from '../lib/gtag'
 
 export const HatenaIcon = ({hatena_href, hatena_title}) => {
+
+  const handleClick = () => {
+    gtag.event({
+      action: 'Click',
+      category: 'Share',
+      label: 'Hatena',
+      value: '0',
+    })
+  }
+
   return (
-    <a href={hatena_href} target="_blank" data-hatena-bookmark-title={hatena_title} data-tip="このページをはてなブックマークに追加する">
+    <a href={hatena_href} target="_blank" data-hatena-bookmark-title={hatena_title} data-tip="このページをはてなブックマークに追加する" onClick={handleClick}>
       <svg className="hatena-svg w-7 h-7 text-gray-500" fill="#6B7280" x="0px" y="0px"
         width="1024px" height="1024px" viewBox="0 0 1024 1024">
         <path d="M450.95,472.227c9.849-5.964,14.944-15.621,14.944-30.576s-4.57-25.491-13.882-31.648c-9.259-6.094-27.422-9.14-54.5-9.14

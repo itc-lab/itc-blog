@@ -1,7 +1,16 @@
 import React from 'react';
+import * as gtag from '../lib/gtag'
 
 const MobileShare = ({ postTitle, siteTitle }) => {
   const handleOnClick = () => {
+
+    gtag.event({
+      action: 'Click',
+      category: 'Share',
+      label: 'Share',
+      value: '0',
+    })
+  
     if (navigator.share) {
       navigator
         .share({

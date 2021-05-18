@@ -1,8 +1,19 @@
 import React from 'react';
+import * as gtag from '../lib/gtag'
 
 export const TwitterIcon = ({twitter_href}) => {
+
+  const handleClick = () => {
+    gtag.event({
+      action: 'Click',
+      category: 'Share',
+      label: 'Twitter',
+      value: '0',
+    })
+  }
+
   return (
-    <a href={twitter_href} rel="nofollow noopener noreferrer" target="_blank" data-tip="このページをツイートする">
+    <a href={twitter_href} rel="nofollow noopener noreferrer" target="_blank" data-tip="このページをツイートする" onClick={handleClick}>
       <svg className="twitter-svg w-7 h-7 text-gray-500" fill="#6B7280" version="1.1" id="Logo" x="0px" y="0px" viewBox="0 0 248 204" width="30" height="30">
         <g id="Logo_1_">
           <path id="white_background" className="st0" d="M221.95,51.29c0.15,2.17,0.15,4.34,0.15,6.53c0,66.73-50.8,143.69-143.69,143.69v-0.04
