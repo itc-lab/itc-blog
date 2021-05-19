@@ -1,4 +1,4 @@
-import Document, { Head, Main, NextScript } from 'next/document'
+import Document, { Html, Head, Main, NextScript } from 'next/document'
 import { existsGaId, GA_ID } from '../lib/gtag'
 
 export default class MyDocument extends Document {
