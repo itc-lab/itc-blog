@@ -1,17 +1,20 @@
 import { useRouter } from "next/router";
 import { useTweet } from "../../lib/tweets";
-// @ts-expect-error ts-migrate(2307) FIXME: Cannot find module '../../static-tweet/components/... Remove this comment to see the full error message
 import Node from "../../static-tweet/components/html/node";
-// @ts-expect-error ts-migrate(2307) FIXME: Cannot find module '../../static-tweet/components/... Remove this comment to see the full error message
 import components from "../../static-tweet/components/twitter-layout/components";
-// @ts-expect-error ts-migrate(2307) FIXME: Cannot find module '../../static-tweet/components/... Remove this comment to see the full error message
 import twitterTheme from "../../static-tweet/components/twitter-layout/twitter.module.css";
+
+interface Tweet{
+  id:string;
+  br:string;
+  caption:string;
+}
 
 export default function Tweet({
   id,
   br,
   caption
-}: any) {
+}: Tweet) {
   const tweet = useTweet(id);
 
   // Happens when `getStaticProps` is traversing the tree to collect the tweet ids

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Layout } from "../../components/Layout";
 import ReactTooltip from 'react-tooltip';
 import Image from 'next/image';
-// @ts-expect-error ts-migrate(2307) FIXME: Cannot find module '../../settings.yml' or its cor... Remove this comment to see the full error message
+import '../../settings.d.ts';
 import settings from '../../settings.yml';
 import { TwitterIcon } from "../../components/TwitterIcon";
 import { HatenaIcon } from "../../components/HatenaIcon";
@@ -119,31 +119,28 @@ export default function Page({ contents, topics, totalCount, thisPage, tweets, t
 }
 export const getStaticProps = async ({ params }: any) => {
     const [page, topic_id] = !params ? [1] : [params.slug[0], params.slug[1]];
+    const header: HeadersInit = new Headers();
+    header.set('X-API-KEY', process.env.API_KEY || '' );
     const key = {
-        headers: { 'X-API-KEY': process.env.API_KEY },
+        headers: header,
     };
     const offset = page ? (parseInt(page) - 1) * settings.general[0].per_page : 0;
     //topic_idがundefinedの場合、全データページ切り替え
     const contents = !topic_id
-        ? // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '{ headers: { 'X-API-KEY': string... Remove this comment to see the full error message
-          await fetch(`${process.env.API_URL}contents?offset=${offset}&limit=${settings.general[0].per_page}&orders=-updatedAt`, key)
-            .then(res => res.json())
-            .catch(() => null)
-        : // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '{ headers: { 'X-API-KEY': string... Remove this comment to see the full error message
-          await fetch(`${process.env.API_URL}contents?offset=${offset}&limit=${settings.general[0].per_page}&filters=topics[contains]${topic_id}`, key)
-            .then(res => res.json())
-            .catch(() => null);
-    // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '{ headers: { 'X-API-KEY': string... Remove this comment to see the full error message
+    ? await fetch(`${process.env.API_URL}contents?offset=${offset}&limit=${settings.general[0].per_page}&orders=-updatedAt`, key)
+        .then(res => res.json())
+        .catch(() => null)
+    : await fetch(`${process.env.API_URL}contents?offset=${offset}&limit=${settings.general[0].per_page}&filters=topics[contains]${topic_id}`, key)
+        .then(res => res.json())
+        .catch(() => null);
     const topics = await fetch(`${process.env.API_URL}topics?limit=9999`, key)
         .then(res => res.json())
         .catch(() => null);
     //topic_idがある場合、関連技術で絞り込み
     const currentTopic = topic_id &&
-        // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '{ headers: { 'X-API-KEY': string... Remove this comment to see the full error message
         (await fetch(`${process.env.API_URL}topics?filters=id[equals]${topic_id}`, key)
             .then(res => res.json())
             .catch(() => null));
-    // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '{ headers: { 'X-API-KEY': string... Remove this comment to see the full error message
     const tweets_id_data = await fetch(`${process.env.API_URL}twitter?limit=9999&orders=-updatedAt`, key)
         .then(res => res.json())
         .catch(() => null);
@@ -166,10 +163,11 @@ export const getStaticProps = async ({ params }: any) => {
     };
 };
 export const getStaticPaths = async () => {
+    const header: HeadersInit = new Headers();
+    header.set('X-API-KEY', process.env.API_KEY || '' );
     const key = {
-        headers: { 'X-API-KEY': process.env.API_KEY },
+        headers: header,
     };
-    // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '{ headers: { 'X-API-KEY': string... Remove this comment to see the full error message
     const total_count_data = await fetch(`${process.env.API_URL}contents/?limit=0`, key) //データは無くて良いので、limit=0
         .then(res => res.json())
         .catch(() => null);
@@ -177,12 +175,10 @@ export const getStaticPaths = async () => {
     const paths = Array.from(Array(total_pages).keys()).map((it) => ({
         params: { slug: [(it + 1).toString()] },
     }));
-    // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '{ headers: { 'X-API-KEY': string... Remove this comment to see the full error message
     const topics_id_data = await fetch(`${process.env.API_URL}topics?limit=9999&fields=id`, key) //関連技術のidだけ抽出
         .then(res => res.json())
         .catch(() => null);
     for (const topic of topics_id_data.contents) {
-        // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '{ headers: { 'X-API-KEY': string... Remove this comment to see the full error message
         const topic_posts = await fetch(`${process.env.API_URL}contents?limit=0&filters=topics[contains]${topic.id}`, key)
             .then(res => res.json())
             .catch(() => null);
