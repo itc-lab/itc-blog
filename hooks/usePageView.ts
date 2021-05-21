@@ -10,7 +10,7 @@ export default function usePageView() {
       return
     }
 
-    const handleRouteChange = (path) => {
+    const handleRouteChange = (path: any) => {
       gtag.pageview(path)
     }
 

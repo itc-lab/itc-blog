@@ -5,6 +5,7 @@ import { useMediaQuery } from '../../libs/Functions'
 import { Markdown } from '../../components/Markdown';
 import ReactTooltip from 'react-tooltip';
 import Image from 'next/image';
+// @ts-expect-error ts-migrate(2307) FIXME: Cannot find module '../../settings.yml' or its cor... Remove this comment to see the full error message
 import settings from '../../settings.yml'
 import Jadate from "../../components/Jadate";
 import { TwitterIcon } from "../../components/TwitterIcon";
@@ -17,7 +18,11 @@ import getTweets from '../../lib/get-tweets';
 import useMobileDevice from '../../hooks/useMobileDevice';
 import MobileShare from '../../components/mobileShare';
 
-export default function Home({ blog, tweets, tweets_id_data }) {
+export default function Home({
+  blog,
+  tweets,
+  tweets_id_data
+}: any) {
   const [isMobileOrTablet] = useMobileDevice();
 
   const [ isCheck, setCheckbox ]   = useState(false);
@@ -29,15 +34,19 @@ export default function Home({ blog, tweets, tweets_id_data }) {
 
   if (typeof window !== 'undefined') {
     const isBreakpoint = useMediaQuery(768);
+    // @ts-expect-error ts-migrate(2686) FIXME: 'tocbot' refers to a UMD global, but the current f... Remove this comment to see the full error message
     if ( !isBreakpoint && isCheck ) {setCheckbox(false);tocbot.refresh();}
+    // @ts-expect-error ts-migrate(2686) FIXME: 'tocbot' refers to a UMD global, but the current f... Remove this comment to see the full error message
     if ( isBreakpoint && !isCheck ) {tocbot.destroy();}
   }
 
-  const closeWithClickOutSideMethod = (e, setter) => {
+  const closeWithClickOutSideMethod = (e: any, setter: any) => {
     if (e.target === e.currentTarget) {
+      // @ts-expect-error ts-migrate(2686) FIXME: 'tocbot' refers to a UMD global, but the current f... Remove this comment to see the full error message
       tocbot.destroy();
       setter(false);
     } else if (e.target.classList.contains('toc-link')) {
+      // @ts-expect-error ts-migrate(2686) FIXME: 'tocbot' refers to a UMD global, but the current f... Remove this comment to see the full error message
       setTimeout( function() { tocbot.destroy();setter(false); }, 500 );//スクロール中に描画が起きると、エラーになるため、描画遅延
     }
   };
@@ -204,21 +213,23 @@ export default function Home({ blog, tweets, tweets_id_data }) {
   )
 }
 
-export const getStaticProps = async content => {
+export const getStaticProps = async (content: any) => {
   const id = content.params.id;
 
   const key = {
     headers: {'X-API-KEY': process.env.API_KEY},
   };
+  // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '{ headers: { 'X-API-KEY': string... Remove this comment to see the full error message
   const data = await fetch(`${process.env.API_URL}contents/` + id, key)
     .then(res => res.json())
     .catch(() => null);
 
+  // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '{ headers: { 'X-API-KEY': string... Remove this comment to see the full error message
   const tweets_id_data = await fetch(`${process.env.API_URL}twitter?limit=9999&orders=-updatedAt`, key)
     .then(res => res.json())
     .catch(() => null);
-  const twitter_ids = [];
-  tweets_id_data.contents.forEach(content => twitter_ids.push(content.twitter_id));
+  const twitter_ids: any = [];
+  tweets_id_data.contents.forEach((content: any) => twitter_ids.push(content.twitter_id));
   const tweets = await getTweets(twitter_ids);
 
   return {
@@ -234,9 +245,10 @@ export const getStaticPaths = async () => {
   const key = {
     headers: {'X-API-KEY': process.env.API_KEY},
   };
+  // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '{ headers: { 'X-API-KEY': string... Remove this comment to see the full error message
   const data = await fetch(`${process.env.API_URL}contents?limit=9999&fields=id`, key)
     .then(res => res.json())
     .catch(() => null);
-  const paths = data.contents.map(content => `/blogs/${content.id}`);
+  const paths = data.contents.map((content: any) => `/blogs/${content.id}`);
   return {paths, fallback: false};
 };

@@ -1,7 +1,10 @@
 import React from 'react';
 import * as gtag from '../lib/gtag'
 
-export const HatenaIcon = ({hatena_href, hatena_title}) => {
+export const HatenaIcon = ({
+  hatena_href,
+  hatena_title
+}: any) => {
 
   const handleClick = () => {
     gtag.event({

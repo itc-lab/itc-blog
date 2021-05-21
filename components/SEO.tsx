@@ -1,8 +1,12 @@
 import React from 'react';
 import { NextSeo, BlogJsonLd } from 'next-seo'
+// @ts-expect-error ts-migrate(2307) FIXME: Cannot find module '../settings.yml' or its corres... Remove this comment to see the full error message
 import settings from '../settings.yml'
 
-export const SEO = ({data, url}) => {
+export const SEO = ({
+    data,
+    url
+}: any) => {
     var tags = [];
     for(var topic of data.topics) {
         tags.push(topic.topics);

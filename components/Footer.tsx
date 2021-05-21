@@ -1,8 +1,11 @@
 import React from 'react';
 import Image from 'next/image';
+// @ts-expect-error ts-migrate(2307) FIXME: Cannot find module '../settings.yml' or its corres... Remove this comment to see the full error message
 import settings from '../settings.yml'
 
-export const Footer = ({title}) => {
+export const Footer = ({
+  title
+}: any) => {
   const date = new Date();
   const footer_year = date.getFullYear();
   return (

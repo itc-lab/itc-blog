@@ -4,7 +4,7 @@ import ReactMarkdown from 'react-markdown/with-html';
 import { HeadingRenderer } from '../libs/Functions';
 import gfm from 'remark-gfm'
 
-export const Markdown = (props) => {
+export const Markdown = (props: any) => {
   return (
     <ReactMarkdown
       key="content"

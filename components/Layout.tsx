@@ -3,7 +3,12 @@ import { Header } from './Header';
 import { SEO } from './SEO';
 import { Footer } from "./Footer";
 
-export const Layout = ({children, title, seo_data, seo_url}) => {
+export const Layout = ({
+  children,
+  title,
+  seo_data,
+  seo_url
+}: any) => {
   return (
     <>
       <Header title={title}></Header>

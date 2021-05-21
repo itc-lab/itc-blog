@@ -2,7 +2,10 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export const Topics = ({title, topics}) => {
+export const Topics = ({
+    title,
+    topics
+}: any) => {
     const last_index = topics.length - 1;
 
     return (
@@ -12,7 +15,7 @@ export const Topics = ({title, topics}) => {
             </div>
             <div className="flex justify-between flex-wrap text-sm">
             {topics
-                .map((value, index) => {
+                .map((value: any, index: any) => {
                     if (( index % 2 ) == 0 && value.needs_title) {//左側、文字有り
                         return (
                             <Link key={value.id} href={"/list/[[...slug]]"} as={`/list/1/${value.id}`}>
@@ -60,5 +63,5 @@ export const Topics = ({title, topics}) => {
             )}
             </div>
         </div>
-    )
+    );
 };

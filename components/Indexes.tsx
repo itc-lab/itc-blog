@@ -4,21 +4,24 @@ import Jadate from './Jadate';
 import { parseISO } from "date-fns";
 import Link from 'next/link';
 
-export const Indexes = ({contents}) => {
-    return (
-        <>
-        {contents
-          .map((content, index) => {
-                return (
-                    <IndexContent key={`IndexContent${index}`} index={index} content={content}/>
-                )
-            })
-        }
-        <div className="border-t border-gray-400 p-2 iphone:p-4"></div>
-      </>
-    )
+export const Indexes = ({
+    contents
+}: any) => {
+    return <>
+    {contents
+      .map((content: any, index: any) => {
+            return (
+                <IndexContent key={`IndexContent${index}`} index={index} content={content}/>
+            )
+        })
+    }
+    <div className="border-t border-gray-400 p-2 iphone:p-4"></div>
+  </>;
 };
-const IndexContent = ({content, index}) => {
+const IndexContent = ({
+    content,
+    index
+}: any) => {
     const last_index = content.topics.length - 1;
     const isUpdate = parseISO(content.updatedAt) > parseISO(content.publishedAt)
     return (
@@ -57,7 +60,7 @@ const IndexContent = ({content, index}) => {
                         <div className="flex items-end flex-wrap text-gray-700 mb-1 p-1">
                             <svg className="mr-2 w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
                             {content.topics
-                                .map((value, index) => {
+                                .map((value: any, index: any) => {
                                     return (
                                         <Link key={`list1${value.id}`} href={"/list/[[...slug]]"} as={`/list/1/${value.id}`}>
                                             <a key={`list${index}`} className="text-gray-700 mr-2 text-xs md:text-sm leading-relaxed no-underline hover:underline focus:underline cursor-pointer">
@@ -72,5 +75,5 @@ const IndexContent = ({content, index}) => {
                 </footer>
             </div>
         </article>
-    )
+    );
 };

@@ -1,11 +1,16 @@
 import React from 'react';
+// @ts-expect-error ts-migrate(2307) FIXME: Cannot find module '../settings.yml' or its corres... Remove this comment to see the full error message
 import settings from '../settings.yml'
 import Link from 'next/link';
 
-export const Pagination = ({ thisPage, totalCount, currentTopic }) => {
+export const Pagination = ({
+    thisPage,
+    totalCount,
+    currentTopic
+}: any) => {
     const PER_PAGE = settings.general[0].per_page;
   
-    const range = (start, end) =>
+    const range = (start: any, end: any) =>
           [...Array(end - start + 1)].map((_, i) => start + i)
   
     return (

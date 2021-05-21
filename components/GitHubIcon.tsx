@@ -1,4 +1,5 @@
 import React from 'react';
+// @ts-expect-error ts-migrate(2307) FIXME: Cannot find module '../settings.yml' or its corres... Remove this comment to see the full error message
 import settings from '../settings.yml'
 import * as gtag from '../lib/gtag'
 

@@ -1,6 +1,6 @@
 import { createElement, useState, useCallback, useEffect } from 'react';
 
-export const useMediaQuery = (width) => {
+export const useMediaQuery = (width: any) => {
   const [targetReached, setTargetReached] = useState(false);
 
   const updateTarget = useCallback((e) => {
@@ -34,7 +34,7 @@ const generateId = (() => {
   };
 })();
 
-export function HeadingRenderer(props) {
+export function HeadingRenderer(props: any) {
   const slug = `h${props.level}-${generateId('titile')}`;
   return createElement(`h${props.level}`, { id: slug }, props.children);
 }

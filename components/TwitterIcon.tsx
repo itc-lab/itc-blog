@@ -1,7 +1,9 @@
 import React from 'react';
 import * as gtag from '../lib/gtag'
 
-export const TwitterIcon = ({twitter_href}) => {
+export const TwitterIcon = ({
+  twitter_href
+}: any) => {
 
   const handleClick = () => {
     gtag.event({

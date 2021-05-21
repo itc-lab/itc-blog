@@ -1,7 +1,9 @@
 import React from 'react';
 import Head from 'next/head';
 
-export const Header = ({title}) => {
+export const Header = ({
+  title
+}: any) => {
   return (
     <Head>
         <title>{title}</title>

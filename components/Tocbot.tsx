@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import tocbot from 'tocbot'
-const Tocbot = (props) => {
+const Tocbot = (props: any) => {
   useEffect(() => {
       tocbot.init({
         headingsOffset: 85,

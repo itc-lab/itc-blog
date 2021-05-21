@@ -1,7 +1,10 @@
 import React from 'react';
 import * as gtag from '../lib/gtag'
 
-const MobileShare = ({ postTitle, siteTitle }) => {
+const MobileShare = ({
+  postTitle,
+  siteTitle
+}: any) => {
   const handleOnClick = () => {
 
     gtag.event({

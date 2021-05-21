@@ -3,13 +3,16 @@ import Tweet from '../components/post/tweet';
 import { Tweets } from '../lib/tweets';
 import { GitHubIcon } from '../components/GitHubIcon';
 
-export const ArticleFooter = ({tweets, tweets_id_data}) => {
+export const ArticleFooter = ({
+  tweets,
+  tweets_id_data
+}: any) => {
   return (
     <div className="my-6 md:my-10 bg-white rounded-lg shadow py-10 text-base">
       <div className="max-w-screen-lg m-auto px-5 iphone:px-10">
         <Tweets.Provider value={tweets}>
           {tweets_id_data
-            .map((value) => {
+            .map((value: any) => {
                 return (
                   <Tweet key={value.twitter_id} id={value.twitter_id} />
                 )
