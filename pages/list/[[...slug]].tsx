@@ -11,11 +11,11 @@ import { Topics } from "../../components/Topics";
 import { Indexes } from "../../components/Indexes";
 import { Pagination } from "../../components/Pagination";
 import Link from 'next/link';
-import getTweets from '../../lib/get-tweets';
+import { fetchTweetAst } from 'static-tweets'
 import { ArticleFooter } from "../../components/ArticleFooter";
 import useMobileDevice from '../../hooks/useMobileDevice';
 import MobileShare from '../../components/mobileShare';
-export default function Page({ contents, topics, totalCount, thisPage, tweets, tweets_id_data, currentTopic }: any) {
+export default function Page({ contents, topics, totalCount, thisPage, tweets, currentTopic }: any) {
     const [isMobileOrTablet] = useMobileDevice();
     const [isTooltipVisible, setTooltipVisibility] = useState(false);
     useEffect(() => {
@@ -104,7 +104,7 @@ export default function Page({ contents, topics, totalCount, thisPage, tweets, t
                 </div>
               </div>
               <Pagination thisPage={thisPage} totalCount={totalCount} currentTopic={currentTopic}/>
-              <ArticleFooter tweets={tweets} tweets_id_data={tweets_id_data}/>
+              <ArticleFooter tweets={tweets}/>
             </section>
             <aside className="hidden md:block md:w-81">
               <div className="h-full">
@@ -146,14 +146,18 @@ export const getStaticProps = async ({ params }: any) => {
         .catch(() => null);
     const twitter_ids: any = [];
     tweets_id_data.contents.forEach((content: any) => twitter_ids.push(content.twitter_id));
-    const tweets = await getTweets(twitter_ids);
+    const tweets = await Promise.all(
+      twitter_ids.map(async (id: string) => {
+        const ast = await fetchTweetAst(id);
+        return { id, ast };
+      })
+    );
     const props = {
         contents: contents.contents,
         topics: topics.contents,
         totalCount: contents.totalCount,
         thisPage: page,
         tweets,
-        tweets_id_data: tweets_id_data.contents,
     };
     if (topic_id) {
         (props as any).currentTopic = currentTopic.contents[0];

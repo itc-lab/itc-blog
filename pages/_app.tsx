@@ -9,6 +9,8 @@ import SEO from '../next-seo.config'
 import '../styles/toc/styles.scss';
 import '../styles/toc/tocbot.scss';
 
+import 'react-static-tweets/styles.css'
+
 export default function MyApp({
   Component,
   pageProps

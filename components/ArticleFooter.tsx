@@ -1,24 +1,21 @@
-import React from 'react';
-import Tweet from '../components/post/tweet';
-import { Tweets } from '../lib/tweets';
+import { Tweet } from 'react-static-tweets'
 import { GitHubIcon } from '../components/GitHubIcon';
 
 export const ArticleFooter = ({
-  tweets,
-  tweets_id_data
+  tweets
 }: any) => {
   return (
     <div className="my-6 md:my-10 bg-white rounded-lg shadow py-10 text-base">
       <div className="max-w-screen-lg m-auto px-5 iphone:px-10">
-        <Tweets.Provider value={tweets}>
-          {tweets_id_data
-            .map((value: any) => {
+
+          {tweets
+            .map((tweet: any) => {
                 return (
-                  <Tweet key={value.twitter_id} id={value.twitter_id} />
+                  <Tweet key={tweet.id} id={tweet.id} ast={tweet.ast} />
                 )
             })
           }
-        </Tweets.Provider>
+
         <div className="ml-5 my-7 flex items-center">
           {/* GitHubアイコン */}
           <GitHubIcon/>

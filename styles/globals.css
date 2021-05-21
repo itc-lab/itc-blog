@@ -175,3 +175,7 @@ blockquote.alert {
   padding-top: 40px;
   margin-top: -40px;
 }
+
+article.static-tweet{
+  margin: 0 auto 20px;
+}

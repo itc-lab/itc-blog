@@ -14,15 +14,14 @@ import { TopicsLinks } from "../../components/TopicsLinks";
 import { Topics } from "../../components/Topics";
 import Link from 'next/link';
 import { ArticleFooter } from "../../components/ArticleFooter";
-import getTweets from '../../lib/get-tweets';
+import { fetchTweetAst } from 'static-tweets'
 import useMobileDevice from '../../hooks/useMobileDevice';
 import MobileShare from '../../components/mobileShare';
 import tocbot from "tocbot";
 
 export default function Home({
   blog,
-  tweets,
-  tweets_id_data
+  tweets
 }: any) {
   const [isMobileOrTablet] = useMobileDevice();
 
@@ -184,7 +183,7 @@ export default function Home({
                     </div>
                   </div>
                 </div>
-                <ArticleFooter tweets={tweets} tweets_id_data={tweets_id_data}/>
+                <ArticleFooter tweets={tweets}/>
               </section>
               <aside className="hidden md:block md:w-81">
                 <div className="h-full">
@@ -227,20 +226,26 @@ export const getStaticProps = async (content: any) => {
     .catch(() => null);
   const twitter_ids: any = [];
   tweets_id_data.contents.forEach((content: any) => twitter_ids.push(content.twitter_id));
-  const tweets = await getTweets(twitter_ids);
+  const tweets = await Promise.all(
+    twitter_ids.map(async (id: string) => {
+      const ast = await fetchTweetAst(id);
+      return { id, ast };
+    })
+  );
 
   return {
     props: {
       blog: data,
-      tweets,
-      tweets_id_data: tweets_id_data.contents,
+      tweets
     },
   };
 };
 
 export const getStaticPaths = async () => {
+  const header: HeadersInit = new Headers();
+  header.set('X-API-KEY', process.env.API_KEY || '' );
   const key = {
-    headers: {'X-API-KEY': process.env.API_KEY},
+      headers: header,
   };
   const data = await fetch(`${process.env.API_URL}contents?limit=9999&fields=id`, key)
     .then(res => res.json())
