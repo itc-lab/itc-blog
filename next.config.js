@@ -1,13 +1,19 @@
 const path = require('path')
 
 module.exports = {
+  future: {
+    webpack5: true,
+  },
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles/toc')],
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {
-      config.node = {
-        fs: 'empty'
+      config.resolve = {
+        fallback: {
+          fs: false
+        },
+        ...config.resolve
       };
     }
 
