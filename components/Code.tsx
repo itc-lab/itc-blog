@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import { okaidia } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 
@@ -6,12 +6,11 @@ interface Props {
   language: string;
   value: string;
 }
-const Code: FunctionComponent<Props> = ({ language, value }) => {
+const Code: FC<Props> = ({ language, value }) => {
   return (
     <SyntaxHighlighter
       language={(language === 'js' ? 'javascript' : language) || 'javascript'}
-      style={okaidia}
-    >
+      style={okaidia}>
       {value}
     </SyntaxHighlighter>
   );

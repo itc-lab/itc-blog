@@ -1,6 +1,13 @@
-import { createElement, useState, useCallback, useEffect } from 'react';
+import {
+  createElement,
+  useState,
+  useCallback,
+  useEffect,
+  ReactElement,
+  ReactNode,
+} from 'react';
 
-export const useMediaQuery = (width: any) => {
+export const useMediaQuery = (width: number): boolean => {
   const [targetReached, setTargetReached] = useState(false);
 
   const updateTarget = useCallback((e) => {
@@ -21,7 +28,7 @@ export const useMediaQuery = (width: any) => {
     }
 
     return () => media.removeListener(updateTarget);
-  }, []);
+  }, [updateTarget, width]);
 
   return targetReached;
 };
@@ -34,7 +41,10 @@ const generateId = (() => {
   };
 })();
 
-export function HeadingRenderer(props: any) {
+export function HeadingRenderer(props: {
+  level: string;
+  children: ReactNode;
+}): ReactElement {
   const slug = `h${props.level}-${generateId('titile')}`;
   return createElement(`h${props.level}`, { id: slug }, props.children);
 }

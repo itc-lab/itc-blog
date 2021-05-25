@@ -1,4 +1,5 @@
-const path = require('path')
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const path = require('path');
 
 module.exports = {
   future: {
@@ -11,24 +12,22 @@ module.exports = {
     if (!isServer) {
       config.resolve = {
         fallback: {
-          fs: false
+          fs: false,
         },
-        ...config.resolve
+        ...config.resolve,
       };
     }
 
-    config.module.rules.push(
-      {
-        test: /\.ya?ml$/,
-        use: 'js-yaml-loader',
-      },
-    )
+    config.module.rules.push({
+      test: /\.ya?ml$/,
+      use: 'js-yaml-loader',
+    });
 
     return config;
   },
   images: {
-    domains: ["pbs.twimg.com"],
-    loader: "cloudinary",
-    path: process.env.CDN_URL
+    domains: ['pbs.twimg.com'],
+    loader: 'cloudinary',
+    path: process.env.CDN_URL,
   },
-}
+};

@@ -1,31 +1,105 @@
-import { Layout } from "../../components/Layout";
-import Tocbot from '../../components/Tocbot'
 import React, { useEffect, useState } from 'react';
-import { useMediaQuery } from '../../libs/Functions'
+import { NextPage, GetStaticPaths, GetStaticProps } from 'next';
+import { Layout } from '../../components/Layout';
+import Tocbot from '../../components/Tocbot';
+import { useMediaQuery } from '../../libs/Functions';
 import { Markdown } from '../../components/Markdown';
 import ReactTooltip from 'react-tooltip';
 import Image from 'next/image';
 import '../../settings.d.ts';
 import settings from '../../settings.yml';
-import Jadate from "../../components/Jadate";
-import { TwitterIcon } from "../../components/TwitterIcon";
-import { HatenaIcon } from "../../components/HatenaIcon";
-import { TopicsLinks } from "../../components/TopicsLinks";
-import { Topics } from "../../components/Topics";
+import { Jadate } from '../../components/Jadate';
+import { TwitterIcon } from '../../components/TwitterIcon';
+import { HatenaIcon } from '../../components/HatenaIcon';
+import { TopicsLinks } from '../../components/TopicsLinks';
+import { Topics } from '../../components/Topics';
 import Link from 'next/link';
-import { ArticleFooter } from "../../components/ArticleFooter";
-import { fetchTweetAst } from 'static-tweets'
+import { ArticleFooter } from '../../components/ArticleFooter';
+import { fetchTweetAst } from 'static-tweets';
 import useMobileDevice from '../../hooks/useMobileDevice';
 import MobileShare from '../../components/mobileShare';
-import tocbot from "tocbot";
+import tocbot from 'tocbot';
 
-export default function Home({
-  blog,
-  tweets
-}: any) {
+interface Tweet {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  revisedAt: string;
+  twitter_id: string;
+  caption: string;
+  memo: string;
+}
+
+interface TweetRootObject {
+  contents: Tweet[];
+  totalCount: number;
+  offset: number;
+  limit: number;
+}
+
+interface Category {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  revisedAt: string;
+  topics: string;
+  logo: string;
+  needs_title: boolean;
+}
+
+interface Topic {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  revisedAt: string;
+  topics: string;
+  logo: string;
+  needs_title: boolean;
+}
+
+interface Content {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  revisedAt: string;
+  title: string;
+  category: Category;
+  topics: Topic[];
+  content: string;
+  seo_description?: string;
+  seo_type?: string;
+  seo_authors?: string;
+  seo_images_url?: string;
+  seo_images_width?: number;
+  seo_images_height?: number;
+  seo_images_alt?: string;
+}
+
+interface ContentRootObject {
+  contents: Content[];
+  totalCount: number;
+  offset: number;
+  limit: number;
+}
+
+interface Props {
+  blog: Content;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  tweets: { id: string; ast: any }[];
+}
+
+type Slug = {
+  id: string[];
+};
+
+const Page: NextPage<Props> = ({ blog, tweets }) => {
   const [isMobileOrTablet] = useMobileDevice();
 
-  const [ isCheck, setCheckbox ]   = useState(false);
+  const [isCheck, setCheckbox] = useState(false);
 
   const [isTooltipVisible, setTooltipVisibility] = useState(false);
   useEffect(() => {
@@ -33,56 +107,106 @@ export default function Home({
   }, []);
 
   if (typeof window !== 'undefined') {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const isBreakpoint = useMediaQuery(768);
-    if ( !isBreakpoint && isCheck ) {setCheckbox(false);tocbot.refresh();}
-    if ( isBreakpoint && !isCheck ) {tocbot.destroy();}
+    if (!isBreakpoint && isCheck) {
+      setCheckbox(false);
+      tocbot.refresh();
+    }
+    if (isBreakpoint && !isCheck) {
+      tocbot.destroy();
+    }
   }
 
-  const closeWithClickOutSideMethod = (e: any, setter: any) => {
+  const closeWithClickOutSideMethod = (
+    //e: React.MouseEvent<HTMLElement>,
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    setter: {
+      (value: React.SetStateAction<boolean>): void;
+      (arg0: boolean): void;
+    }
+  ) => {
     if (e.target === e.currentTarget) {
       tocbot.destroy();
       setter(false);
-    } else if (e.target.classList.contains('toc-link')) {
-      setTimeout( function() { tocbot.destroy();setter(false); }, 500 );//スクロール中に描画が起きると、エラーになるため、描画遅延
+    } else if ((e.target as Element).classList.contains('toc-link')) {
+      setTimeout(function () {
+        tocbot.destroy();
+        setter(false);
+      }, 500); //スクロール中に描画が起きると、エラーになるため、描画遅延
     }
   };
 
-  const scrollToTop = ()=> {
+  const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth"
+      behavior: 'smooth',
     });
-  }
+  };
 
   const title = `${blog.title}${settings.blogs[0].description}`;
   const url = `${settings.blogs[0].url}/${blog.id}`;
 
-  const twitter_param = "&text=" + encodeURIComponent(blog.title) + `&hashtags=${settings.general[0].hashtag}`;
+  const twitter_param =
+    '&text=' +
+    encodeURIComponent(blog.title) +
+    `&hashtags=${settings.general[0].hashtag}`;
   const twitter_href = `https://twitter.com/share?url=${url}${twitter_param}`;
 
-  const hatena_href = "https://b.hatena.ne.jp/entry/" + encodeURIComponent(url);
+  const hatena_href = 'https://b.hatena.ne.jp/entry/' + encodeURIComponent(url);
   const hatena_title = encodeURIComponent(title);
 
   return (
     <>
-      <Layout title={title} seo_data={blog} seo_url={`${settings.blogs[0].url}/${blog.id}`}>
+      <Layout
+        title={title}
+        seo_data={blog}
+        seo_url={`${settings.blogs[0].url}/${blog.id}`}>
         <nav className="sticky top-0 bg-blue-600 text-white z-50 border-t border-b border-l-0 border-r-0 border-gray-200">
           <div className="max-w-screen-xl pl-1 iphone:pl-8 md:pl-16">
             <div className="flex items-center h-10">
-              <div className="hidden md:flex" style={{ position: 'relative', width: '230px', height: '80%' }} onClick={() => setCheckbox(false)}>
-                <Link href={"/"} as={"/"}><a><Image src={settings.blogs[0].logo} layout='fill' objectFit="contain" /></a></Link>
+              <div
+                className="hidden md:flex"
+                style={{ position: 'relative', width: '230px', height: '80%' }}
+                onClick={() => setCheckbox(false)}>
+                <Link href={'/'} as={'/'}>
+                  <a>
+                    <Image
+                      src={settings.blogs[0].logo}
+                      layout="fill"
+                      objectFit="contain"
+                    />
+                  </a>
+                </Link>
               </div>
-              <div className="flex md:hidden" style={{ position: 'relative', width: '45px', height: '70%' }} onClick={() => setCheckbox(false)}>
-                <Link href={"/"} as={"/"}><a><Image src={settings.blogs[0].logo_mini} layout='fill' objectFit="contain" /></a></Link>
+              <div
+                className="flex md:hidden"
+                style={{ position: 'relative', width: '45px', height: '70%' }}
+                onClick={() => setCheckbox(false)}>
+                <Link href={'/'} as={'/'}>
+                  <a>
+                    <Image
+                      src={settings.blogs[0].logo_mini}
+                      layout="fill"
+                      objectFit="contain"
+                    />
+                  </a>
+                </Link>
               </div>
               <div className="ml-1 iphone:ml-2 md:ml-6 flex-1 text-sm truncate">
                 {blog.title}
               </div>
               {/* ハンバーガーメニュー md:=幅768px 以上の時は表示しない。*/}
               <div className="flex md:hidden items-center ml-2 pr-4 flex-shrink-0">
-                <input type="checkbox" id="toggle" checked={isCheck} onChange={() => setCheckbox(!isCheck)} />
+                <input
+                  type="checkbox"
+                  id="toggle"
+                  checked={isCheck}
+                  onChange={() => setCheckbox(!isCheck)}
+                />
                 <label htmlFor="toggle" className="toggle-label">
-                  <div className="hamburger-wrapper">目次
+                  <div className="hamburger-wrapper">
+                    目次
                     <div className="hamburger">
                       <div className="line"></div>
                       <div className="line"></div>
@@ -90,33 +214,47 @@ export default function Home({
                     </div>
                   </div>
                 </label>
-                  {isCheck && (
-                <div
-                  className={`menuWrapper ${isCheck ? "menuWrapper__active" : ""}`}
-                  onClick={(e) => {
-                    closeWithClickOutSideMethod(e, setCheckbox);
-                  }}
-                >
-                  <div className="menu iphone5se:mr-6 bg-white pt-5 px-5 pb-6 overflow-auto rounded-lg shadow-lg">
-                    <div className="font-sans text-base leading-normal font-bold mb-3">[目次]</div>
-                    <div className="toc js-toc" />
+                {isCheck && (
+                  <div
+                    className={`menuWrapper ${
+                      isCheck ? 'menuWrapper__active' : ''
+                    }`}
+                    onClick={(e) => {
+                      closeWithClickOutSideMethod(e, setCheckbox);
+                    }}>
+                    <div className="menu iphone5se:mr-6 bg-white pt-5 px-5 pb-6 overflow-auto rounded-lg shadow-lg">
+                      <div className="font-sans text-base leading-normal font-bold mb-3">
+                        [目次]
+                      </div>
+                      <div className="toc js-toc" />
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
               </div>
             </div>
           </div>
         </nav>
 
         <article className="bg-indigo-50">
-          
           <header className="py-10">
             <div className="max-w-screen-xl m-auto px-10">
               <div className="relative text-center">
                 {/* 最も関連する技術 */}
-                {blog.category.needs_title && blog.category.topics}{/* ロゴに文字が無い場合、文字表示 */}
+                {blog.category.needs_title && blog.category.topics}
+                {/* ロゴに文字が無い場合、文字表示 */}
                 <div className="flex items-center justify-center h-20">
-                  <div style={{ position: 'relative', width: '100%', height: '100%' }}><Image src={blog.category.logo} layout='fill' objectFit="contain"/></div>
+                  <div
+                    style={{
+                      position: 'relative',
+                      width: '100%',
+                      height: '100%',
+                    }}>
+                    <Image
+                      src={blog.category.logo}
+                      layout="fill"
+                      objectFit="contain"
+                    />
+                  </div>
                 </div>
                 {/* タイトル表示 */}
                 <div className="inline-block text-left text-2xl iphone:text-3xl md:text-4xl mt-1 mb-0 leading-normal max-w-screen-md">
@@ -125,13 +263,37 @@ export default function Home({
               </div>
               <div className="flex items-center justify-center text-center text-gray-500 text-xs iphone:text-sm mt-3 mb-0 -mr-2 -ml-2">
                 <span className="mx-3 mt-1 inline-flex items-center">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20" height="20"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    width="20"
+                    height="20">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                  </svg>
                   <span className="relative outline-none ml-1">
                     <Jadate date={blog.updatedAt} /> (更新)
                   </span>
                 </span>
                 <span className="mx-3 mt-1 inline-flex items-center">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20" height="20"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    width="20"
+                    height="20">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                  </svg>
                   <span className="relative outline-none ml-1">
                     <Jadate date={blog.publishedAt} /> (公開)
                   </span>
@@ -139,26 +301,43 @@ export default function Home({
               </div>
             </div>
           </header>
-          
+
           <div className="relative pb-2 max-w-screen-xl my-0 mx-auto pt-0 px-0 md:px-10">
             <div>
               <div className="hidden desktop:block absolute -left-5 w-12 h-full">
                 <div className="sticky top-32 text-xs flex flex-col items-center justify-between left-div-h">
                   <div>
                     {/* ツイッターアイコン */}
-                    <TwitterIcon twitter_href={twitter_href}/>
+                    <TwitterIcon twitter_href={twitter_href} />
                   </div>
                   <div>
-                    <Link href={"/"} as={"/"}>
-                      <button onClick={() => scrollToTop()} data-tip="記事一覧へ遷移">
+                    <Link href={'/'} as={'/'}>
+                      <button
+                        onClick={() => scrollToTop()}
+                        data-tip="記事一覧へ遷移">
                         {/* 家のアイコン */}
-                        <svg className="w-7 h-7 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="32" height="32"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                        <svg
+                          className="w-7 h-7 text-gray-500"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          width="32"
+                          height="32">
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
                       </button>
                     </Link>
                   </div>
                   <div>
                     {/* はてなブックマークアイコン */}
-                    <HatenaIcon hatena_href={hatena_href} hatena_title={hatena_title}/>
+                    <HatenaIcon
+                      hatena_href={hatena_href}
+                      hatena_title={hatena_title}
+                    />
                   </div>
                 </div>
               </div>
@@ -167,7 +346,7 @@ export default function Home({
               <section className="content-area m-0">
                 <div className="bg-white rounded-lg shadow py-10 text-sm md:text-base">
                   <div className="max-w-screen-lg m-auto px-2 iphone:px-6 md:px-10">
-                    <TopicsLinks topics={blog.topics}/>
+                    <TopicsLinks topics={blog.topics} />
                     <div id="toc-target-content">
                       <div className="js-toc-content overflow-hidden">
                         <Markdown source={blog.content} />
@@ -175,26 +354,39 @@ export default function Home({
                     </div>
                     <div className="ml-5 mt-7 flex items-center desktop:hidden">
                       {/* ツイッターアイコン */}
-                      <div className=""><TwitterIcon twitter_href={twitter_href}/></div>
+                      <div className="">
+                        <TwitterIcon twitter_href={twitter_href} />
+                      </div>
                       {/* はてなブックマークアイコン */}
-                      <div className="ml-5"><HatenaIcon hatena_href={hatena_href}/></div>
+                      <div className="ml-5">
+                        <HatenaIcon
+                          hatena_title={hatena_title}
+                          hatena_href={hatena_href}
+                        />
+                      </div>
                       {/* シェア(共有)アイコン */}
-                      {isMobileOrTablet && (<div className="ml-5"><MobileShare postTitle={title} siteTitle={title} /></div>)} 
+                      {isMobileOrTablet && (
+                        <div className="ml-5">
+                          <MobileShare postTitle={title} siteTitle={title} />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
-                <ArticleFooter tweets={tweets}/>
+                <ArticleFooter tweets={tweets} />
               </section>
               <aside className="hidden md:block md:w-81">
                 <div className="h-full">
-                  <Topics title="[関連技術]" topics={blog.topics}/>
+                  <Topics title="[関連技術]" topics={blog.topics} />
                   {/* 目次は、md:=幅768px 未満になったら非表示にして、ハンバーガーメニューで対応*/}
                   <div className="sticky top-20 right-bottom-div-h flex flex-col">
                     {!isCheck && (
-                    <div className="mt-6 bg-white pt-5 px-5 pb-6 overflow-auto rounded-lg shadow">
-                      <div className="font-sans text-base leading-normal font-bold mb-3">[目次]</div>
-                      <div className="toc js-toc" />
-                    </div>
+                      <div className="mt-6 bg-white pt-5 px-5 pb-6 overflow-auto rounded-lg shadow">
+                        <div className="font-sans text-base leading-normal font-bold mb-3">
+                          [目次]
+                        </div>
+                        <div className="toc js-toc" />
+                      </div>
                     )}
                   </div>
                 </div>
@@ -203,29 +395,39 @@ export default function Home({
           </div>
         </article>
       </Layout>
-      <Tocbot isCheck={isCheck}/>
-      {isTooltipVisible && <ReactTooltip place="right" type="dark" effect="float"/>/*DOMがマウントされてから実装*/}
+      <Tocbot />
+      {
+        isTooltipVisible && (
+          <ReactTooltip place="right" type="dark" effect="float" />
+        ) /*DOMがマウントされてから実装*/
+      }
     </>
-  )
-}
+  );
+};
 
-export const getStaticProps = async (content: any) => {
-  const id = content.params.id;
+export const getStaticProps: GetStaticProps<Props, Slug> = async ({
+  params,
+}) => {
+  const id = params?.id;
 
   const header: HeadersInit = new Headers();
-  header.set('X-API-KEY', process.env.API_KEY || '' );
+  header.set('X-API-KEY', process.env.API_KEY || '');
   const key = {
-      headers: header,
+    headers: header,
   };
-  const data = await fetch(`${process.env.API_URL}contents/` + id, key)
-    .then(res => res.json())
+  const data: Content = await fetch(`${process.env.API_URL}contents/` + id, key)
+    .then((res) => res.json())
     .catch(() => null);
-
-  const tweets_id_data = await fetch(`${process.env.API_URL}twitter?limit=9999&orders=-updatedAt`, key)
-    .then(res => res.json())
+  const tweets_id_data: TweetRootObject = await fetch(
+    `${process.env.API_URL}twitter?limit=9999&orders=-updatedAt`,
+    key
+  )
+    .then((res) => res.json())
     .catch(() => null);
-  const twitter_ids: any = [];
-  tweets_id_data.contents.forEach((content: any) => twitter_ids.push(content.twitter_id));
+  const twitter_ids: string[] = [];
+  tweets_id_data.contents.forEach((content) =>
+    twitter_ids.push(content.twitter_id)
+  );
   const tweets = await Promise.all(
     twitter_ids.map(async (id: string) => {
       const ast = await fetchTweetAst(id);
@@ -236,20 +438,25 @@ export const getStaticProps = async (content: any) => {
   return {
     props: {
       blog: data,
-      tweets
+      tweets,
     },
   };
 };
 
-export const getStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths<Slug> = async () => {
   const header: HeadersInit = new Headers();
-  header.set('X-API-KEY', process.env.API_KEY || '' );
+  header.set('X-API-KEY', process.env.API_KEY || '');
   const key = {
-      headers: header,
+    headers: header,
   };
-  const data = await fetch(`${process.env.API_URL}contents?limit=9999&fields=id`, key)
-    .then(res => res.json())
+  const data: ContentRootObject = await fetch(
+    `${process.env.API_URL}contents?limit=9999&fields=id`,
+    key
+  )
+    .then((res) => res.json())
     .catch(() => null);
-  const paths = data.contents.map((content: any) => `/blogs/${content.id}`);
-  return {paths, fallback: false};
+  const paths = data.contents.map((content) => `/blogs/${content.id}`);
+  return { paths, fallback: false };
 };
+
+export default Page;

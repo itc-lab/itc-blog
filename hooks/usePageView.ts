@@ -1,22 +1,22 @@
-import { useEffect } from 'react'
-import { useRouter } from 'next/router'
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
-import * as gtag from '../lib/gtag'
+import * as gtag from '../lib/gtag';
 
-export default function usePageView() {
+export default function usePageView(): void {
   const router = useRouter();
   useEffect(() => {
     if (!gtag.existsGaId) {
-      return
+      return;
     }
 
-    const handleRouteChange = (path: any) => {
-      gtag.pageview(path)
-    }
+    const handleRouteChange = (path: string) => {
+      gtag.pageview(path);
+    };
 
-    router.events.on('routeChangeComplete', handleRouteChange)
+    router.events.on('routeChangeComplete', handleRouteChange);
     return () => {
-      router.events.off('routeChangeComplete', handleRouteChange)
-    }
-  }, [router.events])
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [router.events]);
 }

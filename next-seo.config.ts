@@ -9,4 +9,4 @@ export default {
     site: '@blog_itc',
     cardType: 'summary_large_image',
   },
-}
+};
