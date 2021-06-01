@@ -1,11 +1,9 @@
 # ITC Engineering Blog
 
-<p align="center">
-  <a href="https://itc-engineering-blog.netlify.app/"><img src="https://res.cloudinary.com/dt8zu6zzd/image/upload/v1619948175/itc-engineering-blog-readme.png" alt="ITC Engineering Blog"></a>
-</p>
+![itc-blog](https://user-images.githubusercontent.com/76575923/120254288-765b3700-c2c4-11eb-983e-f70353803fa4.gif)
 
 The Jamstack static site using [microCMS](https://microcms.io) and [Netlify](https://www.netlify.com).  
-Made with [Next.js](https://nextjs.org), [Tailwind CSS](https://tailwindcss.com), [PostCSS](https://postcss.org).
+Made with [Next.js](https://nextjs.org), [TypeScript](https://www.typescriptlang.org), [Tailwind CSS](https://tailwindcss.com), [PostCSS](https://postcss.org), [ESLint](https://eslint.org), [Prettier](https://prettier.io), Google Analytics
 
 ## Demo
 
@@ -17,19 +15,23 @@ Access the following demo site:
 - [Next.js](https://nextjs.org) : used for static site generation  
     - Integrate with [Tailwind CSS](https://tailwindcss.com)  
     - [PostCSS](https://postcss.org) for processing [Tailwind CSS](https://tailwindcss.com)  
-- microCMS : built with [microCMS](https://microcms.io) for quick posting, maintenance 
+    - Support [TypeScript](https://www.typescriptlang.org)
+- Headless CMS : built with [microCMS](https://microcms.io) for quick posting, maintenance 
 - Table of contents (TOC) : [Tocbot](https://tscanlin.github.io/tocbot/) builds a table of contents (TOC) from headings in an HTML document  
 - Static Tweet : tweets are rendered statically using [static-tweet](https://github.com/lfades/static-tweet), [react-static-tweets](https://github.com/transitive-bullshit/react-static-tweets)  
 - Syntax Highlighting : with [react-syntax-highlighter](https://github.com/react-syntax-highlighter/react-syntax-highlighter)
 - Markdown : supported by [react-markdown](https://github.com/remarkjs/react-markdown)  
 - Pagination : limits the number of posts per page  
 - SEO : [Next SEO](https://github.com/garmeeh/next-seo) supports openGraph and JSON-LD  
+    - Access analysis is possible with Google analytics  
+- Lint : Linter with [ESLint](https://eslint.org)  
+- Formatter : Code formatted by [Prettier](https://prettier.io)  
 
 ## Requirements
 
 - Node.js and npm
 
-## microCMS API Schema
+## Headless CMS (microCMS) API Schema
 
 ### Twitter
 endpoint: twitter  
@@ -78,6 +80,7 @@ API_URL=[microCMS API URL]
 API_KEY=[microCMS API KEY]
 TWITTER_API_TOKEN=[Twitter API Token]
 CDN_URL=[CDN(Cloudinary) URL for images]
+NEXT_PUBLIC_GOOGLE_ANALYTICS_ID=[Google Analytics Tracking ID]
 ```
 
 Run the following command on your local environment:
