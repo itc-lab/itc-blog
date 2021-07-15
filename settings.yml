@@ -21,7 +21,7 @@ blogs:
     authors:
       - author: https://itccorporation.jp
     images:
-      - url: Logo.png
+      - url: https://res.cloudinary.com/dt8zu6zzd/image/upload/Logo.png
         width: 1200
         height: 649
         alt: ITC Engineering Blog
