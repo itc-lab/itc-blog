@@ -34,13 +34,8 @@ interface Content {
   category: Category;
   topics: Topic[];
   content: string;
-  seo_description: string;
-  seo_type: string;
-  seo_authors: string;
-  seo_images_url: string;
-  seo_images_width: string;
-  seo_images_height: string;
-  seo_images_alt: string;
+  reflect_updatedAt: boolean;
+  reflect_revisedAt: boolean;
 }
 interface Props {
   content: Content;
@@ -63,7 +58,11 @@ export const Indexes: FC<Contents> = ({ contents }) => {
 };
 const IndexContent: FC<Props> = ({ content }) => {
   const last_index = content.topics.length - 1;
-  const isUpdate = parseISO(content.updatedAt) > parseISO(content.publishedAt);
+  const update_timestamp =
+    (content.reflect_updatedAt && content.updatedAt) ||
+    (content.reflect_revisedAt && content.revisedAt) ||
+    content.publishedAt;
+  const isUpdate = parseISO(update_timestamp) > parseISO(content.publishedAt);
   return (
     <article
       id={`blogs${content.id}`}

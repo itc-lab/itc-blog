@@ -38,5 +38,6 @@
         "@typescript-eslint/explicit-module-boundary-types": ["error"]
       }
     }
-  ]
+  ],
+  "ignorePatterns": ["*.config.js"]
 }

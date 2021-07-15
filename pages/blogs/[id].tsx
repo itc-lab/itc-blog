@@ -19,6 +19,7 @@ import { fetchTweetAst } from 'static-tweets';
 import useMobileDevice from '../../hooks/useMobileDevice';
 import MobileShare from '../../components/mobileShare';
 import tocbot from 'tocbot';
+import { OpenGraphImages } from 'next-seo/lib/types';
 
 interface Tweet {
   id: string;
@@ -65,18 +66,20 @@ interface Content {
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
-  revisedAt: string;
+  revisedAt?: string;
+  reflect_updatedAt?: boolean;
+  reflect_revisedAt?: boolean;
   title: string;
   category: Category;
   topics: Topic[];
   content: string;
-  seo_description?: string;
+  description?: string;
   seo_type?: string;
-  seo_authors?: string;
-  seo_images_url?: string;
-  seo_images_width?: number;
-  seo_images_height?: number;
-  seo_images_alt?: string;
+  seo_authors?: { author: string }[];
+  seo_images?: OpenGraphImages[];
+  twitter_handle?: string;
+  twitter_site?: string;
+  twitter_cardtype?: string;
 }
 
 interface ContentRootObject {
@@ -155,6 +158,11 @@ const Page: NextPage<Props> = ({ blog, tweets }) => {
 
   const hatena_href = 'https://b.hatena.ne.jp/entry/' + encodeURIComponent(url);
   const hatena_title = encodeURIComponent(title);
+
+  const update_timestamp =
+    (blog.reflect_updatedAt && blog.updatedAt) ||
+    (blog.reflect_revisedAt && blog.revisedAt) ||
+    blog.publishedAt;
 
   return (
     <>
@@ -277,7 +285,7 @@ const Page: NextPage<Props> = ({ blog, tweets }) => {
                       d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                   </svg>
                   <span className="relative outline-none ml-1">
-                    <Jadate date={blog.updatedAt} /> (更新)
+                    <Jadate date={update_timestamp} /> (更新)
                   </span>
                 </span>
                 <span className="mx-3 mt-1 inline-flex items-center">
@@ -419,7 +427,7 @@ export const getStaticProps: GetStaticProps<Props, Slug> = async ({
     .then((res) => res.json())
     .catch(() => null);
   const tweets_id_data: TweetRootObject = await fetch(
-    `${process.env.API_URL}twitter?limit=9999&orders=-updatedAt`,
+    `${process.env.API_URL}twitter?limit=9999`,
     key
   )
     .then((res) => res.json())

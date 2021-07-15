@@ -10,6 +10,9 @@ declare module '*.yml' {
     company_name: string;
     company_logo: string;
     company_url: string;
+    twitter_handle: string;
+    twitter_site: string;
+    twitter_cardtype: string;
   }
 
   interface Image {
@@ -19,13 +22,17 @@ declare module '*.yml' {
     alt: string;
   }
 
+  interface Authors {
+    author: string;
+  }
+
   interface Blog {
     url: string;
     logo: string;
     logo_mini: string;
     description: string;
     type: string;
-    authors: string;
+    authors: Authors[];
     images: Image[];
   }
 

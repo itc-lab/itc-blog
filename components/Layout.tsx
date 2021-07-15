@@ -2,6 +2,7 @@ import React, { FC, ReactNode } from 'react';
 import { Header } from './Header';
 import { SEO } from './SEO';
 import { Footer } from './Footer';
+import { OpenGraphImages } from 'next-seo/lib/types';
 
 interface Topic {
   id: string;
@@ -16,15 +17,17 @@ interface Topic {
 interface SEO_DATA {
   publishedAt: string;
   updatedAt: string;
+  revisedAt?: string;
+  reflect_updatedAt?: boolean;
+  reflect_revisedAt?: boolean;
   topics: Topic[];
-  seo_title?: string;
-  seo_description?: string;
+  description?: string;
   seo_type?: string;
-  seo_authors?: string;
-  seo_images_url?: string;
-  seo_images_width?: number;
-  seo_images_height?: number;
-  seo_images_alt?: string;
+  seo_authors?: { author: string }[];
+  seo_images?: OpenGraphImages[];
+  twitter_handle?: string;
+  twitter_site?: string;
+  twitter_cardtype?: string;
 }
 interface Props {
   children: ReactNode;

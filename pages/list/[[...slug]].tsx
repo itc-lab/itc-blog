@@ -16,6 +16,7 @@ import { fetchTweetAst } from 'static-tweets';
 import { ArticleFooter } from '../../components/ArticleFooter';
 import useMobileDevice from '../../hooks/useMobileDevice';
 import MobileShare from '../../components/mobileShare';
+import { OpenGraphImages } from 'next-seo/lib/types';
 
 interface Tweet {
   id: string;
@@ -77,6 +78,8 @@ interface Content {
   updatedAt: string;
   publishedAt: string;
   revisedAt: string;
+  reflect_updatedAt: boolean;
+  reflect_revisedAt: boolean;
   title: string;
   category: Category;
   topics: Topic[];
@@ -114,15 +117,17 @@ type Slug = {
 interface SEO_DATA {
   publishedAt: string;
   updatedAt: string;
+  revisedAt?: string;
+  reflect_updatedAt?: boolean;
+  reflect_revisedAt?: boolean;
   topics: Topic[];
-  seo_title?: string;
-  seo_description?: string;
+  description?: string;
   seo_type?: string;
-  seo_authors?: string;
-  seo_images_url?: string;
-  seo_images_width?: number;
-  seo_images_height?: number;
-  seo_images_alt?: string;
+  seo_authors?: { author: string }[];
+  seo_images?: OpenGraphImages[];
+  twitter_handle?: string;
+  twitter_site?: string;
+  twitter_cardtype?: string;
 }
 
 const Page: NextPage<Props> = ({
@@ -141,9 +146,11 @@ const Page: NextPage<Props> = ({
   const title = currentTopic
     ? `${settings.general[0].name}/${currentTopic.topics}`
     : settings.general[0].name;
-  const url = currentTopic
-    ? `${settings.general[0].url}/list/${thisPage}/${currentTopic.id}`
-    : `${settings.general[0].url}/list/${thisPage}`;
+  const url =
+    (thisPage === 1 && !currentTopic && settings.general[0].url) ||
+    (currentTopic
+      ? `${settings.general[0].url}/list/${thisPage}/${currentTopic.id}`
+      : `${settings.general[0].url}/list/${thisPage}`);
   const twitter_param =
     '&text=' +
     encodeURIComponent(title) +
@@ -155,12 +162,13 @@ const Page: NextPage<Props> = ({
   const seo_data: SEO_DATA = {
     publishedAt: date.toISOString(),
     updatedAt: date.toISOString(),
-    seo_title: settings.general[0].name,
+    description:
+      thisPage === 1 && !currentTopic ? settings.general[0].description : '',
     topics: topics,
   };
 
   return (
-    <Layout title={title} seo_data={seo_data} seo_url={settings.general[0].url}>
+    <Layout title={title} seo_data={seo_data} seo_url={url}>
       <nav className="sticky top-0 bg-blue-600 text-white z-50 border-t border-b border-l-0 border-r-0 border-gray-200">
         <div className="max-w-screen-xl pl-2 iphone:pl-8 md:pl-16">
           <div className="flex items-center h-10">
@@ -314,7 +322,7 @@ export const getStaticProps: GetStaticProps<Props, Slug> = async ({
   //topic_idがundefinedの場合、全データページ切り替え
   const contents: ContentRootObject = !topic_id
     ? await fetch(
-        `${process.env.API_URL}contents?offset=${offset}&limit=${settings.general[0].per_page}&orders=-updatedAt`,
+        `${process.env.API_URL}contents?offset=${offset}&limit=${settings.general[0].per_page}&orders=-publishedAt`,
         key
       )
         .then((res) => res.json())
@@ -341,7 +349,7 @@ export const getStaticProps: GetStaticProps<Props, Slug> = async ({
       .then((res) => res.json())
       .catch(() => null));
   const tweets_id_data: TweetRootObject = await fetch(
-    `${process.env.API_URL}twitter?limit=9999&orders=-updatedAt`,
+    `${process.env.API_URL}twitter?limit=9999`,
     key
   )
     .then((res) => res.json())
