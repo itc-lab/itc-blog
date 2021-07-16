@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "export": "next build && next export",
-    "postbuild": "next-sitemap --config sitemap.config.js",
+    "postexport": "next-sitemap --config sitemap.config.js",
     "serve": "PORT=3000 serve ./out",
     "postinstall": "patch-package"
   },
