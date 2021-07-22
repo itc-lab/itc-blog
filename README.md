@@ -132,7 +132,7 @@ Open http://localhost:3000 with your favorite browser to see your project.
 ## Deploy to Netlify
 
 [Next.js microCMS GitHub Netlify で Jamstack なブログを公開 - ITC Engineering Blog](https://itc-engineering-blog.netlify.app/blogs/efxq_5j84z)
-を参考に Nelify へデプロイしてください。(Japanese text only)
+を参考に Netlify へデプロイしてください。(Japanese text only)
 
 ## License
 
