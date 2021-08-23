@@ -17,6 +17,7 @@ import { ArticleFooter } from '../../components/ArticleFooter';
 import useMobileDevice from '../../hooks/useMobileDevice';
 import MobileShare from '../../components/mobileShare';
 import { OpenGraphImages } from 'next-seo/lib/types';
+import { HttpsProxyAgent } from 'https-proxy-agent';
 
 interface Tweet {
   id: string;
@@ -315,24 +316,28 @@ export const getStaticProps: GetStaticProps<Props, Slug> = async ({
   const [page, topic_id] = !params ? ['1'] : [params.slug[0], params.slug[1]];
   const header: HeadersInit = new Headers();
   header.set('X-API-KEY', process.env.API_KEY || '');
-  const key = {
+  const proxy = process.env.https_proxy;
+  const key = proxy ? {
     headers: header,
+    agent: new HttpsProxyAgent(proxy)
+  } : {
+    headers: header
   };
   const offset = page ? (parseInt(page) - 1) * settings.general[0].per_page : 0;
   //topic_idがundefinedの場合、全データページ切り替え
   const contents: ContentRootObject = !topic_id
     ? await fetch(
-        `${process.env.API_URL}contents?offset=${offset}&limit=${settings.general[0].per_page}&orders=-publishedAt`,
-        key
-      )
-        .then((res) => res.json())
-        .catch(() => null)
+      `${process.env.API_URL}contents?offset=${offset}&limit=${settings.general[0].per_page}&orders=-publishedAt`,
+      key
+    )
+      .then((res) => res.json())
+      .catch(() => null)
     : await fetch(
-        `${process.env.API_URL}contents?offset=${offset}&limit=${settings.general[0].per_page}&filters=topics[contains]${topic_id}`,
-        key
-      )
-        .then((res) => res.json())
-        .catch(() => null);
+      `${process.env.API_URL}contents?offset=${offset}&limit=${settings.general[0].per_page}&filters=topics[contains]${topic_id}`,
+      key
+    )
+      .then((res) => res.json())
+      .catch(() => null);
   const topics: TopicRootObject = await fetch(
     `${process.env.API_URL}topics?limit=9999`,
     key
@@ -379,8 +384,12 @@ export const getStaticProps: GetStaticProps<Props, Slug> = async ({
 export const getStaticPaths: GetStaticPaths<Slug> = async () => {
   const header: HeadersInit = new Headers();
   header.set('X-API-KEY', process.env.API_KEY || '');
-  const key = {
+  const proxy = process.env.https_proxy;
+  const key = proxy ? {
     headers: header,
+    agent: new HttpsProxyAgent(proxy)
+  } : {
+    headers: header
   };
   const total_count_data: ContentRootObject = await fetch(
     `${process.env.API_URL}contents/?limit=0`,

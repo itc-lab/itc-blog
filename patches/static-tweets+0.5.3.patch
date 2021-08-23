@@ -1,0 +1,895 @@
+diff --git a/node_modules/static-tweets/build/cjs/index.tsbuildinfo b/node_modules/static-tweets/build/cjs/index.tsbuildinfo
+index 099eba1..9c01281 100644
+--- a/node_modules/static-tweets/build/cjs/index.tsbuildinfo
++++ b/node_modules/static-tweets/build/cjs/index.tsbuildinfo
+@@ -396,8 +396,23 @@
+         "signature": "f5daf66ceb9d717721ff8b28f09bf5d2f9496bcf143c0413130c52368ed35174",
+         "affectsGlobalScope": false
+       },
++      "../../../../node_modules/agent-base/dist/src/index.d.ts": {
++        "version": "27dddbe3a7e8f45bc30547499461c74851580b74556570a4d7daa90ba90e2af0",
++        "signature": "27dddbe3a7e8f45bc30547499461c74851580b74556570a4d7daa90ba90e2af0",
++        "affectsGlobalScope": false
++      },
++      "../../../../node_modules/https-proxy-agent/dist/agent.d.ts": {
++        "version": "ce0c414305ae2797f220adcd5e83079802d0b9879e62ca476f000b56a5d31adf",
++        "signature": "ce0c414305ae2797f220adcd5e83079802d0b9879e62ca476f000b56a5d31adf",
++        "affectsGlobalScope": false
++      },
++      "../../../../node_modules/https-proxy-agent/dist/index.d.ts": {
++        "version": "67918f0ddd6271a88574dfe495942f4a6e982b9c3c1a2ce14c273f103691394d",
++        "signature": "67918f0ddd6271a88574dfe495942f4a6e982b9c3c1a2ce14c273f103691394d",
++        "affectsGlobalScope": false
++      },
+       "../../src/twitter/api.ts": {
+-        "version": "a1458c818c31f3b0241ff68f8bc573001a051a29260a90e2aad9128e75dbf2ba",
++        "version": "da6c38a9401a83e8228854bb423d53b665b3c51b49d31b019100b112d501a55d",
+         "signature": "d5f8db1a24c8c4cb891aafc07a7f1f3bd3950842d332c4d9ceda125dff2f64dc",
+         "affectsGlobalScope": false
+       },
+@@ -416,17 +431,17 @@
+         "signature": "b3b8821ddedf72080a875eb9308bb1c5800606299f49a9b1e4f7c4e6ff20934f",
+         "affectsGlobalScope": false
+       },
+-      "../../../../node_modules/htmlparser2/lib/tokenizer.d.ts": {
++      "../../../../node_modules/htmlparser2/lib/Tokenizer.d.ts": {
+         "version": "97477a011d4d9813cea4a10dd0e2f8ffab55e4705d45cd12b88db6a50157e302",
+         "signature": "97477a011d4d9813cea4a10dd0e2f8ffab55e4705d45cd12b88db6a50157e302",
+         "affectsGlobalScope": false
+       },
+-      "../../../../node_modules/htmlparser2/lib/parser.d.ts": {
++      "../../../../node_modules/htmlparser2/lib/Parser.d.ts": {
+         "version": "d341d39f8b1f377b8a8e15a1fb71ddba23a3b44c761a79a7cc3439bf1c4e81cb",
+         "signature": "d341d39f8b1f377b8a8e15a1fb71ddba23a3b44c761a79a7cc3439bf1c4e81cb",
+         "affectsGlobalScope": false
+       },
+-      "../../../../node_modules/htmlparser2/lib/feedhandler.d.ts": {
++      "../../../../node_modules/htmlparser2/lib/FeedHandler.d.ts": {
+         "version": "d97b371df0bb35cf998992854ce00b020d3cdb31fd935496fe1e87dccf202565",
+         "signature": "d97b371df0bb35cf998992854ce00b020d3cdb31fd935496fe1e87dccf202565",
+         "affectsGlobalScope": false
+@@ -541,12 +556,12 @@
+         "signature": "a1b2c12f1e74af1a69981d94e319cb80a6f27359eb6aa94543b3c9395c02ee36",
+         "affectsGlobalScope": false
+       },
+-      "../../src/markdown/markdowntoast.ts": {
++      "../../src/markdown/markdownToAst.ts": {
+         "version": "eec8b927f290f0196c7f8de54e64aa12b0b4faae668220a285495794eb0e4972",
+         "signature": "941541ab9588f1a8cd1d8c645d28bc8b183eb56219b4fc41d663fce8665fe70e",
+         "affectsGlobalScope": false
+       },
+-      "../../src/twitter/gettweethtml.ts": {
++      "../../src/twitter/getTweetHtml.ts": {
+         "version": "b1fcf2a53e1375d95e7f79b129c88b20d2f49c82684ae91836d0fd034cee85ee",
+         "signature": "d5c10c323f91173e2a124426a777a35ea89ec839104686780aac3f4008e8455f",
+         "affectsGlobalScope": false
+@@ -590,12 +605,12 @@
+         "signature": "753f9d70fdb9e58a20c567d50ca6fdcd3ce882190940f93f28b2cfa18e6d98bb",
+         "affectsGlobalScope": false
+       },
+-      "../../src/markdown/htmltoast.ts": {
++      "../../src/markdown/htmlToAst.ts": {
+         "version": "3a6e2897b9003c1efd3a0682a440861fc1837aeb16b6fa70e04dc51b72bf0327",
+         "signature": "95292f61e04d5eee05d2e4fb986afeb18acfec66dcd23836e8da8d7d820f34d5",
+         "affectsGlobalScope": false
+       },
+-      "../../src/fetchtweetast.ts": {
++      "../../src/fetchTweetAst.ts": {
+         "version": "c37b6850dc58ebf88340b8ee203ad05d6291aa83ed83ba7e1405f93fc4b79197",
+         "signature": "2fdffec26abad523e07c29c5896467534db8a5851b2ba78a5aadf2fb9af9a4db",
+         "affectsGlobalScope": false
+@@ -975,6 +990,14 @@
+         "../../../../node_modules/@types/node-fetch/index.d.ts",
+         "../../../../node_modules/@types/node/http.d.ts"
+       ],
++      "../../../../node_modules/agent-base/dist/src/index.d.ts": [
++        "../../../../node_modules/@types/node/events.d.ts",
++        "../../../../node_modules/@types/node/http.d.ts",
++        "../../../../node_modules/@types/node/https.d.ts",
++        "../../../../node_modules/@types/node/index.d.ts",
++        "../../../../node_modules/@types/node/net.d.ts",
++        "../../../../node_modules/@types/node/stream.d.ts"
++      ],
+       "../../../../node_modules/cheerio/types/index.d.ts": [
+         "../../../../node_modules/domhandler/lib/index.d.ts",
+         "../../../../node_modules/htmlparser2/lib/index.d.ts"
+@@ -1020,20 +1043,35 @@
+       "../../../../node_modules/domutils/lib/traversal.d.ts": [
+         "../../../../node_modules/domhandler/lib/index.d.ts"
+       ],
+-      "../../../../node_modules/htmlparser2/lib/feedhandler.d.ts": [
++      "../../../../node_modules/htmlparser2/lib/FeedHandler.d.ts": [
+         "../../../../node_modules/domhandler/lib/index.d.ts",
+-        "../../../../node_modules/htmlparser2/lib/parser.d.ts"
++        "../../../../node_modules/htmlparser2/lib/Parser.d.ts"
++      ],
++      "../../../../node_modules/htmlparser2/lib/Parser.d.ts": [
++        "../../../../node_modules/htmlparser2/lib/Tokenizer.d.ts"
+       ],
+       "../../../../node_modules/htmlparser2/lib/index.d.ts": [
+         "../../../../node_modules/domelementtype/lib/index.d.ts",
+         "../../../../node_modules/domhandler/lib/index.d.ts",
+         "../../../../node_modules/domutils/lib/index.d.ts",
+-        "../../../../node_modules/htmlparser2/lib/feedhandler.d.ts",
+-        "../../../../node_modules/htmlparser2/lib/parser.d.ts",
+-        "../../../../node_modules/htmlparser2/lib/tokenizer.d.ts"
++        "../../../../node_modules/htmlparser2/lib/FeedHandler.d.ts",
++        "../../../../node_modules/htmlparser2/lib/Parser.d.ts",
++        "../../../../node_modules/htmlparser2/lib/Tokenizer.d.ts"
+       ],
+-      "../../../../node_modules/htmlparser2/lib/parser.d.ts": [
+-        "../../../../node_modules/htmlparser2/lib/tokenizer.d.ts"
++      "../../../../node_modules/https-proxy-agent/dist/agent.d.ts": [
++        "../../../../node_modules/@types/node/index.d.ts",
++        "../../../../node_modules/@types/node/net.d.ts",
++        "../../../../node_modules/agent-base/dist/src/index.d.ts",
++        "../../../../node_modules/https-proxy-agent/dist/index.d.ts"
++      ],
++      "../../../../node_modules/https-proxy-agent/dist/index.d.ts": [
++        "../../../../node_modules/@types/node/http.d.ts",
++        "../../../../node_modules/@types/node/index.d.ts",
++        "../../../../node_modules/@types/node/net.d.ts",
++        "../../../../node_modules/@types/node/tls.d.ts",
++        "../../../../node_modules/@types/node/url.d.ts",
++        "../../../../node_modules/agent-base/dist/src/index.d.ts",
++        "../../../../node_modules/https-proxy-agent/dist/agent.d.ts"
+       ],
+       "../../../../node_modules/mdast-util-definitions/types/index.d.ts": [
+         "../../../../node_modules/@types/mdast/index.d.ts",
+@@ -1081,22 +1119,22 @@
+       "../../src/fetch.ts": [
+         "../../../../node_modules/@vercel/fetch/index.d.ts"
+       ],
+-      "../../src/fetchtweetast.ts": [
+-        "../../src/markdown/htmltoast.ts",
++      "../../src/fetchTweetAst.ts": [
++        "../../src/markdown/htmlToAst.ts",
+         "../../src/twitter/api.ts",
+         "../../src/twitter/embed/tweet-html.ts",
+-        "../../src/twitter/gettweethtml.ts"
++        "../../src/twitter/getTweetHtml.ts"
+       ],
+       "../../src/index.ts": [
+-        "../../src/fetchtweetast.ts"
++        "../../src/fetchTweetAst.ts"
+       ],
+-      "../../src/markdown/htmltoast.ts": [
++      "../../src/markdown/htmlToAst.ts": [
+         "../../../../node_modules/unified/types/index.d.ts",
+         "../../src/markdown/rehype-minify.ts",
+         "../../src/markdown/rehype-tweet.ts",
+         "../../src/markdown/schema.ts"
+       ],
+-      "../../src/markdown/markdowntoast.ts": [
++      "../../src/markdown/markdownToAst.ts": [
+         "../../../../node_modules/remark-parse/types/index.d.ts",
+         "../../../../node_modules/remark-rehype/types/index.d.ts",
+         "../../../../node_modules/unified/types/index.d.ts"
+@@ -1109,14 +1147,14 @@
+         "../../../../node_modules/hast-util-sanitize/lib/github.json"
+       ],
+       "../../src/twitter/api.ts": [
+-        "../../src/fetch.ts"
++        "../../../../node_modules/https-proxy-agent/dist/index.d.ts"
+       ],
+       "../../src/twitter/embed/tweet-html.ts": [
+         "../../../../node_modules/cheerio/types/index.d.ts"
+       ],
+-      "../../src/twitter/gettweethtml.ts": [
+-        "../../src/fetchtweetast.ts",
+-        "../../src/markdown/markdowntoast.ts",
++      "../../src/twitter/getTweetHtml.ts": [
++        "../../src/fetchTweetAst.ts",
++        "../../src/markdown/markdownToAst.ts",
+         "../../src/twitter/api.ts",
+         "../../src/twitter/tweet-html.ts"
+       ],
+@@ -1385,6 +1423,14 @@
+         "../../../../node_modules/@types/node-fetch/index.d.ts",
+         "../../../../node_modules/@types/node/http.d.ts"
+       ],
++      "../../../../node_modules/agent-base/dist/src/index.d.ts": [
++        "../../../../node_modules/@types/node/events.d.ts",
++        "../../../../node_modules/@types/node/http.d.ts",
++        "../../../../node_modules/@types/node/https.d.ts",
++        "../../../../node_modules/@types/node/index.d.ts",
++        "../../../../node_modules/@types/node/net.d.ts",
++        "../../../../node_modules/@types/node/stream.d.ts"
++      ],
+       "../../../../node_modules/cheerio/types/index.d.ts": [
+         "../../../../node_modules/domhandler/lib/index.d.ts",
+         "../../../../node_modules/htmlparser2/lib/index.d.ts"
+@@ -1430,20 +1476,35 @@
+       "../../../../node_modules/domutils/lib/traversal.d.ts": [
+         "../../../../node_modules/domhandler/lib/index.d.ts"
+       ],
+-      "../../../../node_modules/htmlparser2/lib/feedhandler.d.ts": [
++      "../../../../node_modules/htmlparser2/lib/FeedHandler.d.ts": [
+         "../../../../node_modules/domhandler/lib/index.d.ts",
+-        "../../../../node_modules/htmlparser2/lib/parser.d.ts"
++        "../../../../node_modules/htmlparser2/lib/Parser.d.ts"
++      ],
++      "../../../../node_modules/htmlparser2/lib/Parser.d.ts": [
++        "../../../../node_modules/htmlparser2/lib/Tokenizer.d.ts"
+       ],
+       "../../../../node_modules/htmlparser2/lib/index.d.ts": [
+         "../../../../node_modules/domelementtype/lib/index.d.ts",
+         "../../../../node_modules/domhandler/lib/index.d.ts",
+         "../../../../node_modules/domutils/lib/index.d.ts",
+-        "../../../../node_modules/htmlparser2/lib/feedhandler.d.ts",
+-        "../../../../node_modules/htmlparser2/lib/parser.d.ts",
+-        "../../../../node_modules/htmlparser2/lib/tokenizer.d.ts"
++        "../../../../node_modules/htmlparser2/lib/FeedHandler.d.ts",
++        "../../../../node_modules/htmlparser2/lib/Parser.d.ts",
++        "../../../../node_modules/htmlparser2/lib/Tokenizer.d.ts"
+       ],
+-      "../../../../node_modules/htmlparser2/lib/parser.d.ts": [
+-        "../../../../node_modules/htmlparser2/lib/tokenizer.d.ts"
++      "../../../../node_modules/https-proxy-agent/dist/agent.d.ts": [
++        "../../../../node_modules/@types/node/index.d.ts",
++        "../../../../node_modules/@types/node/net.d.ts",
++        "../../../../node_modules/agent-base/dist/src/index.d.ts",
++        "../../../../node_modules/https-proxy-agent/dist/index.d.ts"
++      ],
++      "../../../../node_modules/https-proxy-agent/dist/index.d.ts": [
++        "../../../../node_modules/@types/node/http.d.ts",
++        "../../../../node_modules/@types/node/index.d.ts",
++        "../../../../node_modules/@types/node/net.d.ts",
++        "../../../../node_modules/@types/node/tls.d.ts",
++        "../../../../node_modules/@types/node/url.d.ts",
++        "../../../../node_modules/agent-base/dist/src/index.d.ts",
++        "../../../../node_modules/https-proxy-agent/dist/agent.d.ts"
+       ],
+       "../../../../node_modules/mdast-util-definitions/types/index.d.ts": [
+         "../../../../node_modules/@types/mdast/index.d.ts",
+@@ -1492,12 +1553,12 @@
+         "../../../../node_modules/@vercel/fetch/index.d.ts"
+       ],
+       "../../src/index.ts": [
+-        "../../src/fetchtweetast.ts"
++        "../../src/fetchTweetAst.ts"
+       ],
+-      "../../src/markdown/htmltoast.ts": [
++      "../../src/markdown/htmlToAst.ts": [
+         "../../../../node_modules/vfile/types/index.d.ts"
+       ],
+-      "../../src/markdown/markdowntoast.ts": [
++      "../../src/markdown/markdownToAst.ts": [
+         "../../../../node_modules/vfile/types/index.d.ts"
+       ]
+     },
+@@ -1568,6 +1629,7 @@
+       "../../../../node_modules/@types/scheduler/tracing.d.ts",
+       "../../../../node_modules/@types/unist/index.d.ts",
+       "../../../../node_modules/@vercel/fetch/index.d.ts",
++      "../../../../node_modules/agent-base/dist/src/index.d.ts",
+       "../../../../node_modules/cheerio/types/index.d.ts",
+       "../../../../node_modules/csstype/index.d.ts",
+       "../../../../node_modules/dom-serializer/lib/index.d.ts",
+@@ -1583,10 +1645,12 @@
+       "../../../../node_modules/domutils/lib/tagtypes.d.ts",
+       "../../../../node_modules/domutils/lib/traversal.d.ts",
+       "../../../../node_modules/hast-util-sanitize/lib/github.json",
+-      "../../../../node_modules/htmlparser2/lib/feedhandler.d.ts",
++      "../../../../node_modules/htmlparser2/lib/FeedHandler.d.ts",
++      "../../../../node_modules/htmlparser2/lib/Parser.d.ts",
++      "../../../../node_modules/htmlparser2/lib/Tokenizer.d.ts",
+       "../../../../node_modules/htmlparser2/lib/index.d.ts",
+-      "../../../../node_modules/htmlparser2/lib/parser.d.ts",
+-      "../../../../node_modules/htmlparser2/lib/tokenizer.d.ts",
++      "../../../../node_modules/https-proxy-agent/dist/agent.d.ts",
++      "../../../../node_modules/https-proxy-agent/dist/index.d.ts",
+       "../../../../node_modules/mdast-util-definitions/types/index.d.ts",
+       "../../../../node_modules/mdast-util-to-hast/types/index.d.ts",
+       "../../../../node_modules/remark-parse/types/index.d.ts",
+@@ -1627,16 +1691,16 @@
+       "../../../../node_modules/vfile-message/types/index.d.ts",
+       "../../../../node_modules/vfile/types/index.d.ts",
+       "../../src/fetch.ts",
+-      "../../src/fetchtweetast.ts",
++      "../../src/fetchTweetAst.ts",
+       "../../src/index.ts",
+-      "../../src/markdown/htmltoast.ts",
+-      "../../src/markdown/markdowntoast.ts",
++      "../../src/markdown/htmlToAst.ts",
++      "../../src/markdown/markdownToAst.ts",
+       "../../src/markdown/rehype-minify.ts",
+       "../../src/markdown/rehype-tweet.ts",
+       "../../src/markdown/schema.ts",
+       "../../src/twitter/api.ts",
+       "../../src/twitter/embed/tweet-html.ts",
+-      "../../src/twitter/gettweethtml.ts",
++      "../../src/twitter/getTweetHtml.ts",
+       "../../src/twitter/tweet-html.ts"
+     ]
+   },
+diff --git a/node_modules/static-tweets/build/cjs/twitter/api.js b/node_modules/static-tweets/build/cjs/twitter/api.js
+index bc313ab..cc5ad57 100644
+--- a/node_modules/static-tweets/build/cjs/twitter/api.js
++++ b/node_modules/static-tweets/build/cjs/twitter/api.js
+@@ -40,7 +40,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
+ };
+ exports.__esModule = true;
+ exports.getEmbeddedTweetHtml = exports.fetchTweetWithPoll = exports.fetchUserStatus = exports.fetchTweetHtml = exports.fetchTweetsHtml = void 0;
+-var fetch_1 = __importDefault(require("../fetch"));
++//import fetch from '../fetch'
++var isomorphic_fetch_1 = __importDefault(require("isomorphic-fetch"));
++var https_proxy_agent_1 = require("https-proxy-agent");
+ var API_URL = 'https://api.twitter.com';
+ var SYNDICATION_URL = 'https://syndication.twitter.com';
+ function twitterLabsEnabled(expansions) {
+@@ -53,10 +55,12 @@ function twitterLabsEnabled(expansions) {
+ }
+ function fetchTweetsHtml(ids) {
+     return __awaiter(this, void 0, void 0, function () {
+-        var res;
++        var proxy, res;
+         return __generator(this, function (_a) {
+             switch (_a.label) {
+-                case 0: return [4 /*yield*/, fetch_1["default"](SYNDICATION_URL + "/tweets.json?ids=" + ids)];
++                case 0:
++                    proxy = process.env.https_proxy;
++                    return [4 /*yield*/, isomorphic_fetch_1["default"](SYNDICATION_URL + "/tweets.json?ids=" + ids, proxy ? { agent: new https_proxy_agent_1.HttpsProxyAgent(proxy) } : {})];
+                 case 1:
+                     res = _a.sent();
+                     if (res.ok)
+@@ -85,14 +89,20 @@ function fetchTweetHtml(id) {
+ exports.fetchTweetHtml = fetchTweetHtml;
+ function fetchUserStatus(tweetId) {
+     return __awaiter(this, void 0, void 0, function () {
+-        var res;
++        var proxy, res;
+         return __generator(this, function (_a) {
+             switch (_a.label) {
+                 case 0:
+                     // If there isn't an API token don't do anything, this is only required for videos.
+                     if (!process.env.TWITTER_ACCESS_TOKEN)
+                         return [2 /*return*/];
+-                    return [4 /*yield*/, fetch_1["default"](API_URL + "/1.1/statuses/show/" + tweetId + ".json?include_entities=true&tweet_mode=extended", {
++                    proxy = process.env.https_proxy;
++                    return [4 /*yield*/, isomorphic_fetch_1["default"](API_URL + "/1.1/statuses/show/" + tweetId + ".json?include_entities=true&tweet_mode=extended", proxy ? {
++                            headers: {
++                                authorization: "Bearer " + process.env.TWITTER_ACCESS_TOKEN
++                            },
++                            agent: new https_proxy_agent_1.HttpsProxyAgent(proxy)
++                        } : {
+                             headers: {
+                                 authorization: "Bearer " + process.env.TWITTER_ACCESS_TOKEN
+                             }
+@@ -114,7 +124,7 @@ function fetchUserStatus(tweetId) {
+ exports.fetchUserStatus = fetchUserStatus;
+ function fetchTweetWithPoll(tweetId) {
+     return __awaiter(this, void 0, void 0, function () {
+-        var expansions, res;
++        var expansions, proxy, res;
+         return __generator(this, function (_a) {
+             switch (_a.label) {
+                 case 0:
+@@ -123,7 +133,13 @@ function fetchTweetWithPoll(tweetId) {
+                     // this is only required for Polls.
+                     if (!process.env.TWITTER_ACCESS_TOKEN || !twitterLabsEnabled(expansions))
+                         return [2 /*return*/];
+-                    return [4 /*yield*/, fetch_1["default"](API_URL + "/labs/1/tweets?format=compact&expansions=" + expansions + "&ids=" + tweetId, {
++                    proxy = process.env.https_proxy;
++                    return [4 /*yield*/, isomorphic_fetch_1["default"](API_URL + "/labs/1/tweets?format=compact&expansions=" + expansions + "&ids=" + tweetId, proxy ? {
++                            headers: {
++                                authorization: "Bearer " + process.env.TWITTER_ACCESS_TOKEN
++                            },
++                            agent: new https_proxy_agent_1.HttpsProxyAgent(proxy)
++                        } : {
+                             headers: {
+                                 authorization: "Bearer " + process.env.TWITTER_ACCESS_TOKEN
+                             }
+@@ -145,10 +161,12 @@ function fetchTweetWithPoll(tweetId) {
+ exports.fetchTweetWithPoll = fetchTweetWithPoll;
+ function getEmbeddedTweetHtml(url) {
+     return __awaiter(this, void 0, void 0, function () {
+-        var res;
++        var proxy, res;
+         return __generator(this, function (_a) {
+             switch (_a.label) {
+-                case 0: return [4 /*yield*/, fetch_1["default"]("https://publish.twitter.com/oembed?url=" + url)];
++                case 0:
++                    proxy = process.env.https_proxy;
++                    return [4 /*yield*/, isomorphic_fetch_1["default"]("https://publish.twitter.com/oembed?url=" + url, proxy ? { agent: new https_proxy_agent_1.HttpsProxyAgent(proxy) } : {})];
+                 case 1:
+                     res = _a.sent();
+                     if (res.ok)
+diff --git a/node_modules/static-tweets/build/cjs/twitter/api.js.map b/node_modules/static-tweets/build/cjs/twitter/api.js.map
+index 16aa233..a8c0af6 100644
+--- a/node_modules/static-tweets/build/cjs/twitter/api.js.map
++++ b/node_modules/static-tweets/build/cjs/twitter/api.js.map
+@@ -1 +1 @@
+-{"version":3,"file":"api.js","sourceRoot":"","sources":["../../../src/twitter/api.ts"],"names":[],"mappings":"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"}
+\ No newline at end of file
++{"version":3,"file":"api.js","sourceRoot":"","sources":["../../../src/twitter/api.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA,8BAA8B;AAC9B,sEAAqC;AACrC,uDAAoD;AAEpD,IAAM,OAAO,GAAG,yBAAyB,CAAA;AACzC,IAAM,eAAe,GAAG,iCAAiC,CAAA;AAEzD,SAAS,kBAAkB,CAAC,UAAU;IACpC,IAAI,OAAO,CAAC,GAAG,CAAC,oBAAoB,KAAK,MAAM;QAAE,OAAO,KAAK,CAAA;IAC7D,IAAI,CAAC,UAAU;QAAE,OAAO,IAAI,CAAA;IAE5B,IAAM,GAAG,GAAG,OAAO,CAAC,GAAG,CAAC,uBAAuB,IAAI,EAAE,CAAA;IAErD,OAAO,GAAG,CAAC,QAAQ,CAAC,UAAU,CAAC,CAAA;AACjC,CAAC;AAED,SAAsB,eAAe,CAAC,GAAG;;;;;;oBACjC,KAAK,GAAG,OAAO,CAAC,GAAG,CAAC,WAAW,CAAC;oBAC1B,qBAAM,6BAAK,CAAI,eAAe,yBAAoB,GAAK,EAAE,KAAK,CAAC,CAAC,CAAC,EAAE,KAAK,EAAE,IAAI,mCAAe,CAAC,KAAK,CAAC,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,EAAA;;oBAAlH,GAAG,GAAG,SAA4G;oBAExH,IAAI,GAAG,CAAC,EAAE;wBAAE,sBAAO,GAAG,CAAC,IAAI,EAAE,EAAA;oBAC7B,IAAI,GAAG,CAAC,MAAM,KAAK,GAAG;wBAAE,sBAAO,EAAE,EAAA;oBAEjC,MAAM,IAAI,KAAK,CACb,wCAAqC,GAAG,6BAAuB,GAAG,CAAC,MAAQ,CAC5E,CAAA;;;;CACF;AAVD,0CAUC;AAED,SAAsB,cAAc,CAAC,EAAE;;;;;wBACxB,qBAAM,eAAe,CAAC,EAAE,CAAC,EAAA;;oBAAhC,IAAI,GAAG,SAAyB;oBACtC,sBAAO,IAAI,CAAC,EAAE,CAAC,EAAA;;;;CAChB;AAHD,wCAGC;AAED,SAAsB,eAAe,CAAC,OAAO;;;;;;oBAC3C,mFAAmF;oBACnF,IAAI,CAAC,OAAO,CAAC,GAAG,CAAC,oBAAoB;wBAAE,sBAAM;oBAEvC,KAAK,GAAG,OAAO,CAAC,GAAG,CAAC,WAAW,CAAC;oBAC1B,qBAAM,6BAAK,CAAI,OAAO,2BAAsB,OAAO,oDAAiD,EAAE,KAAK,CAAC,CAAC,CAAC;4BACxH,OAAO,EAAE;gCACP,aAAa,EAAE,YAAU,OAAO,CAAC,GAAG,CAAC,oBAAsB;6BAC5D;4BACD,KAAK,EAAE,IAAI,mCAAe,CAAC,KAAK,CAAC;yBAClC,CAAC,CAAC,CAAC;4BACF,OAAO,EAAE;gCACP,aAAa,EAAE,YAAU,OAAO,CAAC,GAAG,CAAC,oBAAsB;6BAC5D;yBACF,CAAC,EAAA;;oBATI,GAAG,GAAG,SASV;oBAEF,OAAO,CAAC,GAAG,CACT,6BAA6B,EAC7B,GAAG,CAAC,OAAO,CAAC,GAAG,CAAC,oBAAoB,CAAC,CACtC,CAAA;oBACD,OAAO,CAAC,GAAG,CACT,iCAAiC,EACjC,GAAG,CAAC,OAAO,CAAC,GAAG,CAAC,wBAAwB,CAAC,CAC1C,CAAA;oBACD,OAAO,CAAC,GAAG,CACT,6BAA6B,EAC7B,GAAG,CAAC,OAAO,CAAC,GAAG,CAAC,oBAAoB,CAAC,CACtC,CAAA;oBAED,IAAI,GAAG,CAAC,EAAE;wBAAE,sBAAO,GAAG,CAAC,IAAI,EAAE,EAAA;oBAC7B,IAAI,GAAG,CAAC,MAAM,KAAK,GAAG;wBAAE,sBAAM;oBAE9B,MAAM,IAAI,KAAK,CAAC,gDAA8C,GAAG,CAAC,MAAQ,CAAC,CAAA;;;;CAC5E;AAjCD,0CAiCC;AAED,SAAsB,kBAAkB,CAAC,OAAO;;;;;;oBACxC,UAAU,GAAG,sBAAsB,CAAA;oBAEzC,iFAAiF;oBACjF,mCAAmC;oBACnC,IAAI,CAAC,OAAO,CAAC,GAAG,CAAC,oBAAoB,IAAI,CAAC,kBAAkB,CAAC,UAAU,CAAC;wBACtE,sBAAM;oBAEF,KAAK,GAAG,OAAO,CAAC,GAAG,CAAC,WAAW,CAAC;oBAC1B,qBAAM,6BAAK,CAAI,OAAO,iDAA4C,UAAU,aAAQ,OAAS,EAAE,KAAK,CAAC,CAAC,CAAC;4BACjH,OAAO,EAAE;gCACP,aAAa,EAAE,YAAU,OAAO,CAAC,GAAG,CAAC,oBAAsB;6BAC5D;4BACD,KAAK,EAAE,IAAI,mCAAe,CAAC,KAAK,CAAC;yBAClC,CAAC,CAAC,CAAC;4BACF,OAAO,EAAE;gCACP,aAAa,EAAE,YAAU,OAAO,CAAC,GAAG,CAAC,oBAAsB;6BAC5D;yBACF,CAAC,EAAA;;oBATI,GAAG,GAAG,SASV;oBAGF,OAAO,CAAC,GAAG,CACT,kCAAkC,EAClC,GAAG,CAAC,OAAO,CAAC,GAAG,CAAC,oBAAoB,CAAC,CACtC,CAAA;oBACD,OAAO,CAAC,GAAG,CACT,sCAAsC,EACtC,GAAG,CAAC,OAAO,CAAC,GAAG,CAAC,wBAAwB,CAAC,CAC1C,CAAA;oBACD,OAAO,CAAC,GAAG,CACT,kCAAkC,EAClC,GAAG,CAAC,OAAO,CAAC,GAAG,CAAC,oBAAoB,CAAC,CACtC,CAAA;oBAED,IAAI,GAAG,CAAC,EAAE;wBAAE,sBAAO,GAAG,CAAC,IAAI,EAAE,EAAA;oBAC7B,IAAI,GAAG,CAAC,MAAM,KAAK,GAAG;wBAAE,sBAAM;oBAE9B,MAAM,IAAI,KAAK,CACb,qDAAmD,GAAG,CAAC,MAAQ,CAChE,CAAA;;;;CACF;AAxCD,gDAwCC;AAED,SAAsB,oBAAoB,CAAC,GAAG;;;;;;oBACtC,KAAK,GAAG,OAAO,CAAC,GAAG,CAAC,WAAW,CAAC;oBAC1B,qBAAM,6BAAK,CAAC,4CAA0C,GAAK,EAAE,KAAK,CAAC,CAAC,CAAC,EAAE,KAAK,EAAE,IAAI,mCAAe,CAAC,KAAK,CAAC,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,EAAA;;oBAAtH,GAAG,GAAG,SAAgH;oBAE5H,IAAI,GAAG,CAAC,EAAE;wBAAE,sBAAO,GAAG,CAAC,IAAI,EAAE,EAAA;oBAC7B,IAAI,GAAG,CAAC,MAAM,KAAK,GAAG;wBAAE,sBAAM;oBAE9B,MAAM,IAAI,KAAK,CAAC,gDAA8C,GAAG,CAAC,MAAQ,CAAC,CAAA;;;;CAC5E;AARD,oDAQC"}
+\ No newline at end of file
+diff --git a/node_modules/static-tweets/build/esm/index.tsbuildinfo b/node_modules/static-tweets/build/esm/index.tsbuildinfo
+index 7b1ee0c..d661bd0 100644
+--- a/node_modules/static-tweets/build/esm/index.tsbuildinfo
++++ b/node_modules/static-tweets/build/esm/index.tsbuildinfo
+@@ -396,8 +396,23 @@
+         "signature": "f5daf66ceb9d717721ff8b28f09bf5d2f9496bcf143c0413130c52368ed35174",
+         "affectsGlobalScope": false
+       },
++      "../../../../node_modules/agent-base/dist/src/index.d.ts": {
++        "version": "27dddbe3a7e8f45bc30547499461c74851580b74556570a4d7daa90ba90e2af0",
++        "signature": "27dddbe3a7e8f45bc30547499461c74851580b74556570a4d7daa90ba90e2af0",
++        "affectsGlobalScope": false
++      },
++      "../../../../node_modules/https-proxy-agent/dist/agent.d.ts": {
++        "version": "ce0c414305ae2797f220adcd5e83079802d0b9879e62ca476f000b56a5d31adf",
++        "signature": "ce0c414305ae2797f220adcd5e83079802d0b9879e62ca476f000b56a5d31adf",
++        "affectsGlobalScope": false
++      },
++      "../../../../node_modules/https-proxy-agent/dist/index.d.ts": {
++        "version": "67918f0ddd6271a88574dfe495942f4a6e982b9c3c1a2ce14c273f103691394d",
++        "signature": "67918f0ddd6271a88574dfe495942f4a6e982b9c3c1a2ce14c273f103691394d",
++        "affectsGlobalScope": false
++      },
+       "../../src/twitter/api.ts": {
+-        "version": "a1458c818c31f3b0241ff68f8bc573001a051a29260a90e2aad9128e75dbf2ba",
++        "version": "da6c38a9401a83e8228854bb423d53b665b3c51b49d31b019100b112d501a55d",
+         "signature": "d5f8db1a24c8c4cb891aafc07a7f1f3bd3950842d332c4d9ceda125dff2f64dc",
+         "affectsGlobalScope": false
+       },
+@@ -416,17 +431,17 @@
+         "signature": "b3b8821ddedf72080a875eb9308bb1c5800606299f49a9b1e4f7c4e6ff20934f",
+         "affectsGlobalScope": false
+       },
+-      "../../../../node_modules/htmlparser2/lib/tokenizer.d.ts": {
++      "../../../../node_modules/htmlparser2/lib/Tokenizer.d.ts": {
+         "version": "97477a011d4d9813cea4a10dd0e2f8ffab55e4705d45cd12b88db6a50157e302",
+         "signature": "97477a011d4d9813cea4a10dd0e2f8ffab55e4705d45cd12b88db6a50157e302",
+         "affectsGlobalScope": false
+       },
+-      "../../../../node_modules/htmlparser2/lib/parser.d.ts": {
++      "../../../../node_modules/htmlparser2/lib/Parser.d.ts": {
+         "version": "d341d39f8b1f377b8a8e15a1fb71ddba23a3b44c761a79a7cc3439bf1c4e81cb",
+         "signature": "d341d39f8b1f377b8a8e15a1fb71ddba23a3b44c761a79a7cc3439bf1c4e81cb",
+         "affectsGlobalScope": false
+       },
+-      "../../../../node_modules/htmlparser2/lib/feedhandler.d.ts": {
++      "../../../../node_modules/htmlparser2/lib/FeedHandler.d.ts": {
+         "version": "d97b371df0bb35cf998992854ce00b020d3cdb31fd935496fe1e87dccf202565",
+         "signature": "d97b371df0bb35cf998992854ce00b020d3cdb31fd935496fe1e87dccf202565",
+         "affectsGlobalScope": false
+@@ -541,12 +556,12 @@
+         "signature": "a1b2c12f1e74af1a69981d94e319cb80a6f27359eb6aa94543b3c9395c02ee36",
+         "affectsGlobalScope": false
+       },
+-      "../../src/markdown/markdowntoast.ts": {
++      "../../src/markdown/markdownToAst.ts": {
+         "version": "eec8b927f290f0196c7f8de54e64aa12b0b4faae668220a285495794eb0e4972",
+         "signature": "941541ab9588f1a8cd1d8c645d28bc8b183eb56219b4fc41d663fce8665fe70e",
+         "affectsGlobalScope": false
+       },
+-      "../../src/twitter/gettweethtml.ts": {
++      "../../src/twitter/getTweetHtml.ts": {
+         "version": "b1fcf2a53e1375d95e7f79b129c88b20d2f49c82684ae91836d0fd034cee85ee",
+         "signature": "d5c10c323f91173e2a124426a777a35ea89ec839104686780aac3f4008e8455f",
+         "affectsGlobalScope": false
+@@ -590,12 +605,12 @@
+         "signature": "753f9d70fdb9e58a20c567d50ca6fdcd3ce882190940f93f28b2cfa18e6d98bb",
+         "affectsGlobalScope": false
+       },
+-      "../../src/markdown/htmltoast.ts": {
++      "../../src/markdown/htmlToAst.ts": {
+         "version": "3a6e2897b9003c1efd3a0682a440861fc1837aeb16b6fa70e04dc51b72bf0327",
+         "signature": "95292f61e04d5eee05d2e4fb986afeb18acfec66dcd23836e8da8d7d820f34d5",
+         "affectsGlobalScope": false
+       },
+-      "../../src/fetchtweetast.ts": {
++      "../../src/fetchTweetAst.ts": {
+         "version": "c37b6850dc58ebf88340b8ee203ad05d6291aa83ed83ba7e1405f93fc4b79197",
+         "signature": "2fdffec26abad523e07c29c5896467534db8a5851b2ba78a5aadf2fb9af9a4db",
+         "affectsGlobalScope": false
+@@ -975,6 +990,14 @@
+         "../../../../node_modules/@types/node-fetch/index.d.ts",
+         "../../../../node_modules/@types/node/http.d.ts"
+       ],
++      "../../../../node_modules/agent-base/dist/src/index.d.ts": [
++        "../../../../node_modules/@types/node/events.d.ts",
++        "../../../../node_modules/@types/node/http.d.ts",
++        "../../../../node_modules/@types/node/https.d.ts",
++        "../../../../node_modules/@types/node/index.d.ts",
++        "../../../../node_modules/@types/node/net.d.ts",
++        "../../../../node_modules/@types/node/stream.d.ts"
++      ],
+       "../../../../node_modules/cheerio/types/index.d.ts": [
+         "../../../../node_modules/domhandler/lib/index.d.ts",
+         "../../../../node_modules/htmlparser2/lib/index.d.ts"
+@@ -1020,20 +1043,35 @@
+       "../../../../node_modules/domutils/lib/traversal.d.ts": [
+         "../../../../node_modules/domhandler/lib/index.d.ts"
+       ],
+-      "../../../../node_modules/htmlparser2/lib/feedhandler.d.ts": [
++      "../../../../node_modules/htmlparser2/lib/FeedHandler.d.ts": [
+         "../../../../node_modules/domhandler/lib/index.d.ts",
+-        "../../../../node_modules/htmlparser2/lib/parser.d.ts"
++        "../../../../node_modules/htmlparser2/lib/Parser.d.ts"
++      ],
++      "../../../../node_modules/htmlparser2/lib/Parser.d.ts": [
++        "../../../../node_modules/htmlparser2/lib/Tokenizer.d.ts"
+       ],
+       "../../../../node_modules/htmlparser2/lib/index.d.ts": [
+         "../../../../node_modules/domelementtype/lib/index.d.ts",
+         "../../../../node_modules/domhandler/lib/index.d.ts",
+         "../../../../node_modules/domutils/lib/index.d.ts",
+-        "../../../../node_modules/htmlparser2/lib/feedhandler.d.ts",
+-        "../../../../node_modules/htmlparser2/lib/parser.d.ts",
+-        "../../../../node_modules/htmlparser2/lib/tokenizer.d.ts"
++        "../../../../node_modules/htmlparser2/lib/FeedHandler.d.ts",
++        "../../../../node_modules/htmlparser2/lib/Parser.d.ts",
++        "../../../../node_modules/htmlparser2/lib/Tokenizer.d.ts"
+       ],
+-      "../../../../node_modules/htmlparser2/lib/parser.d.ts": [
+-        "../../../../node_modules/htmlparser2/lib/tokenizer.d.ts"
++      "../../../../node_modules/https-proxy-agent/dist/agent.d.ts": [
++        "../../../../node_modules/@types/node/index.d.ts",
++        "../../../../node_modules/@types/node/net.d.ts",
++        "../../../../node_modules/agent-base/dist/src/index.d.ts",
++        "../../../../node_modules/https-proxy-agent/dist/index.d.ts"
++      ],
++      "../../../../node_modules/https-proxy-agent/dist/index.d.ts": [
++        "../../../../node_modules/@types/node/http.d.ts",
++        "../../../../node_modules/@types/node/index.d.ts",
++        "../../../../node_modules/@types/node/net.d.ts",
++        "../../../../node_modules/@types/node/tls.d.ts",
++        "../../../../node_modules/@types/node/url.d.ts",
++        "../../../../node_modules/agent-base/dist/src/index.d.ts",
++        "../../../../node_modules/https-proxy-agent/dist/agent.d.ts"
+       ],
+       "../../../../node_modules/mdast-util-definitions/types/index.d.ts": [
+         "../../../../node_modules/@types/mdast/index.d.ts",
+@@ -1081,22 +1119,22 @@
+       "../../src/fetch.ts": [
+         "../../../../node_modules/@vercel/fetch/index.d.ts"
+       ],
+-      "../../src/fetchtweetast.ts": [
+-        "../../src/markdown/htmltoast.ts",
++      "../../src/fetchTweetAst.ts": [
++        "../../src/markdown/htmlToAst.ts",
+         "../../src/twitter/api.ts",
+         "../../src/twitter/embed/tweet-html.ts",
+-        "../../src/twitter/gettweethtml.ts"
++        "../../src/twitter/getTweetHtml.ts"
+       ],
+       "../../src/index.ts": [
+-        "../../src/fetchtweetast.ts"
++        "../../src/fetchTweetAst.ts"
+       ],
+-      "../../src/markdown/htmltoast.ts": [
++      "../../src/markdown/htmlToAst.ts": [
+         "../../../../node_modules/unified/types/index.d.ts",
+         "../../src/markdown/rehype-minify.ts",
+         "../../src/markdown/rehype-tweet.ts",
+         "../../src/markdown/schema.ts"
+       ],
+-      "../../src/markdown/markdowntoast.ts": [
++      "../../src/markdown/markdownToAst.ts": [
+         "../../../../node_modules/remark-parse/types/index.d.ts",
+         "../../../../node_modules/remark-rehype/types/index.d.ts",
+         "../../../../node_modules/unified/types/index.d.ts"
+@@ -1109,14 +1147,14 @@
+         "../../../../node_modules/hast-util-sanitize/lib/github.json"
+       ],
+       "../../src/twitter/api.ts": [
+-        "../../src/fetch.ts"
++        "../../../../node_modules/https-proxy-agent/dist/index.d.ts"
+       ],
+       "../../src/twitter/embed/tweet-html.ts": [
+         "../../../../node_modules/cheerio/types/index.d.ts"
+       ],
+-      "../../src/twitter/gettweethtml.ts": [
+-        "../../src/fetchtweetast.ts",
+-        "../../src/markdown/markdowntoast.ts",
++      "../../src/twitter/getTweetHtml.ts": [
++        "../../src/fetchTweetAst.ts",
++        "../../src/markdown/markdownToAst.ts",
+         "../../src/twitter/api.ts",
+         "../../src/twitter/tweet-html.ts"
+       ],
+@@ -1385,6 +1423,14 @@
+         "../../../../node_modules/@types/node-fetch/index.d.ts",
+         "../../../../node_modules/@types/node/http.d.ts"
+       ],
++      "../../../../node_modules/agent-base/dist/src/index.d.ts": [
++        "../../../../node_modules/@types/node/events.d.ts",
++        "../../../../node_modules/@types/node/http.d.ts",
++        "../../../../node_modules/@types/node/https.d.ts",
++        "../../../../node_modules/@types/node/index.d.ts",
++        "../../../../node_modules/@types/node/net.d.ts",
++        "../../../../node_modules/@types/node/stream.d.ts"
++      ],
+       "../../../../node_modules/cheerio/types/index.d.ts": [
+         "../../../../node_modules/domhandler/lib/index.d.ts",
+         "../../../../node_modules/htmlparser2/lib/index.d.ts"
+@@ -1430,20 +1476,35 @@
+       "../../../../node_modules/domutils/lib/traversal.d.ts": [
+         "../../../../node_modules/domhandler/lib/index.d.ts"
+       ],
+-      "../../../../node_modules/htmlparser2/lib/feedhandler.d.ts": [
++      "../../../../node_modules/htmlparser2/lib/FeedHandler.d.ts": [
+         "../../../../node_modules/domhandler/lib/index.d.ts",
+-        "../../../../node_modules/htmlparser2/lib/parser.d.ts"
++        "../../../../node_modules/htmlparser2/lib/Parser.d.ts"
++      ],
++      "../../../../node_modules/htmlparser2/lib/Parser.d.ts": [
++        "../../../../node_modules/htmlparser2/lib/Tokenizer.d.ts"
+       ],
+       "../../../../node_modules/htmlparser2/lib/index.d.ts": [
+         "../../../../node_modules/domelementtype/lib/index.d.ts",
+         "../../../../node_modules/domhandler/lib/index.d.ts",
+         "../../../../node_modules/domutils/lib/index.d.ts",
+-        "../../../../node_modules/htmlparser2/lib/feedhandler.d.ts",
+-        "../../../../node_modules/htmlparser2/lib/parser.d.ts",
+-        "../../../../node_modules/htmlparser2/lib/tokenizer.d.ts"
++        "../../../../node_modules/htmlparser2/lib/FeedHandler.d.ts",
++        "../../../../node_modules/htmlparser2/lib/Parser.d.ts",
++        "../../../../node_modules/htmlparser2/lib/Tokenizer.d.ts"
+       ],
+-      "../../../../node_modules/htmlparser2/lib/parser.d.ts": [
+-        "../../../../node_modules/htmlparser2/lib/tokenizer.d.ts"
++      "../../../../node_modules/https-proxy-agent/dist/agent.d.ts": [
++        "../../../../node_modules/@types/node/index.d.ts",
++        "../../../../node_modules/@types/node/net.d.ts",
++        "../../../../node_modules/agent-base/dist/src/index.d.ts",
++        "../../../../node_modules/https-proxy-agent/dist/index.d.ts"
++      ],
++      "../../../../node_modules/https-proxy-agent/dist/index.d.ts": [
++        "../../../../node_modules/@types/node/http.d.ts",
++        "../../../../node_modules/@types/node/index.d.ts",
++        "../../../../node_modules/@types/node/net.d.ts",
++        "../../../../node_modules/@types/node/tls.d.ts",
++        "../../../../node_modules/@types/node/url.d.ts",
++        "../../../../node_modules/agent-base/dist/src/index.d.ts",
++        "../../../../node_modules/https-proxy-agent/dist/agent.d.ts"
+       ],
+       "../../../../node_modules/mdast-util-definitions/types/index.d.ts": [
+         "../../../../node_modules/@types/mdast/index.d.ts",
+@@ -1492,12 +1553,12 @@
+         "../../../../node_modules/@vercel/fetch/index.d.ts"
+       ],
+       "../../src/index.ts": [
+-        "../../src/fetchtweetast.ts"
++        "../../src/fetchTweetAst.ts"
+       ],
+-      "../../src/markdown/htmltoast.ts": [
++      "../../src/markdown/htmlToAst.ts": [
+         "../../../../node_modules/vfile/types/index.d.ts"
+       ],
+-      "../../src/markdown/markdowntoast.ts": [
++      "../../src/markdown/markdownToAst.ts": [
+         "../../../../node_modules/vfile/types/index.d.ts"
+       ]
+     },
+@@ -1568,6 +1629,7 @@
+       "../../../../node_modules/@types/scheduler/tracing.d.ts",
+       "../../../../node_modules/@types/unist/index.d.ts",
+       "../../../../node_modules/@vercel/fetch/index.d.ts",
++      "../../../../node_modules/agent-base/dist/src/index.d.ts",
+       "../../../../node_modules/cheerio/types/index.d.ts",
+       "../../../../node_modules/csstype/index.d.ts",
+       "../../../../node_modules/dom-serializer/lib/index.d.ts",
+@@ -1583,10 +1645,12 @@
+       "../../../../node_modules/domutils/lib/tagtypes.d.ts",
+       "../../../../node_modules/domutils/lib/traversal.d.ts",
+       "../../../../node_modules/hast-util-sanitize/lib/github.json",
+-      "../../../../node_modules/htmlparser2/lib/feedhandler.d.ts",
++      "../../../../node_modules/htmlparser2/lib/FeedHandler.d.ts",
++      "../../../../node_modules/htmlparser2/lib/Parser.d.ts",
++      "../../../../node_modules/htmlparser2/lib/Tokenizer.d.ts",
+       "../../../../node_modules/htmlparser2/lib/index.d.ts",
+-      "../../../../node_modules/htmlparser2/lib/parser.d.ts",
+-      "../../../../node_modules/htmlparser2/lib/tokenizer.d.ts",
++      "../../../../node_modules/https-proxy-agent/dist/agent.d.ts",
++      "../../../../node_modules/https-proxy-agent/dist/index.d.ts",
+       "../../../../node_modules/mdast-util-definitions/types/index.d.ts",
+       "../../../../node_modules/mdast-util-to-hast/types/index.d.ts",
+       "../../../../node_modules/remark-parse/types/index.d.ts",
+@@ -1627,16 +1691,16 @@
+       "../../../../node_modules/vfile-message/types/index.d.ts",
+       "../../../../node_modules/vfile/types/index.d.ts",
+       "../../src/fetch.ts",
+-      "../../src/fetchtweetast.ts",
++      "../../src/fetchTweetAst.ts",
+       "../../src/index.ts",
+-      "../../src/markdown/htmltoast.ts",
+-      "../../src/markdown/markdowntoast.ts",
++      "../../src/markdown/htmlToAst.ts",
++      "../../src/markdown/markdownToAst.ts",
+       "../../src/markdown/rehype-minify.ts",
+       "../../src/markdown/rehype-tweet.ts",
+       "../../src/markdown/schema.ts",
+       "../../src/twitter/api.ts",
+       "../../src/twitter/embed/tweet-html.ts",
+-      "../../src/twitter/gettweethtml.ts",
++      "../../src/twitter/getTweetHtml.ts",
+       "../../src/twitter/tweet-html.ts"
+     ]
+   },
+diff --git a/node_modules/static-tweets/build/esm/twitter/api.js b/node_modules/static-tweets/build/esm/twitter/api.js
+index 5d16aba..38271a2 100644
+--- a/node_modules/static-tweets/build/esm/twitter/api.js
++++ b/node_modules/static-tweets/build/esm/twitter/api.js
+@@ -34,7 +34,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
+         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+     }
+ };
+-import fetch from '../fetch';
++//import fetch from '../fetch'
++import fetch from 'isomorphic-fetch';
++import { HttpsProxyAgent } from 'https-proxy-agent';
+ var API_URL = 'https://api.twitter.com';
+ var SYNDICATION_URL = 'https://syndication.twitter.com';
+ function twitterLabsEnabled(expansions) {
+@@ -47,10 +49,12 @@ function twitterLabsEnabled(expansions) {
+ }
+ export function fetchTweetsHtml(ids) {
+     return __awaiter(this, void 0, void 0, function () {
+-        var res;
++        var proxy, res;
+         return __generator(this, function (_a) {
+             switch (_a.label) {
+-                case 0: return [4 /*yield*/, fetch(SYNDICATION_URL + "/tweets.json?ids=" + ids)];
++                case 0:
++                    proxy = process.env.https_proxy;
++                    return [4 /*yield*/, fetch(SYNDICATION_URL + "/tweets.json?ids=" + ids, proxy ? { agent: new HttpsProxyAgent(proxy) } : {})];
+                 case 1:
+                     res = _a.sent();
+                     if (res.ok)
+@@ -77,14 +81,20 @@ export function fetchTweetHtml(id) {
+ }
+ export function fetchUserStatus(tweetId) {
+     return __awaiter(this, void 0, void 0, function () {
+-        var res;
++        var proxy, res;
+         return __generator(this, function (_a) {
+             switch (_a.label) {
+                 case 0:
+                     // If there isn't an API token don't do anything, this is only required for videos.
+                     if (!process.env.TWITTER_ACCESS_TOKEN)
+                         return [2 /*return*/];
+-                    return [4 /*yield*/, fetch(API_URL + "/1.1/statuses/show/" + tweetId + ".json?include_entities=true&tweet_mode=extended", {
++                    proxy = process.env.https_proxy;
++                    return [4 /*yield*/, fetch(API_URL + "/1.1/statuses/show/" + tweetId + ".json?include_entities=true&tweet_mode=extended", proxy ? {
++                            headers: {
++                                authorization: "Bearer " + process.env.TWITTER_ACCESS_TOKEN
++                            },
++                            agent: new HttpsProxyAgent(proxy)
++                        } : {
+                             headers: {
+                                 authorization: "Bearer " + process.env.TWITTER_ACCESS_TOKEN
+                             }
+@@ -105,7 +115,7 @@ export function fetchUserStatus(tweetId) {
+ }
+ export function fetchTweetWithPoll(tweetId) {
+     return __awaiter(this, void 0, void 0, function () {
+-        var expansions, res;
++        var expansions, proxy, res;
+         return __generator(this, function (_a) {
+             switch (_a.label) {
+                 case 0:
+@@ -114,7 +124,13 @@ export function fetchTweetWithPoll(tweetId) {
+                     // this is only required for Polls.
+                     if (!process.env.TWITTER_ACCESS_TOKEN || !twitterLabsEnabled(expansions))
+                         return [2 /*return*/];
+-                    return [4 /*yield*/, fetch(API_URL + "/labs/1/tweets?format=compact&expansions=" + expansions + "&ids=" + tweetId, {
++                    proxy = process.env.https_proxy;
++                    return [4 /*yield*/, fetch(API_URL + "/labs/1/tweets?format=compact&expansions=" + expansions + "&ids=" + tweetId, proxy ? {
++                            headers: {
++                                authorization: "Bearer " + process.env.TWITTER_ACCESS_TOKEN
++                            },
++                            agent: new HttpsProxyAgent(proxy)
++                        } : {
+                             headers: {
+                                 authorization: "Bearer " + process.env.TWITTER_ACCESS_TOKEN
+                             }
+@@ -135,10 +151,12 @@ export function fetchTweetWithPoll(tweetId) {
+ }
+ export function getEmbeddedTweetHtml(url) {
+     return __awaiter(this, void 0, void 0, function () {
+-        var res;
++        var proxy, res;
+         return __generator(this, function (_a) {
+             switch (_a.label) {
+-                case 0: return [4 /*yield*/, fetch("https://publish.twitter.com/oembed?url=" + url)];
++                case 0:
++                    proxy = process.env.https_proxy;
++                    return [4 /*yield*/, fetch("https://publish.twitter.com/oembed?url=" + url, proxy ? { agent: new HttpsProxyAgent(proxy) } : {})];
+                 case 1:
+                     res = _a.sent();
+                     if (res.ok)
+diff --git a/node_modules/static-tweets/build/esm/twitter/api.js.map b/node_modules/static-tweets/build/esm/twitter/api.js.map
+index 97d85c7..4f4b509 100644
+--- a/node_modules/static-tweets/build/esm/twitter/api.js.map
++++ b/node_modules/static-tweets/build/esm/twitter/api.js.map
+@@ -1 +1 @@
+-{"version":3,"file":"api.js","sourceRoot":"","sources":["../../../src/twitter/api.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA,OAAO,KAAK,MAAM,UAAU,CAAA;AAE5B,IAAM,OAAO,GAAG,yBAAyB,CAAA;AACzC,IAAM,eAAe,GAAG,iCAAiC,CAAA;AAEzD,SAAS,kBAAkB,CAAC,UAAU;IACpC,IAAI,OAAO,CAAC,GAAG,CAAC,oBAAoB,KAAK,MAAM;QAAE,OAAO,KAAK,CAAA;IAC7D,IAAI,CAAC,UAAU;QAAE,OAAO,IAAI,CAAA;IAE5B,IAAM,GAAG,GAAG,OAAO,CAAC,GAAG,CAAC,uBAAuB,IAAI,EAAE,CAAA;IAErD,OAAO,GAAG,CAAC,QAAQ,CAAC,UAAU,CAAC,CAAA;AACjC,CAAC;AAED,MAAM,UAAgB,eAAe,CAAC,GAAG;;;;;wBAC3B,qBAAM,KAAK,CAAI,eAAe,yBAAoB,GAAK,CAAC,EAAA;;oBAA9D,GAAG,GAAG,SAAwD;oBAEpE,IAAI,GAAG,CAAC,EAAE;wBAAE,sBAAO,GAAG,CAAC,IAAI,EAAE,EAAA;oBAC7B,IAAI,GAAG,CAAC,MAAM,KAAK,GAAG;wBAAE,sBAAO,EAAE,EAAA;oBAEjC,MAAM,IAAI,KAAK,CACb,wCAAqC,GAAG,6BAAuB,GAAG,CAAC,MAAQ,CAC5E,CAAA;;;;CACF;AAED,MAAM,UAAgB,cAAc,CAAC,EAAE;;;;;wBACxB,qBAAM,eAAe,CAAC,EAAE,CAAC,EAAA;;oBAAhC,IAAI,GAAG,SAAyB;oBACtC,sBAAO,IAAI,CAAC,EAAE,CAAC,EAAA;;;;CAChB;AAED,MAAM,UAAgB,eAAe,CAAC,OAAO;;;;;;oBAC3C,mFAAmF;oBACnF,IAAI,CAAC,OAAO,CAAC,GAAG,CAAC,oBAAoB;wBAAE,sBAAM;oBAEjC,qBAAM,KAAK,CAClB,OAAO,2BAAsB,OAAO,oDAAiD,EACxF;4BACE,OAAO,EAAE;gCACP,aAAa,EAAE,YAAU,OAAO,CAAC,GAAG,CAAC,oBAAsB;6BAC5D;yBACF,CACF,EAAA;;oBAPK,GAAG,GAAG,SAOX;oBAED,OAAO,CAAC,GAAG,CACT,6BAA6B,EAC7B,GAAG,CAAC,OAAO,CAAC,GAAG,CAAC,oBAAoB,CAAC,CACtC,CAAA;oBACD,OAAO,CAAC,GAAG,CACT,iCAAiC,EACjC,GAAG,CAAC,OAAO,CAAC,GAAG,CAAC,wBAAwB,CAAC,CAC1C,CAAA;oBACD,OAAO,CAAC,GAAG,CACT,6BAA6B,EAC7B,GAAG,CAAC,OAAO,CAAC,GAAG,CAAC,oBAAoB,CAAC,CACtC,CAAA;oBAED,IAAI,GAAG,CAAC,EAAE;wBAAE,sBAAO,GAAG,CAAC,IAAI,EAAE,EAAA;oBAC7B,IAAI,GAAG,CAAC,MAAM,KAAK,GAAG;wBAAE,sBAAM;oBAE9B,MAAM,IAAI,KAAK,CAAC,gDAA8C,GAAG,CAAC,MAAQ,CAAC,CAAA;;;;CAC5E;AAED,MAAM,UAAgB,kBAAkB,CAAC,OAAO;;;;;;oBACxC,UAAU,GAAG,sBAAsB,CAAA;oBAEzC,iFAAiF;oBACjF,mCAAmC;oBACnC,IAAI,CAAC,OAAO,CAAC,GAAG,CAAC,oBAAoB,IAAI,CAAC,kBAAkB,CAAC,UAAU,CAAC;wBACtE,sBAAM;oBAEI,qBAAM,KAAK,CAClB,OAAO,iDAA4C,UAAU,aAAQ,OAAS,EACjF;4BACE,OAAO,EAAE;gCACP,aAAa,EAAE,YAAU,OAAO,CAAC,GAAG,CAAC,oBAAsB;6BAC5D;yBACF,CACF,EAAA;;oBAPK,GAAG,GAAG,SAOX;oBAED,OAAO,CAAC,GAAG,CACT,kCAAkC,EAClC,GAAG,CAAC,OAAO,CAAC,GAAG,CAAC,oBAAoB,CAAC,CACtC,CAAA;oBACD,OAAO,CAAC,GAAG,CACT,sCAAsC,EACtC,GAAG,CAAC,OAAO,CAAC,GAAG,CAAC,wBAAwB,CAAC,CAC1C,CAAA;oBACD,OAAO,CAAC,GAAG,CACT,kCAAkC,EAClC,GAAG,CAAC,OAAO,CAAC,GAAG,CAAC,oBAAoB,CAAC,CACtC,CAAA;oBAED,IAAI,GAAG,CAAC,EAAE;wBAAE,sBAAO,GAAG,CAAC,IAAI,EAAE,EAAA;oBAC7B,IAAI,GAAG,CAAC,MAAM,KAAK,GAAG;wBAAE,sBAAM;oBAE9B,MAAM,IAAI,KAAK,CACb,qDAAmD,GAAG,CAAC,MAAQ,CAChE,CAAA;;;;CACF;AAED,MAAM,UAAgB,oBAAoB,CAAC,GAAG;;;;;wBAChC,qBAAM,KAAK,CAAC,4CAA0C,GAAK,CAAC,EAAA;;oBAAlE,GAAG,GAAG,SAA4D;oBAExE,IAAI,GAAG,CAAC,EAAE;wBAAE,sBAAO,GAAG,CAAC,IAAI,EAAE,EAAA;oBAC7B,IAAI,GAAG,CAAC,MAAM,KAAK,GAAG;wBAAE,sBAAM;oBAE9B,MAAM,IAAI,KAAK,CAAC,gDAA8C,GAAG,CAAC,MAAQ,CAAC,CAAA;;;;CAC5E"}
+\ No newline at end of file
++{"version":3,"file":"api.js","sourceRoot":"","sources":["../../../src/twitter/api.ts"],"names":[],"mappings":"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"}
+\ No newline at end of file
+diff --git a/node_modules/static-tweets/src/twitter/api.ts b/node_modules/static-tweets/src/twitter/api.ts
+index cc4a72f..d81a540 100644
+--- a/node_modules/static-tweets/src/twitter/api.ts
++++ b/node_modules/static-tweets/src/twitter/api.ts
+@@ -1,4 +1,6 @@
+-import fetch from '../fetch'
++//import fetch from '../fetch'
++import fetch from 'isomorphic-fetch';
++import { HttpsProxyAgent } from 'https-proxy-agent';
+ 
+ const API_URL = 'https://api.twitter.com'
+ const SYNDICATION_URL = 'https://syndication.twitter.com'
+@@ -13,7 +15,8 @@ function twitterLabsEnabled(expansions) {
+ }
+ 
+ export async function fetchTweetsHtml(ids) {
+-  const res = await fetch(`${SYNDICATION_URL}/tweets.json?ids=${ids}`)
++  const proxy = process.env.https_proxy;
++  const res = await fetch(`${SYNDICATION_URL}/tweets.json?ids=${ids}`, proxy ? { agent: new HttpsProxyAgent(proxy) } : {})
+ 
+   if (res.ok) return res.json()
+   if (res.status === 404) return {}
+@@ -32,14 +35,17 @@ export async function fetchUserStatus(tweetId) {
+   // If there isn't an API token don't do anything, this is only required for videos.
+   if (!process.env.TWITTER_ACCESS_TOKEN) return
+ 
+-  const res = await fetch(
+-    `${API_URL}/1.1/statuses/show/${tweetId}.json?include_entities=true&tweet_mode=extended`,
+-    {
+-      headers: {
+-        authorization: `Bearer ${process.env.TWITTER_ACCESS_TOKEN}`
+-      }
++  const proxy = process.env.https_proxy;
++  const res = await fetch(`${API_URL}/1.1/statuses/show/${tweetId}.json?include_entities=true&tweet_mode=extended`, proxy ? {
++    headers: {
++      authorization: `Bearer ${process.env.TWITTER_ACCESS_TOKEN}`
++    },
++    agent: new HttpsProxyAgent(proxy)
++  } : {
++    headers: {
++      authorization: `Bearer ${process.env.TWITTER_ACCESS_TOKEN}`
+     }
+-  )
++  })
+ 
+   console.log(
+     'Twitter x-rate-limit-limit:',
+@@ -68,14 +74,18 @@ export async function fetchTweetWithPoll(tweetId) {
+   if (!process.env.TWITTER_ACCESS_TOKEN || !twitterLabsEnabled(expansions))
+     return
+ 
+-  const res = await fetch(
+-    `${API_URL}/labs/1/tweets?format=compact&expansions=${expansions}&ids=${tweetId}`,
+-    {
+-      headers: {
+-        authorization: `Bearer ${process.env.TWITTER_ACCESS_TOKEN}`
+-      }
++  const proxy = process.env.https_proxy;
++  const res = await fetch(`${API_URL}/labs/1/tweets?format=compact&expansions=${expansions}&ids=${tweetId}`, proxy ? {
++    headers: {
++      authorization: `Bearer ${process.env.TWITTER_ACCESS_TOKEN}`
++    },
++    agent: new HttpsProxyAgent(proxy)
++  } : {
++    headers: {
++      authorization: `Bearer ${process.env.TWITTER_ACCESS_TOKEN}`
+     }
+-  )
++  })
++
+ 
+   console.log(
+     'Twitter Labs x-rate-limit-limit:',
+@@ -99,7 +109,8 @@ export async function fetchTweetWithPoll(tweetId) {
+ }
+ 
+ export async function getEmbeddedTweetHtml(url) {
+-  const res = await fetch(`https://publish.twitter.com/oembed?url=${url}`)
++  const proxy = process.env.https_proxy;
++  const res = await fetch(`https://publish.twitter.com/oembed?url=${url}`, proxy ? { agent: new HttpsProxyAgent(proxy) } : {})
+ 
+   if (res.ok) return res.json()
+   if (res.status === 404) return

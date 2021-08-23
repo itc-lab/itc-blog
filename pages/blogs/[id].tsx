@@ -20,6 +20,7 @@ import useMobileDevice from '../../hooks/useMobileDevice';
 import MobileShare from '../../components/mobileShare';
 import tocbot from 'tocbot';
 import { OpenGraphImages } from 'next-seo/lib/types';
+import { HttpsProxyAgent } from 'https-proxy-agent';
 
 interface Tweet {
   id: string;
@@ -224,9 +225,8 @@ const Page: NextPage<Props> = ({ blog, tweets }) => {
                 </label>
                 {isCheck && (
                   <div
-                    className={`menuWrapper ${
-                      isCheck ? 'menuWrapper__active' : ''
-                    }`}
+                    className={`menuWrapper ${isCheck ? 'menuWrapper__active' : ''
+                      }`}
                     onClick={(e) => {
                       closeWithClickOutSideMethod(e, setCheckbox);
                     }}>
@@ -420,8 +420,12 @@ export const getStaticProps: GetStaticProps<Props, Slug> = async ({
 
   const header: HeadersInit = new Headers();
   header.set('X-API-KEY', process.env.API_KEY || '');
-  const key = {
+  const proxy = process.env.https_proxy;
+  const key = proxy ? {
     headers: header,
+    agent: new HttpsProxyAgent(proxy)
+  } : {
+    headers: header
   };
   const data: Content = await fetch(`${process.env.API_URL}contents/` + id, key)
     .then((res) => res.json())
@@ -454,8 +458,12 @@ export const getStaticProps: GetStaticProps<Props, Slug> = async ({
 export const getStaticPaths: GetStaticPaths<Slug> = async () => {
   const header: HeadersInit = new Headers();
   header.set('X-API-KEY', process.env.API_KEY || '');
-  const key = {
+  const proxy = process.env.https_proxy;
+  const key = proxy ? {
     headers: header,
+    agent: new HttpsProxyAgent(proxy)
+  } : {
+    headers: header
   };
   const data: ContentRootObject = await fetch(
     `${process.env.API_URL}contents?limit=9999&fields=id`,
