@@ -15,6 +15,12 @@ export const Header: FC<Props> = ({ title }) => {
       <link rel="manifest" href="/site.webmanifest" />
       <link rel="apple-touch-icon" href="/icon.png" />
       <meta name="theme-color" content="#2563eb" />
+      {process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION_META_CODE && (
+        <meta
+          name="google-site-verification"
+          content={process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION_META_CODE}
+        />
+      )}
     </Head>
   );
 };

@@ -1,6 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
-
+const generateSiteVerification = require('./scripts/generate-site-verification');
 module.exports = {
   webpack5: true,
   sassOptions: {
@@ -20,6 +19,10 @@ module.exports = {
       test: /\.ya?ml$/,
       use: 'js-yaml-loader',
     });
+
+    if (isServer) {
+      generateSiteVerification();
+    }
 
     return config;
   },
