@@ -67,7 +67,7 @@ const IndexContent: FC<Props> = ({ content }) => {
     <article
       id={`blogs${content.id}`}
       className="flex border-t border-gray-400 p-2 iphone:p-4 items-center">
-      <Link href={'/blogs/[id]'} as={`/blogs/${content.id}`}>
+      <Link href={'/blogs/[id]'} as={`/blogs/${content.id}`} prefetch={false}>
         <a className="hidden iphone:flex mr-4 border border-black iphone:w-16 iphone:h-16 md:w-24 md:h-24 flex items-center justify-center rounded-lg">
           <div className="m-1 relative iphone:w-16 iphone:h-16 md:w-24 md:h-24">
             <Image
@@ -128,7 +128,10 @@ const IndexContent: FC<Props> = ({ content }) => {
           </div>
         </header>
         <h2 className="mt-1 p-0 mb-1">
-          <Link href={'/blogs/[id]'} as={`/blogs/${content.id}`}>
+          <Link
+            href={'/blogs/[id]'}
+            as={`/blogs/${content.id}`}
+            prefetch={false}>
             <a className="text-base md:text-lg font-bold mb-1 text-black leading-normal break-all no-underline hover:underline focus:underline cursor-pointer">
               {content.title}
             </a>
@@ -154,7 +157,8 @@ const IndexContent: FC<Props> = ({ content }) => {
                   <Link
                     key={`list1${value.id}`}
                     href={'/list/[[...slug]]'}
-                    as={`/list/1/${value.id}`}>
+                    as={`/list/1/${value.id}`}
+                    prefetch={false}>
                     <a
                       key={`list${index}`}
                       className="text-gray-700 mr-2 text-xs md:text-sm leading-relaxed no-underline hover:underline focus:underline cursor-pointer">

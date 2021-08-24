@@ -175,7 +175,7 @@ const Page: NextPage<Props> = ({
           <div className="flex items-center h-10">
             <div
               style={{ position: 'relative', width: '230px', height: '80%' }}>
-              <Link href={'/'} as={'/'}>
+              <Link href={'/'} as={'/'} prefetch={false}>
                 <a>
                   <Image
                     src={settings.blogs[0].logo}
@@ -203,7 +203,7 @@ const Page: NextPage<Props> = ({
                       width: '100%',
                       height: '100%',
                     }}>
-                    <Link href={'/'} as={'/'}>
+                    <Link href={'/'} as={'/'} prefetch={false}>
                       <a>
                         <Image
                           src={settings.general[0].logo}
@@ -317,27 +317,29 @@ export const getStaticProps: GetStaticProps<Props, Slug> = async ({
   const header: HeadersInit = new Headers();
   header.set('X-API-KEY', process.env.API_KEY || '');
   const proxy = process.env.https_proxy;
-  const key = proxy ? {
-    headers: header,
-    agent: new HttpsProxyAgent(proxy)
-  } : {
-    headers: header
-  };
+  const key = proxy
+    ? {
+        headers: header,
+        agent: new HttpsProxyAgent(proxy),
+      }
+    : {
+        headers: header,
+      };
   const offset = page ? (parseInt(page) - 1) * settings.general[0].per_page : 0;
   //topic_idがundefinedの場合、全データページ切り替え
   const contents: ContentRootObject = !topic_id
     ? await fetch(
-      `${process.env.API_URL}contents?offset=${offset}&limit=${settings.general[0].per_page}&orders=-publishedAt`,
-      key
-    )
-      .then((res) => res.json())
-      .catch(() => null)
+        `${process.env.API_URL}contents?offset=${offset}&limit=${settings.general[0].per_page}&orders=-publishedAt`,
+        key
+      )
+        .then((res) => res.json())
+        .catch(() => null)
     : await fetch(
-      `${process.env.API_URL}contents?offset=${offset}&limit=${settings.general[0].per_page}&filters=topics[contains]${topic_id}`,
-      key
-    )
-      .then((res) => res.json())
-      .catch(() => null);
+        `${process.env.API_URL}contents?offset=${offset}&limit=${settings.general[0].per_page}&filters=topics[contains]${topic_id}`,
+        key
+      )
+        .then((res) => res.json())
+        .catch(() => null);
   const topics: TopicRootObject = await fetch(
     `${process.env.API_URL}topics?limit=9999`,
     key
@@ -385,12 +387,14 @@ export const getStaticPaths: GetStaticPaths<Slug> = async () => {
   const header: HeadersInit = new Headers();
   header.set('X-API-KEY', process.env.API_KEY || '');
   const proxy = process.env.https_proxy;
-  const key = proxy ? {
-    headers: header,
-    agent: new HttpsProxyAgent(proxy)
-  } : {
-    headers: header
-  };
+  const key = proxy
+    ? {
+        headers: header,
+        agent: new HttpsProxyAgent(proxy),
+      }
+    : {
+        headers: header,
+      };
   const total_count_data: ContentRootObject = await fetch(
     `${process.env.API_URL}contents/?limit=0`,
     key

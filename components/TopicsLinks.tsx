@@ -37,7 +37,8 @@ export const TopicsLinks: FC<Props> = ({ topics }) => {
             <Link
               key={`TopicsLinkslist1${value.id}`}
               href={'/list/[[...slug]]'}
-              as={`/list/1/${value.id}`}>
+              as={`/list/1/${value.id}`}
+              prefetch={false}>
               <a className="text-gray-700 mr-2 text-xs md:text-sm leading-relaxed no-underline hover:underline focus:underline cursor-pointer">
                 {value.topics}
                 {index !== last_index && ','}

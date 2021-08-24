@@ -178,7 +178,7 @@ const Page: NextPage<Props> = ({ blog, tweets }) => {
                 className="hidden md:flex"
                 style={{ position: 'relative', width: '230px', height: '80%' }}
                 onClick={() => setCheckbox(false)}>
-                <Link href={'/'} as={'/'}>
+                <Link href={'/'} as={'/'} prefetch={false}>
                   <a>
                     <Image
                       src={settings.blogs[0].logo}
@@ -192,7 +192,7 @@ const Page: NextPage<Props> = ({ blog, tweets }) => {
                 className="flex md:hidden"
                 style={{ position: 'relative', width: '45px', height: '70%' }}
                 onClick={() => setCheckbox(false)}>
-                <Link href={'/'} as={'/'}>
+                <Link href={'/'} as={'/'} prefetch={false}>
                   <a>
                     <Image
                       src={settings.blogs[0].logo_mini}
@@ -225,8 +225,9 @@ const Page: NextPage<Props> = ({ blog, tweets }) => {
                 </label>
                 {isCheck && (
                   <div
-                    className={`menuWrapper ${isCheck ? 'menuWrapper__active' : ''
-                      }`}
+                    className={`menuWrapper ${
+                      isCheck ? 'menuWrapper__active' : ''
+                    }`}
                     onClick={(e) => {
                       closeWithClickOutSideMethod(e, setCheckbox);
                     }}>
@@ -319,7 +320,7 @@ const Page: NextPage<Props> = ({ blog, tweets }) => {
                     <TwitterIcon twitter_href={twitter_href} />
                   </div>
                   <div>
-                    <Link href={'/'} as={'/'}>
+                    <Link href={'/'} as={'/'} prefetch={false}>
                       <button
                         onClick={() => scrollToTop()}
                         data-tip="記事一覧へ遷移">
@@ -421,12 +422,14 @@ export const getStaticProps: GetStaticProps<Props, Slug> = async ({
   const header: HeadersInit = new Headers();
   header.set('X-API-KEY', process.env.API_KEY || '');
   const proxy = process.env.https_proxy;
-  const key = proxy ? {
-    headers: header,
-    agent: new HttpsProxyAgent(proxy)
-  } : {
-    headers: header
-  };
+  const key = proxy
+    ? {
+        headers: header,
+        agent: new HttpsProxyAgent(proxy),
+      }
+    : {
+        headers: header,
+      };
   const data: Content = await fetch(`${process.env.API_URL}contents/` + id, key)
     .then((res) => res.json())
     .catch(() => null);
@@ -459,12 +462,14 @@ export const getStaticPaths: GetStaticPaths<Slug> = async () => {
   const header: HeadersInit = new Headers();
   header.set('X-API-KEY', process.env.API_KEY || '');
   const proxy = process.env.https_proxy;
-  const key = proxy ? {
-    headers: header,
-    agent: new HttpsProxyAgent(proxy)
-  } : {
-    headers: header
-  };
+  const key = proxy
+    ? {
+        headers: header,
+        agent: new HttpsProxyAgent(proxy),
+      }
+    : {
+        headers: header,
+      };
   const data: ContentRootObject = await fetch(
     `${process.env.API_URL}contents?limit=9999&fields=id`,
     key

@@ -32,7 +32,8 @@ export const Topics: FC<Props> = ({ title, topics }) => {
               <Link
                 key={value.id}
                 href={'/list/[[...slug]]'}
-                as={`/list/1/${value.id}`}>
+                as={`/list/1/${value.id}`}
+                prefetch={false}>
                 <a
                   key={`${value.id}1`}
                   className="items-center my-2 flex-1 min-w-1/2"
@@ -61,7 +62,8 @@ export const Topics: FC<Props> = ({ title, topics }) => {
               <Link
                 key={value.id}
                 href={'/list/[[...slug]]'}
-                as={`/list/1/${value.id}`}>
+                as={`/list/1/${value.id}`}
+                prefetch={false}>
                 <a
                   key={`${value.id}1`}
                   className="items-center my-2 flex-1 min-w-1/2"
@@ -94,7 +96,8 @@ export const Topics: FC<Props> = ({ title, topics }) => {
               <Link
                 key={value.id}
                 href={'/list/[[...slug]]'}
-                as={`/list/1/${value.id}`}>
+                as={`/list/1/${value.id}`}
+                prefetch={false}>
                 <a
                   key={`${value.id}1`}
                   className="items-center mt-1 flex-1 min-w-1/2 pr-1"
@@ -118,7 +121,8 @@ export const Topics: FC<Props> = ({ title, topics }) => {
               <Link
                 key={value.id}
                 href={'/list/[[...slug]]'}
-                as={`/list/1/${value.id}`}>
+                as={`/list/1/${value.id}`}
+                prefetch={false}>
                 <a
                   key={`${value.id}1`}
                   className="items-center mt-1 flex-1 min-w-1/2 pl-1"
@@ -142,7 +146,8 @@ export const Topics: FC<Props> = ({ title, topics }) => {
               <Link
                 key={value.id}
                 href={'/list/[[...slug]]'}
-                as={`/list/1/${value.id}`}>
+                as={`/list/1/${value.id}`}
+                prefetch={false}>
                 <a
                   key={`${value.id}1`}
                   className="items-center mt-1 flex-1 min-w-1/2 pr-1"
