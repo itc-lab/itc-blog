@@ -2,20 +2,20 @@ general:
   - url: https://itc-engineering-blog.netlify.app
     name: ITC Engineering Blog
     description: '豊田市のシステム開発会社 株式会社アイティーシーの技術情報発信ブログです。過去の知見、新たな知見を公開しています。ブログ自体のソースコードも公開しています。ご意見、ご感想は、お気軽にツイッターアカウントまで！'
-    logo: /ITC_Engineering_Blog1.svg
+    logo: /ITC_Engineering_Blog1.png
     hashtag: blog_itc
     per_page: 20
     github: https://github.com/itc-lab
     company_name: 株式会社アイティーシー
-    company_logo: /ITC_logo.svg
+    company_logo: /ITC_logo.png
     company_url: https://itccorporation.jp
     twitter_handle: '@blog_itc'
     twitter_site: '@blog_itc'
     twitter_cardtype: 'summary_large_image'
 blogs:
   - url: https://itc-engineering-blog.netlify.app/blogs
-    logo: /ITC_Engineering_Blog2.svg
-    logo_mini: /ITC_Engineering_Blog3.svg
+    logo: /ITC_Engineering_Blog2.png
+    logo_mini: /ITC_Engineering_Blog3.png
     description: ' - ITC Engineering Blog'
     type: article
     authors:
