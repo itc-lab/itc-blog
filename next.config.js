@@ -29,6 +29,6 @@ module.exports = {
   images: {
     domains: ['pbs.twimg.com'],
     loader: 'cloudinary',
-    path: process.env.CDN_URL,
+    path: process.env.NEXT_PUBLIC_CDN_URL,
   },
 };

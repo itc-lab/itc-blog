@@ -6,10 +6,19 @@ interface Props {
 }
 
 export const Header: FC<Props> = ({ title }) => {
+  const cdn_url = process.env.NEXT_PUBLIC_CDN_URL || '';
+  const cdn_match = cdn_url.match(/^https?:\/\/[^#?/]+/);
+  const cdn_origin = cdn_match !== null ? cdn_match[0] : '';
   return (
     <Head>
       <title>{title}</title>
       <link rel="icon" href="/favicon.ico" />
+      {process.env.NEXT_PUBLIC_CDN_URL && (
+        <>
+          <link rel="preconnect" href={cdn_origin} />
+          <link rel="dns-prefetch" href={cdn_origin} />
+        </>
+      )}
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <link rel="manifest" href="/site.webmanifest" />

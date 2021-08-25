@@ -18,6 +18,7 @@ import useMobileDevice from '../../hooks/useMobileDevice';
 import MobileShare from '../../components/mobileShare';
 import { OpenGraphImages } from 'next-seo/lib/types';
 import { HttpsProxyAgent } from 'https-proxy-agent';
+import Head from 'next/head';
 
 interface Tweet {
   id: string;
@@ -170,6 +171,15 @@ const Page: NextPage<Props> = ({
 
   return (
     <Layout title={title} seo_data={seo_data} seo_url={url}>
+      {!currentTopic && (
+        <Head>
+          <link
+            rel="preload"
+            href={process.env.NEXT_PUBLIC_CDN_URL + settings.general[0].logo}
+            as="image"
+          />
+        </Head>
+      )}
       <nav className="sticky top-0 bg-blue-600 text-white z-50 border-t border-b border-l-0 border-r-0 border-gray-200">
         <div className="max-w-screen-xl pl-2 iphone:pl-8 md:pl-16">
           <div className="flex items-center h-10">
