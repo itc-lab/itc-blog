@@ -43,7 +43,8 @@ export const Pagination: FC<Props> = ({
                   !currentTopic
                     ? `/list/${number}`
                     : `/list/${number}/${currentTopic.id}`
-                }`}>
+                }`}
+                prefetch={false}>
                 <a className="text-white flex justify-center items-center h-full no-underline">
                   {number}
                 </a>
@@ -61,7 +62,8 @@ export const Pagination: FC<Props> = ({
                   !currentTopic
                     ? `/list/${number}`
                     : `/list/${number}/${currentTopic.id}`
-                }`}>
+                }`}
+                prefetch={false}>
                 <a className="text-blue-700 flex justify-center items-center h-full no-underline">
                   {number}
                 </a>

@@ -113,7 +113,7 @@ NEXT_PUBLIC_CDN_URL=[CDN(Cloudinary) URL for images]
 NEXT_PUBLIC_GOOGLE_ANALYTICS_ID=[Google Analytics Tracking ID]
 NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION_META_CODE=[Google Search Console Site Verification Code for meta tag]
 GOOGLE_SITE_VERIFICATION_HTML_CODE=[Google Search Console Site Verification Code for html content]
-GOOGLE_SITE_VERIFICATION_HTML_FILE_NAME==[Google Search Console Site Verification html file name]
+GOOGLE_SITE_VERIFICATION_HTML_FILE_NAME=[Google Search Console Site Verification html file name]
 ```
 
 Run the following command on your local environment:
