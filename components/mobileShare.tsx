@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import * as gtag from '../lib/gtag';
+import * as gtag from '@utils/gtag';
 
 interface Props {
   postTitle: string;

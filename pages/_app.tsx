@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { AppProps } from 'next/app';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import usePageView from '../hooks/usePageView';
 import '../styles/globals.css';
 
@@ -12,12 +13,16 @@ import '../styles/toc/tocbot.scss';
 
 import 'react-static-tweets/styles.css';
 
+const queryClient = new QueryClient();
+
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
   usePageView();
   return (
     <>
       <DefaultSeo {...SEO} />
-      <Component {...pageProps} />
+      <QueryClientProvider client={queryClient}>
+        <Component {...pageProps} />
+      </QueryClientProvider>
     </>
   );
 };

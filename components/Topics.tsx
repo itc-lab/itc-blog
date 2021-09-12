@@ -1,20 +1,11 @@
 import React, { FC } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { ITopic } from '@types';
 
-interface Topic {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  revisedAt: string;
-  topics: string;
-  logo: string;
-  needs_title: boolean;
-}
 interface Props {
   title: string;
-  topics: Topic[];
+  topics: ITopic[];
 }
 export const Topics: FC<Props> = ({ title, topics }) => {
   const last_index = topics.length - 1;
@@ -25,7 +16,7 @@ export const Topics: FC<Props> = ({ title, topics }) => {
         {title}
       </div>
       <div className="flex justify-between flex-wrap text-sm">
-        {topics.map((value: Topic, index: number) => {
+        {topics.map((value: ITopic, index: number) => {
           if (index % 2 == 0 && value.needs_title) {
             //左側、文字有り
             return (

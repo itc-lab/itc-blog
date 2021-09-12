@@ -1,6 +1,6 @@
 # ITC Engineering Blog
 
-![itc-blog](https://user-images.githubusercontent.com/76575923/120254288-765b3700-c2c4-11eb-983e-f70353803fa4.gif)
+https://user-images.githubusercontent.com/76575923/132984785-a549c1a3-021f-433d-8798-3a2a67443411.mp4
 
 The Jamstack static site using [microCMS](https://microcms.io) and [Netlify](https://www.netlify.com).  
 Made with [Next.js](https://nextjs.org), [TypeScript](https://www.typescriptlang.org), [Tailwind CSS](https://tailwindcss.com), [PostCSS](https://postcss.org), [ESLint](https://eslint.org), [Prettier](https://prettier.io), Google Analytics
@@ -30,6 +30,7 @@ Access the following demo site:
   - [next-sitemap](https://github.com/iamvishnusankar/next-sitemap) generate sitemap(s) and robots.txt
 - Lint : Linter with [ESLint](https://eslint.org)
 - Formatter : Code formatted by [Prettier](https://prettier.io)
+- Site search : implemented in SSR, uses the microCMS API
 
 ## Requirements
 
@@ -114,6 +115,7 @@ NEXT_PUBLIC_GOOGLE_ANALYTICS_ID=[Google Analytics Tracking ID]
 NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION_META_CODE=[Google Search Console Site Verification Code for meta tag]
 GOOGLE_SITE_VERIFICATION_HTML_CODE=[Google Search Console Site Verification Code for html content]
 GOOGLE_SITE_VERIFICATION_HTML_FILE_NAME=[Google Search Console Site Verification html file name]
+NEXT_PUBLIC_BASEURL=[Base Url, e.g. https://itc-engineering-blog.netlify.app]
 ```
 
 Run the following command on your local environment:

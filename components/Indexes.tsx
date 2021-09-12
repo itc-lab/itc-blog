@@ -3,59 +3,27 @@ import Image from 'next/image';
 import { Jadate } from './Jadate';
 import { parseISO } from 'date-fns';
 import Link from 'next/link';
+import { IBlog, IBlogs, ITopic } from '@types';
 
-interface Category {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  revisedAt: string;
-  topics: string;
-  logo: string;
-  needs_title: boolean;
-}
-interface Topic {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  revisedAt: string;
-  topics: string;
-  logo: string;
-  needs_title: boolean;
-}
-interface Content {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  revisedAt: string;
-  title: string;
-  category: Category;
-  topics: Topic[];
-  content: string;
-  reflect_updatedAt: boolean;
-  reflect_revisedAt: boolean;
-}
-interface Props {
-  content: Content;
-}
-interface Contents {
-  contents: Content[];
-}
-
-export const Indexes: FC<Contents> = ({ contents }) => {
+export const Indexes: FC<IBlogs> = ({ contents }) => {
   return (
     <>
-      {contents.map((content: Content) => {
+      {contents.map((content) => {
         return (
           <IndexContent key={`IndexContent${content.id}`} content={content} />
         );
       })}
-      <div className="border-t border-gray-400 p-2 iphone:p-4"></div>
+      {contents && contents.length > 0 && (
+        <div className="border-t border-gray-400 p-2 iphone:p-4"></div>
+      )}
     </>
   );
 };
+
+interface Props {
+  content: IBlog;
+}
+
 const IndexContent: FC<Props> = ({ content }) => {
   const last_index = content.topics.length - 1;
   const update_timestamp =
@@ -152,7 +120,7 @@ const IndexContent: FC<Props> = ({ content }) => {
                   strokeWidth="2"
                   d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
               </svg>
-              {content.topics.map((value: Topic, index: number) => {
+              {content.topics.map((value: ITopic, index: number) => {
                 return (
                   <Link
                     key={`list1${value.id}`}

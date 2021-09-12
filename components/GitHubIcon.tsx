@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import '../settings.d.ts';
 import settings from '../settings.yml';
-import * as gtag from '../lib/gtag';
+import * as gtag from '@utils/gtag';
 
 export const GitHubIcon: FC = () => {
   const handleClick = () => {

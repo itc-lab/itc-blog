@@ -2,21 +2,12 @@ import React, { FC } from 'react';
 import '../settings.d.ts';
 import settings from '../settings.yml';
 import Link from 'next/link';
+import { ITopic } from '@types';
 
-interface Topic {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  revisedAt: string;
-  topics: string;
-  logo: string;
-  needs_title: boolean;
-}
 interface Props {
   thisPage: number;
   totalCount: number;
-  currentTopic?: Topic | null;
+  currentTopic?: ITopic | null;
 }
 
 export const Pagination: FC<Props> = ({

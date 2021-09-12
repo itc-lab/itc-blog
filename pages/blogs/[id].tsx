@@ -19,91 +19,25 @@ import { fetchTweetAst } from 'static-tweets';
 import useMobileDevice from '../../hooks/useMobileDevice';
 import MobileShare from '../../components/mobileShare';
 import tocbot from 'tocbot';
-import { OpenGraphImages } from 'next-seo/lib/types';
-import { HttpsProxyAgent } from 'https-proxy-agent';
-
-interface Tweet {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  revisedAt: string;
-  twitter_id: string;
-  caption: string;
-  memo: string;
-}
-
-interface TweetRootObject {
-  contents: Tweet[];
-  totalCount: number;
-  offset: number;
-  limit: number;
-}
-
-interface Category {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  revisedAt: string;
-  topics: string;
-  logo: string;
-  needs_title: boolean;
-}
-
-interface Topic {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  revisedAt: string;
-  topics: string;
-  logo: string;
-  needs_title: boolean;
-}
-
-interface Content {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  revisedAt?: string;
-  reflect_updatedAt?: boolean;
-  reflect_revisedAt?: boolean;
-  title: string;
-  category: Category;
-  topics: Topic[];
-  content: string;
-  description?: string;
-  seo_type?: string;
-  seo_authors?: { author: string }[];
-  seo_images?: OpenGraphImages[];
-  twitter_handle?: string;
-  twitter_site?: string;
-  twitter_cardtype?: string;
-}
-
-interface ContentRootObject {
-  contents: Content[];
-  totalCount: number;
-  offset: number;
-  limit: number;
-}
+import { useRouter } from 'next/dist/client/router';
+import { BlogService, IBlogService } from '@utils/BlogService';
+import { IBlog, ITweet, MicroCmsResponse } from '@types';
 
 interface Props {
-  blog: Content;
+  blog: IBlog;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   tweets: { id: string; ast: any }[];
 }
 
 type Slug = {
-  id: string[];
+  id: string;
 };
 
 const Page: NextPage<Props> = ({ blog, tweets }) => {
   const [isMobileOrTablet] = useMobileDevice();
 
   const [isCheck, setCheckbox] = useState(false);
+  const [isSearchModal, setSearchModal] = useState(false);
 
   const [isTooltipVisible, setTooltipVisibility] = useState(false);
   useEffect(() => {
@@ -112,7 +46,7 @@ const Page: NextPage<Props> = ({ blog, tweets }) => {
 
   if (typeof window !== 'undefined') {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const isBreakpoint = useMediaQuery(768);
+    const isBreakpoint = useMediaQuery(1024);
     if (!isBreakpoint && isCheck) {
       setCheckbox(false);
       tocbot.refresh();
@@ -139,6 +73,26 @@ const Page: NextPage<Props> = ({ blog, tweets }) => {
         setter(false);
       }, 500); //スクロール中に描画が起きると、エラーになるため、描画遅延
     }
+  };
+
+  const router = useRouter();
+  const onEnterKeyEvent = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!e.currentTarget.value.trim()) {
+      return;
+    }
+    if (e.key === 'Enter') {
+      router.push(`/search?q=${e.currentTarget.value}`);
+    }
+  };
+  const onClickSearchButton = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    const { value } = (e.currentTarget as HTMLButtonElement)
+      .previousElementSibling as HTMLInputElement;
+    if (!value.trim()) {
+      return;
+    }
+    router.push(`/search?q=${value}`);
   };
 
   const scrollToTop = () => {
@@ -172,8 +126,8 @@ const Page: NextPage<Props> = ({ blog, tweets }) => {
         seo_data={blog}
         seo_url={`${settings.blogs[0].url}/${blog.id}`}>
         <nav className="sticky top-0 bg-blue-600 text-white z-50 border-t border-b border-l-0 border-r-0 border-gray-200">
-          <div className="max-w-screen-xl pl-1 iphone:pl-8 md:pl-16">
-            <div className="flex items-center h-10">
+          <div className="max-w-screen-xl px-1 iphone:px-8 md:px-9 mx-auto">
+            <div className="flex items-center h-10 justify-between">
               <div
                 className="hidden md:flex"
                 style={{ position: 'relative', width: '230px', height: '80%' }}
@@ -205,8 +159,41 @@ const Page: NextPage<Props> = ({ blog, tweets }) => {
               <div className="ml-1 iphone:ml-2 md:ml-6 flex-1 text-sm truncate">
                 {blog.title}
               </div>
-              {/* ハンバーガーメニュー md:=幅768px 以上の時は表示しない。*/}
-              <div className="flex md:hidden items-center ml-2 pr-4 flex-shrink-0">
+              {/* サイト内検索 */}
+              <div className="hidden lg:flex border-2 rounded focus-within:ring focus-within:border-blue-300 text-gray-600 focus-within:text-black h-3/4">
+                <input
+                  type="text"
+                  className="px-2 py-2 w-48 text-black text-sm border-0 rounded-none focus:outline-none"
+                  placeholder="サイト内検索"
+                  onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) =>
+                    onEnterKeyEvent(e)
+                  }
+                />
+                <button
+                  className="flex items-center justify-center px-3 border-0 bg-white"
+                  onClick={(e) => onClickSearchButton(e)}>
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24">
+                    <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
+                  </svg>
+                </button>
+              </div>
+              <div
+                className="flex lg:hidden items-center mr-1"
+                onClick={() => setSearchModal(true)}>
+                <svg
+                  className="w-6 h-6 text-white cursor-pointer"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24">
+                  <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
+                </svg>
+              </div>
+              {/* ハンバーガーメニュー lg:=幅1024px 以上の時は表示しない。*/}
+              <div className="flex lg:hidden items-center ml-2 pr-4 flex-shrink-0">
                 <input
                   type="checkbox"
                   id="toggle"
@@ -243,6 +230,30 @@ const Page: NextPage<Props> = ({ blog, tweets }) => {
             </div>
           </div>
         </nav>
+
+        {isSearchModal && (
+          <div
+            className={`menuWrapper ${
+              isSearchModal ? 'menuWrapper__active' : ''
+            }`}
+            onClick={(e) => {
+              closeWithClickOutSideMethod(e, setSearchModal);
+            }}>
+            <form
+              className="block absolute top-12 right-0 left-0 z-50 w-11/12 my-0 mx-auto"
+              action="/search"
+              method="get">
+              <input
+                type="text"
+                className="w-full h-11 border border-solid border-gray-200 bg-white shadow text-base pl-2"
+                autoComplete="off"
+                placeholder="サイト内検索"
+                defaultValue=""
+                name="q"
+              />
+            </form>
+          </div>
+        )}
 
         <article className="bg-indigo-50">
           <header className="py-10">
@@ -384,10 +395,10 @@ const Page: NextPage<Props> = ({ blog, tweets }) => {
                 </div>
                 <ArticleFooter tweets={tweets} />
               </section>
-              <aside className="hidden md:block md:w-81">
+              <aside className="hidden lg:block lg:w-81">
                 <div className="h-full">
                   <Topics title="[関連技術]" topics={blog.topics} />
-                  {/* 目次は、md:=幅768px 未満になったら非表示にして、ハンバーガーメニューで対応*/}
+                  {/* 目次は、lg:=幅1024px 未満になったら非表示にして、ハンバーガーメニューで対応*/}
                   <div className="sticky top-20 right-bottom-div-h flex flex-col">
                     {!isCheck && (
                       <div className="mt-6 bg-white pt-5 px-5 pb-6 overflow-auto rounded-lg shadow">
@@ -419,26 +430,11 @@ export const getStaticProps: GetStaticProps<Props, Slug> = async ({
 }) => {
   const id = params?.id;
 
-  const header: HeadersInit = new Headers();
-  header.set('X-API-KEY', process.env.API_KEY || '');
-  const proxy = process.env.https_proxy;
-  const key = proxy
-    ? {
-        headers: header,
-        agent: new HttpsProxyAgent(proxy),
-      }
-    : {
-        headers: header,
-      };
-  const data: Content = await fetch(`${process.env.API_URL}contents/` + id, key)
-    .then((res) => res.json())
-    .catch(() => null);
-  const tweets_id_data: TweetRootObject = await fetch(
-    `${process.env.API_URL}twitter?limit=9999`,
-    key
-  )
-    .then((res) => res.json())
-    .catch(() => null);
+  const service: IBlogService = new BlogService();
+  //ブログ全件数取得。データは無くて良いので、limit=0。
+  const data: IBlog = await service.getBlogById(id);
+
+  const tweets_id_data: MicroCmsResponse<ITweet> = await service.getTweets();
   const twitter_ids: string[] = [];
   tweets_id_data.contents.forEach((content) =>
     twitter_ids.push(content.twitter_id)
@@ -459,23 +455,8 @@ export const getStaticProps: GetStaticProps<Props, Slug> = async ({
 };
 
 export const getStaticPaths: GetStaticPaths<Slug> = async () => {
-  const header: HeadersInit = new Headers();
-  header.set('X-API-KEY', process.env.API_KEY || '');
-  const proxy = process.env.https_proxy;
-  const key = proxy
-    ? {
-        headers: header,
-        agent: new HttpsProxyAgent(proxy),
-      }
-    : {
-        headers: header,
-      };
-  const data: ContentRootObject = await fetch(
-    `${process.env.API_URL}contents?limit=9999&fields=id`,
-    key
-  )
-    .then((res) => res.json())
-    .catch(() => null);
+  const service: IBlogService = new BlogService();
+  const data: MicroCmsResponse<{ id: string }> = await service.getBlogsIds();
   const paths = data.contents.map((content) => `/blogs/${content.id}`);
   return { paths, fallback: false };
 };

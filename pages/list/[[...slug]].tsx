@@ -16,121 +16,30 @@ import { fetchTweetAst } from 'static-tweets';
 import { ArticleFooter } from '../../components/ArticleFooter';
 import useMobileDevice from '../../hooks/useMobileDevice';
 import MobileShare from '../../components/mobileShare';
-import { OpenGraphImages } from 'next-seo/lib/types';
-import { HttpsProxyAgent } from 'https-proxy-agent';
 import Head from 'next/head';
-
-interface Tweet {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  revisedAt: string;
-  twitter_id: string;
-  caption: string;
-  memo: string;
-}
-
-interface TweetRootObject {
-  contents: Tweet[];
-  totalCount: number;
-  offset: number;
-  limit: number;
-}
-
-interface Category {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  revisedAt: string;
-  topics: string;
-  logo: string;
-  needs_title: boolean;
-}
-
-interface Topic {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  revisedAt: string;
-  topics: string;
-  logo: string;
-  needs_title: boolean;
-}
-
-interface TopicRootObject {
-  contents: Topic[];
-  totalCount: number;
-  offset: number;
-  limit: number;
-}
-
-interface TopicIDs {
-  contents: { id: string }[];
-  totalCount: number;
-  offset: number;
-  limit: number;
-}
-
-interface Content {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  revisedAt: string;
-  reflect_updatedAt: boolean;
-  reflect_revisedAt: boolean;
-  title: string;
-  category: Category;
-  topics: Topic[];
-  content: string;
-  seo_description: string;
-  seo_type: string;
-  seo_authors: string;
-  seo_images_url: string;
-  seo_images_width: string;
-  seo_images_height: string;
-  seo_images_alt: string;
-}
-
-interface ContentRootObject {
-  contents: Content[];
-  totalCount: number;
-  offset: number;
-  limit: number;
-}
+import { useRouter } from 'next/dist/client/router';
+import {
+  IBlog,
+  ITopic,
+  MicroCmsResponse,
+  ITweet,
+  SEO_DATA,
+} from '@/types/interface';
+import { IBlogService, BlogService } from '@utils/BlogService';
 
 interface Props {
-  contents: Content[];
-  topics: Topic[];
+  contents: IBlog[];
+  topics: ITopic[];
   totalCount: number;
   thisPage: number;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   tweets: { id: string; ast: any }[];
-  currentTopic?: Topic | null;
+  currentTopic: ITopic | null;
 }
 
 type Slug = {
   slug: string[];
 };
-
-interface SEO_DATA {
-  publishedAt: string;
-  updatedAt: string;
-  revisedAt?: string;
-  reflect_updatedAt?: boolean;
-  reflect_revisedAt?: boolean;
-  topics: Topic[];
-  description?: string;
-  seo_type?: string;
-  seo_authors?: { author: string }[];
-  seo_images?: OpenGraphImages[];
-  twitter_handle?: string;
-  twitter_site?: string;
-  twitter_cardtype?: string;
-}
 
 const Page: NextPage<Props> = ({
   contents,
@@ -140,6 +49,7 @@ const Page: NextPage<Props> = ({
   tweets,
   currentTopic,
 }) => {
+  const [isSearchModal, setSearchModal] = useState(false);
   const [isMobileOrTablet] = useMobileDevice();
   const [isTooltipVisible, setTooltipVisibility] = useState(false);
   useEffect(() => {
@@ -164,9 +74,42 @@ const Page: NextPage<Props> = ({
   const seo_data: SEO_DATA = {
     publishedAt: date.toISOString(),
     updatedAt: date.toISOString(),
+    revisedAt: date.toISOString(),
     description:
       thisPage === 1 && !currentTopic ? settings.general[0].description : '',
     topics: topics,
+  };
+
+  const router = useRouter();
+  const onEnterKeyEvent = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!e.currentTarget.value.trim()) {
+      return;
+    }
+    if (e.key === 'Enter') {
+      router.push(`/search?q=${e.currentTarget.value}`);
+    }
+  };
+  const onClickSearchButton = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    const { value } = (e.currentTarget as HTMLButtonElement)
+      .previousElementSibling as HTMLInputElement;
+    if (!value.trim()) {
+      return;
+    }
+    router.push(`/search?q=${value}`);
+  };
+
+  const closeWithClickOutSideMethod = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    setter: {
+      (value: React.SetStateAction<boolean>): void;
+      (arg0: boolean): void;
+    }
+  ) => {
+    if (e.target === e.currentTarget) {
+      setter(false);
+    }
   };
 
   return (
@@ -181,8 +124,8 @@ const Page: NextPage<Props> = ({
         </Head>
       )}
       <nav className="sticky top-0 bg-blue-600 text-white z-50 border-t border-b border-l-0 border-r-0 border-gray-200">
-        <div className="max-w-screen-xl pl-2 iphone:pl-8 md:pl-16">
-          <div className="flex items-center h-10">
+        <div className="max-w-screen-xl px-1 iphone:px-8 md:px-9 mx-auto">
+          <div className="flex items-center h-10 justify-between">
             <div
               style={{ position: 'relative', width: '230px', height: '80%' }}>
               <Link href={'/'} as={'/'} prefetch={false}>
@@ -195,9 +138,65 @@ const Page: NextPage<Props> = ({
                 </a>
               </Link>
             </div>
+            <div className="hidden lg:flex border-2 rounded focus-within:ring focus-within:border-blue-300 text-gray-600 focus-within:text-black h-3/4">
+              <input
+                type="text"
+                className="px-2 py-2 w-48 text-black text-sm border-0 rounded-none focus:outline-none"
+                placeholder="サイト内検索"
+                onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) =>
+                  onEnterKeyEvent(e)
+                }
+              />
+              <button
+                className="flex items-center justify-center px-3 border-0 bg-white"
+                onClick={(e) => onClickSearchButton(e)}>
+                <svg
+                  className="w-5 h-5"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24">
+                  <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
+                </svg>
+              </button>
+            </div>
+            <div
+              className="flex lg:hidden items-center mr-2 md:mr-10"
+              onClick={() => setSearchModal(true)}>
+              <svg
+                className="w-6 h-6 text-white cursor-pointer"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24">
+                <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
+              </svg>
+            </div>
           </div>
         </div>
       </nav>
+
+      {isSearchModal && (
+        <div
+          className={`menuWrapper ${
+            isSearchModal ? 'menuWrapper__active' : ''
+          }`}
+          onClick={(e) => {
+            closeWithClickOutSideMethod(e, setSearchModal);
+          }}>
+          <form
+            className="block absolute top-12 right-0 left-0 z-50 w-11/12 my-0 mx-auto"
+            action="/search"
+            method="get">
+            <input
+              type="text"
+              className="w-full h-11 border border-solid border-gray-200 bg-white shadow text-base pl-2"
+              autoComplete="off"
+              placeholder="サイト内検索"
+              defaultValue=""
+              name="q"
+            />
+          </form>
+        </div>
+      )}
 
       <article className="bg-indigo-50">
         <header className="py-10">
@@ -304,7 +303,7 @@ const Page: NextPage<Props> = ({
               />
               <ArticleFooter tweets={tweets} />
             </section>
-            <aside className="hidden md:block md:w-81">
+            <aside className="hidden lg:block lg:w-81">
               <div className="h-full">
                 <Topics title="[関連技術で絞り込み]" topics={topics} />
               </div>
@@ -320,57 +319,31 @@ const Page: NextPage<Props> = ({
     </Layout>
   );
 };
+
 export const getStaticProps: GetStaticProps<Props, Slug> = async ({
   params,
 }) => {
   const [page, topic_id] = !params ? ['1'] : [params.slug[0], params.slug[1]];
-  const header: HeadersInit = new Headers();
-  header.set('X-API-KEY', process.env.API_KEY || '');
-  const proxy = process.env.https_proxy;
-  const key = proxy
-    ? {
-        headers: header,
-        agent: new HttpsProxyAgent(proxy),
-      }
-    : {
-        headers: header,
-      };
-  const offset = page ? (parseInt(page) - 1) * settings.general[0].per_page : 0;
-  //topic_idがundefinedの場合、全データページ切り替え
-  const contents: ContentRootObject = !topic_id
-    ? await fetch(
-        `${process.env.API_URL}contents?offset=${offset}&limit=${settings.general[0].per_page}&orders=-publishedAt`,
-        key
-      )
-        .then((res) => res.json())
-        .catch(() => null)
-    : await fetch(
-        `${process.env.API_URL}contents?offset=${offset}&limit=${settings.general[0].per_page}&filters=topics[contains]${topic_id}`,
-        key
-      )
-        .then((res) => res.json())
-        .catch(() => null);
-  const topics: TopicRootObject = await fetch(
-    `${process.env.API_URL}topics?limit=9999`,
-    key
-  )
-    .then((res) => res.json())
-    .catch(() => null);
+  //const offset = page ? (parseInt(page) - 1) * settings.general[0].per_page : 0;
+
+  const service: IBlogService = new BlogService();
+  const contents: MicroCmsResponse<IBlog> = !topic_id
+    ? await service.getBlogs(settings.general[0].per_page, parseInt(page)) //topic_idがundefinedの場合、全ブログ
+    : //topic_idがある場合、topic_idで絞り込み
+      await service.getBlogsByTopicId(
+        settings.general[0].per_page,
+        parseInt(page),
+        topic_id
+      );
+
+  const topics: MicroCmsResponse<ITopic> = await service.getTopics();
+
   //topic_idがある場合、関連技術で絞り込み
-  const currentTopic: TopicRootObject =
-    topic_id &&
-    (await fetch(
-      `${process.env.API_URL}topics?filters=id[equals]${topic_id}`,
-      key
-    )
-      .then((res) => res.json())
-      .catch(() => null));
-  const tweets_id_data: TweetRootObject = await fetch(
-    `${process.env.API_URL}twitter?limit=9999`,
-    key
-  )
-    .then((res) => res.json())
-    .catch(() => null);
+  const currentTopic: ITopic | null = topic_id
+    ? await service.getTopicById(topic_id)
+    : null;
+
+  const tweets_id_data: MicroCmsResponse<ITweet> = await service.getTweets();
   const twitter_ids: string[] = [];
   tweets_id_data.contents.forEach((content) =>
     twitter_ids.push(content.twitter_id)
@@ -381,57 +354,40 @@ export const getStaticProps: GetStaticProps<Props, Slug> = async ({
       return { id, ast };
     })
   );
+
   const props = {
     contents: contents.contents,
     topics: topics.contents,
     totalCount: contents.totalCount,
     thisPage: parseInt(page),
     tweets,
-    currentTopic: topic_id ? currentTopic.contents[0] : null,
+    currentTopic,
   };
   return {
     props: props,
   };
 };
+
 export const getStaticPaths: GetStaticPaths<Slug> = async () => {
-  const header: HeadersInit = new Headers();
-  header.set('X-API-KEY', process.env.API_KEY || '');
-  const proxy = process.env.https_proxy;
-  const key = proxy
-    ? {
-        headers: header,
-        agent: new HttpsProxyAgent(proxy),
-      }
-    : {
-        headers: header,
-      };
-  const total_count_data: ContentRootObject = await fetch(
-    `${process.env.API_URL}contents/?limit=0`,
-    key
-  ) //データは無くて良いので、limit=0
-    .then((res) => res.json())
-    .catch(() => null);
+  const service: IBlogService = new BlogService();
+  //ブログ全件数取得。データは無くて良いので、limit=0。
+  const total_count: number = await service.getBlogsCount();
   const total_pages: number = Math.ceil(
-    total_count_data.totalCount / settings.general[0].per_page
-  ); //coutPosts=全記事数を返す。pages=ページ数
+    total_count / settings.general[0].per_page
+  );
   const paths = Array.from(Array(total_pages).keys()).map((it) => ({
     params: { slug: [(it + 1).toString()] },
   }));
-  const topics_id_data: TopicIDs = await fetch(
-    `${process.env.API_URL}topics?limit=9999&fields=id`,
-    key
-  ) //関連技術のidだけ抽出
-    .then((res) => res.json())
-    .catch(() => null);
+  //関連技術のIDだけ取得
+  const topics_id_data: MicroCmsResponse<{ id: string }> =
+    await service.getTopicsIds();
   for (const topic of topics_id_data.contents) {
-    const topic_posts = await fetch(
-      `${process.env.API_URL}contents?limit=0&filters=topics[contains]${topic.id}`,
-      key
-    )
-      .then((res) => res.json())
-      .catch(() => null);
+    //関連技術に関連する記事の件数だけ取得。データは無くて良いので、limit=0。
+    const topic_posts_count: number = await service.getBlogsCountByTopicId(
+      topic.id
+    );
     const topic_pages = Math.ceil(
-      topic_posts.totalCount / settings.general[0].per_page
+      topic_posts_count / settings.general[0].per_page
     );
     for (let i = 0; i < topic_pages; i++) {
       paths.push({

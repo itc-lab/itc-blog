@@ -13,6 +13,7 @@ declare module '*.yml' {
     twitter_handle: string;
     twitter_site: string;
     twitter_cardtype: string;
+    search_result_title: string;
   }
 
   interface Image {

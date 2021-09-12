@@ -12,6 +12,7 @@ general:
     twitter_handle: '@blog_itc'
     twitter_site: '@blog_itc'
     twitter_cardtype: 'summary_large_image'
+    search_result_title: 'ITC Engineering Blog 検索結果'
 blogs:
   - url: https://itc-engineering-blog.netlify.app/blogs
     logo: /ITC_Engineering_Blog2.png
