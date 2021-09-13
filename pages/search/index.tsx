@@ -76,18 +76,24 @@ const Page: NextPage<Props> = ({ blogs, query }) => {
       <nav className="sticky top-0 bg-blue-600 text-white z-50 border-t border-b border-l-0 border-r-0 border-gray-200">
         <div className="max-w-screen-xl px-1 iphone:px-8 md:px-9 mx-auto">
           <div className="flex items-center h-10 justify-between">
-            <div
-              style={{ position: 'relative', width: '230px', height: '80%' }}>
-              <Link href={'/'} as={'/'} prefetch={false}>
-                <a>
+            <Link href={'/'} as={'/'} prefetch={false}>
+              <a className="h-full">
+                <div
+                  className="relative"
+                  style={{
+                    width: '230px',
+                    height: '80%',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                  }}>
                   <Image
                     src={settings.blogs[0].logo}
                     layout="fill"
                     objectFit="contain"
                   />
-                </a>
-              </Link>
-            </div>
+                </div>
+              </a>
+            </Link>
           </div>
         </div>
       </nav>
@@ -95,24 +101,20 @@ const Page: NextPage<Props> = ({ blogs, query }) => {
         <header className="py-10">
           <div className="max-w-screen-xl m-auto px-10">
             <div className="relative text-center">
-              <div className="flex items-center justify-center h-40">
-                <div
-                  style={{
-                    position: 'relative',
-                    width: '100%',
-                    height: '100%',
-                  }}>
-                  <Link href={'/'} as={'/'} prefetch={false}>
-                    <a>
+              <div className="inline-block h-40 w-80">
+                <Link href={'/'} as={'/'} prefetch={false}>
+                  <a>
+                    <div className="relative h-full">
                       <Image
                         src={settings.general[0].logo}
                         layout="fill"
                         objectFit="contain"
                       />
-                    </a>
-                  </Link>
-                </div>
+                    </div>
+                  </a>
+                </Link>
               </div>
+              <br />
               <div className="inline-block text-left text-4xl mt-1 mb-0 leading-normal max-w-screen-md">
                 [検索結果]
               </div>
@@ -176,7 +178,7 @@ const Page: NextPage<Props> = ({ blogs, query }) => {
           </div>
           <div className="flex justify-between">
             <section className="content-area m-0">
-              <div className="bg-white rounded-lg shadow py-10 text-sm md:text-base">
+              <div className="bg-white rounded-lg shadow pt-3 pb-8 md:pt-5 md:pb-10 lg:pt-10 lg:pb-10 text-sm md:text-base">
                 <div className="max-w-screen-lg m-auto px-2 iphone:px-6 md:px-10">
                   <div className="overflow-hidden">
                     {!data ||

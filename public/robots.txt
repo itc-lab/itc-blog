@@ -3,4 +3,4 @@ User-agent: *
 Disallow: /search?q=
 Allow: /
 
-Sitemap: https://itc-engineering-blog.netlify.app/sitemap.xml
+Sitemap: https://itc-engineering-blog.netlify.app/site-map.xml

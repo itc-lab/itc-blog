@@ -128,34 +128,43 @@ const Page: NextPage<Props> = ({ blog, tweets }) => {
         <nav className="sticky top-0 bg-blue-600 text-white z-50 border-t border-b border-l-0 border-r-0 border-gray-200">
           <div className="max-w-screen-xl px-1 iphone:px-8 md:px-9 mx-auto">
             <div className="flex items-center h-10 justify-between">
-              <div
-                className="hidden md:flex"
-                style={{ position: 'relative', width: '230px', height: '80%' }}
-                onClick={() => setCheckbox(false)}>
-                <Link href={'/'} as={'/'} prefetch={false}>
-                  <a>
+              <Link href={'/'} as={'/'} prefetch={false}>
+                <a className="hidden lg:flex h-full">
+                  <div
+                    className="relative"
+                    style={{
+                      width: '230px',
+                      height: '80%',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                    }}>
                     <Image
                       src={settings.blogs[0].logo}
                       layout="fill"
                       objectFit="contain"
                     />
-                  </a>
-                </Link>
-              </div>
-              <div
-                className="flex md:hidden"
-                style={{ position: 'relative', width: '45px', height: '70%' }}
-                onClick={() => setCheckbox(false)}>
-                <Link href={'/'} as={'/'} prefetch={false}>
-                  <a>
+                  </div>
+                </a>
+              </Link>
+              <Link href={'/'} as={'/'} prefetch={false}>
+                <a
+                  className="relative lg:hidden"
+                  style={{
+                    width: '45px',
+                    height: '70%',
+                  }}>
+                  <div
+                    className="relative h-full"
+                    onClick={() => setCheckbox(false)}>
                     <Image
                       src={settings.blogs[0].logo_mini}
                       layout="fill"
                       objectFit="contain"
                     />
-                  </a>
-                </Link>
-              </div>
+                  </div>
+                </a>
+              </Link>
+
               <div className="ml-1 iphone:ml-2 md:ml-6 flex-1 text-sm truncate">
                 {blog.title}
               </div>
@@ -364,7 +373,7 @@ const Page: NextPage<Props> = ({ blog, tweets }) => {
             </div>
             <div className="flex justify-between">
               <section className="content-area m-0">
-                <div className="bg-white rounded-lg shadow py-10 text-sm md:text-base">
+                <div className="bg-white rounded-lg shadow pt-3 pb-8 md:pt-5 md:pb-10 lg:pt-10 lg:pb-10 text-sm md:text-base">
                   <div className="max-w-screen-lg m-auto px-2 iphone:px-6 md:px-10">
                     <TopicsLinks topics={blog.topics} />
                     <div id="toc-target-content">
