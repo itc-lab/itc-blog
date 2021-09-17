@@ -14,17 +14,18 @@ export const Footer: FC = () => {
           <span className="hidden iphone:inline">produced by </span>
         </div>
         <div className="h-4">
-          <div style={{ position: 'relative', width: '50px', height: '100%' }}>
-            <a
-              className="text-gray-800 hover:text-pink-800"
-              href={settings.general[0].company_url}>
+          <a
+            className="text-gray-800 hover:text-pink-800"
+            href={settings.general[0].company_url}>
+            <div
+              style={{ position: 'relative', width: '50px', height: '100%' }}>
               <Image
                 src={settings.general[0].company_logo}
                 layout="fill"
                 objectFit="contain"
               />
-            </a>
-          </div>
+            </div>
+          </a>
         </div>
         <div>
           <a

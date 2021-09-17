@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NextPage, GetServerSideProps } from 'next';
+import { NextPage } from 'next';
 import { Layout } from '../../components/Layout';
 import ReactTooltip from 'react-tooltip';
 import Image from 'next/image';
@@ -10,30 +10,60 @@ import { Topics } from '../../components/Topics';
 import { Indexes } from '../../components/Indexes';
 import Link from 'next/link';
 import Head from 'next/head';
-import { IBlogService, BlogService } from '@utils/BlogService';
-import { IBlog, ITopic, MicroCmsResponse, SEO_DATA } from '@types';
-import { useSearchByQuery } from '@hooks/useSearchByQuery';
+import { BlogService } from '@utils/BlogService';
+import { ITopic, SEO_DATA } from '@types';
+import { useQuery } from 'react-query';
+import FadeLoader from 'react-spinners/FadeLoader';
+import { useRouter } from 'next/router';
 
-type Props = {
-  blogs: MicroCmsResponse<IBlog>;
-  query: string;
-};
+const Page: NextPage = () => {
+  const router = useRouter();
 
-const Page: NextPage<Props> = ({ blogs, query }) => {
-  const {
-    searchValue,
-    setSearchValue,
-    onEnterKeyEvent,
-    onClickSearchButton,
-    data,
-  } = useSearchByQuery(query, blogs);
+  const [searchValue, setSearchValue] = useState<string>();
+
+  useEffect(() => {
+    if (!router.isReady) return;
+    const { q } = router.query;
+    setSearchValue(q as string);
+  }, [router.isReady, router.query]);
+
+  const { isLoading, data } = useQuery(
+    ['blogs', searchValue],
+    async (context) => {
+      return await new BlogService().getBlogsByQuery(
+        context.queryKey[1] as string
+      );
+    },
+    {
+      staleTime: Infinity,
+      enabled: searchValue ? true : false,
+    }
+  );
+
+  const onEnterKeyEvent = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!e.currentTarget.value.trim()) return;
+    if (e.key === 'Enter') {
+      setSearchValue(e.currentTarget.value);
+    }
+  };
+
+  const onClickSearchButton = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    const { value } = (e.currentTarget as HTMLButtonElement)
+      .previousElementSibling as HTMLInputElement;
+    if (!value.trim()) {
+      return;
+    }
+    setSearchValue(value);
+  };
 
   const [isTooltipVisible, setTooltipVisibility] = useState(false);
   useEffect(() => {
     setTooltipVisibility(true);
   }, []);
-  const title = `「${query}」の検索結果 - ${settings.general[0].name}`;
-  const url = `${settings.general[0].url}/search?q=${query}`;
+  const title = `「${searchValue}」の検索結果 - ${settings.general[0].name}`;
+  const url = `${settings.general[0].url}/search?q=${searchValue}`;
 
   const date = new Date();
   const seo_data: SEO_DATA = {
@@ -126,10 +156,9 @@ const Page: NextPage<Props> = ({ blogs, query }) => {
           <div className="flex w-full max-w-screen-sm border-2 rounded focus-within:ring focus-within:border-blue-300 text-gray-600 focus-within:text-black">
             <input
               type="text"
-              value={searchValue}
+              defaultValue={searchValue}
               className="w-full px-2 py-2 text-black border-0 rounded-none focus:outline-none"
               placeholder="サイト内検索"
-              onChange={(e) => setSearchValue(e.target.value)}
               onKeyPress={(e) => onEnterKeyEvent(e)}
             />
             <button
@@ -180,6 +209,15 @@ const Page: NextPage<Props> = ({ blogs, query }) => {
             <section className="content-area m-0">
               <div className="bg-white rounded-lg shadow pt-3 pb-8 md:pt-5 md:pb-10 lg:pt-10 lg:pb-10 text-sm md:text-base">
                 <div className="max-w-screen-lg m-auto px-2 iphone:px-6 md:px-10">
+                  {isLoading && (
+                    <div className="text-center h-20">
+                      <div className="inline-block">
+                        <div className="relative" style={{ left: '-20px' }}>
+                          <FadeLoader color={'#4A90E2'} loading={isLoading} />
+                        </div>
+                      </div>
+                    </div>
+                  )}
                   <div className="overflow-hidden">
                     {!data ||
                       (data.contents.length === 0 && (
@@ -193,7 +231,19 @@ const Page: NextPage<Props> = ({ blogs, query }) => {
             </section>
             <aside className="hidden lg:block lg:w-81">
               <div className="h-full">
-                <Topics title="[関連技術で絞り込み]" topics={topics} />
+                {!isLoading && (
+                  <Topics title="[関連技術で絞り込み]" topics={topics} />
+                )}
+                {isLoading && (
+                  <div className="mb-6 pt-4 px-5 pb-6 text-xs md:text-sm bg-white rounded-lg shadow">
+                    <div className="font-sans text-sm md:text-base leading-normal font-bold mb-1 h-28">
+                      [関連技術で絞り込み]
+                      <br />
+                      <br />
+                      <FadeLoader color={'#4A90E2'} loading={isLoading} />
+                    </div>
+                  </div>
+                )}
               </div>
             </aside>
           </div>
@@ -206,18 +256,6 @@ const Page: NextPage<Props> = ({ blogs, query }) => {
       }
     </Layout>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const query = context.query.q;
-  const service: IBlogService = new BlogService();
-  const blogs = await service.getBlogsByQuery(query as string);
-  return {
-    props: {
-      blogs: blogs,
-      query: query,
-    },
-  };
 };
 
 export default Page;
