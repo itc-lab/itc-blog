@@ -286,9 +286,9 @@ const Page: NextPage<Props> = ({ blog, tweets }) => {
                   </div>
                 </div>
                 {/* タイトル表示 */}
-                <div className="inline-block text-left text-2xl iphone:text-3xl md:text-4xl mt-1 mb-0 leading-normal max-w-screen-md">
+                <h1 className="inline-block text-left text-2xl iphone:text-3xl md:text-4xl mt-1 mb-0 leading-normal max-w-screen-md">
                   {blog.title}
-                </div>
+                </h1>
               </div>
               <div className="flex items-center justify-center text-center text-gray-500 text-xs iphone:text-sm mt-3 mb-0 -mr-2 -ml-2">
                 <span className="mx-3 mt-1 inline-flex items-center">

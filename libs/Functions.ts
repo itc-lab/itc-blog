@@ -45,6 +45,6 @@ export function HeadingRenderer(props: {
   level: string;
   children: ReactNode;
 }): ReactElement {
-  const slug = `h${props.level}-${generateId('titile')}`;
-  return createElement(`h${props.level}`, { id: slug }, props.children);
+  const slug = `h${props.level + 1}-${generateId('titile')}`;
+  return createElement(`h${props.level + 1}`, { id: slug }, props.children);
 }

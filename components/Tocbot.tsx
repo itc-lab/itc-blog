@@ -7,7 +7,7 @@ const Tocbot: FC = () => {
       scrollSmoothOffset: -60,
       tocSelector: '.js-toc',
       contentSelector: '.js-toc-content',
-      headingSelector: 'h1, h2, h3',
+      headingSelector: 'h2, h3, h4',
       hasInnerContainers: true,
       scrollSmooth: true,
       orderedList: false,

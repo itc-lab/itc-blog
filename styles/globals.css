@@ -1,12 +1,12 @@
 @tailwind base;
 
-h1 {
+h2 {
   @apply text-xl iphone:text-2xl font-bold py-1 my-2 border-b border-gray-300;
 }
-h2 {
+h3 {
   @apply text-lg iphone:text-xl font-bold py-1;
 }
-h3 {
+h4 {
   @apply text-base iphone:text-lg font-bold py-1;
 }
 a {

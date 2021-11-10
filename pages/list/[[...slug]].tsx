@@ -235,9 +235,9 @@ const Page: NextPage<Props> = ({
                       />
                     </div>
                   </div>
-                  <div className="inline-block text-left text-4xl mt-1 mb-0 leading-normal max-w-screen-md">
+                  <h1 className="inline-block text-left text-4xl mt-1 mb-0 leading-normal max-w-screen-md">
                     [関連技術で絞り込み結果]
-                  </div>
+                  </h1>
                 </>
               )}
             </div>

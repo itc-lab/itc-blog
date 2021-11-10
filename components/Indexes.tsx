@@ -95,7 +95,7 @@ const IndexContent: FC<Props> = ({ content }) => {
             </span>
           </div>
         </header>
-        <h2 className="mt-1 p-0 mb-1">
+        <h3 className="mt-1 p-0 mb-1">
           <Link
             href={'/blogs/[id]'}
             as={`/blogs/${content.id}`}
@@ -104,7 +104,7 @@ const IndexContent: FC<Props> = ({ content }) => {
               {content.title}
             </a>
           </Link>
-        </h2>
+        </h3>
         <footer className="flex items-end justify-between">
           <div>
             <div className="flex items-end flex-wrap text-gray-700 mb-1 p-1">

@@ -145,9 +145,9 @@ const Page: NextPage = () => {
                 </Link>
               </div>
               <br />
-              <div className="inline-block text-left text-4xl mt-1 mb-0 leading-normal max-w-screen-md">
+              <h1 className="inline-block text-left text-4xl mt-1 mb-0 leading-normal max-w-screen-md">
                 [検索結果]
-              </div>
+              </h1>
             </div>
           </div>
         </header>
