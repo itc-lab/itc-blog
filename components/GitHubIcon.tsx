@@ -15,7 +15,7 @@ export const GitHubIcon: FC = () => {
 
   return (
     <a
-      href={settings.general[0].github}
+      href={settings.general.github}
       rel="nofollow noopener noreferrer"
       target="_blank"
       data-tip="弊社GitHubページへ"

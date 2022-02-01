@@ -16,13 +16,13 @@ export const SEO: FC<Props> = ({ data, title, url }) => {
     tags.push(topic.topics);
   }
   const description = data.description || '';
-  const type = data.seo_type || settings.blogs[0].type;
+  const type = data.seo_type || settings.blogs.type;
   const authors: string | string[] = [];
-  for (const author of data.seo_authors || settings.blogs[0].authors) {
+  for (const author of data.seo_authors || settings.blogs.authors) {
     authors.push(author.author);
   }
   const image_urls: string[] = [];
-  for (const image_url of data.seo_images || settings.blogs[0].images) {
+  for (const image_url of data.seo_images || settings.blogs.images) {
     image_urls.push(image_url.url);
   }
   const update_timestamp =
@@ -46,13 +46,12 @@ export const SEO: FC<Props> = ({ data, title, url }) => {
             authors: authors,
             tags: tags, //Unix/Linux, Bash/Shell ・・・
           },
-          images: data.seo_images || settings.blogs[0].images,
+          images: data.seo_images || settings.blogs.images,
         }}
         twitter={{
-          handle: data.twitter_handle || settings.general[0].twitter_handle,
-          site: data.twitter_site || settings.general[0].twitter_site,
-          cardType:
-            data.twitter_cardtype || settings.general[0].twitter_cardtype,
+          handle: data.twitter_handle || settings.general.twitter_handle,
+          site: data.twitter_site || settings.general.twitter_site,
+          cardType: data.twitter_cardtype || settings.general.twitter_cardtype,
         }}
       />
       <BlogJsonLd

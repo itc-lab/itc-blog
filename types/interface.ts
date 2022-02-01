@@ -1,4 +1,4 @@
-import { OpenGraphImages } from 'next-seo/lib/types';
+import { OpenGraphMedia } from 'next-seo/lib/types';
 
 export interface IBlog extends IMicroCmsResponseBase {
   reflect_updatedAt?: boolean;
@@ -7,7 +7,7 @@ export interface IBlog extends IMicroCmsResponseBase {
   category: ITopic;
   topics: ITopic[];
   content: string;
-  seo_description?: string;
+  description?: string;
   seo_type?: string;
   seo_authors?: ISeoAuthors[];
   seo_images_url?: string;
@@ -61,7 +61,7 @@ export interface SEO_DATA {
   description?: string;
   seo_type?: string;
   seo_authors?: { author: string }[];
-  seo_images?: OpenGraphImages[];
+  seo_images?: OpenGraphMedia[];
   twitter_handle?: string;
   twitter_site?: string;
   twitter_cardtype?: string;

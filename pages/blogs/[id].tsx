@@ -102,13 +102,13 @@ const Page: NextPage<Props> = ({ blog, tweets }) => {
     });
   };
 
-  const title = `${blog.title}${settings.blogs[0].description}`;
-  const url = `${settings.blogs[0].url}/${blog.id}`;
+  const title = `${blog.title}${settings.blogs.description}`;
+  const url = `${settings.blogs.url}/${blog.id}`;
 
   const twitter_param =
     '&text=' +
     encodeURIComponent(blog.title) +
-    `&hashtags=${settings.general[0].hashtag}`;
+    `&hashtags=${settings.general.hashtag}`;
   const twitter_href = `https://twitter.com/share?url=${url}${twitter_param}`;
 
   const hatena_href = 'https://b.hatena.ne.jp/entry/' + encodeURIComponent(url);
@@ -124,7 +124,7 @@ const Page: NextPage<Props> = ({ blog, tweets }) => {
       <Layout
         title={title}
         seo_data={blog}
-        seo_url={`${settings.blogs[0].url}/${blog.id}`}>
+        seo_url={`${settings.blogs.url}/${blog.id}`}>
         <nav className="sticky top-0 bg-blue-600 text-white z-50 border-t border-b border-l-0 border-r-0 border-gray-200">
           <div className="max-w-screen-xl px-1 iphone:px-8 md:px-9 mx-auto">
             <div className="flex items-center h-10 justify-between">
@@ -139,7 +139,7 @@ const Page: NextPage<Props> = ({ blog, tweets }) => {
                       transform: 'translateY(-50%)',
                     }}>
                     <Image
-                      src={settings.blogs[0].logo}
+                      src={settings.blogs.logo}
                       layout="fill"
                       objectFit="contain"
                     />
@@ -157,7 +157,7 @@ const Page: NextPage<Props> = ({ blog, tweets }) => {
                     className="relative h-full"
                     onClick={() => setCheckbox(false)}>
                     <Image
-                      src={settings.blogs[0].logo_mini}
+                      src={settings.blogs.logo_mini}
                       layout="fill"
                       objectFit="contain"
                     />

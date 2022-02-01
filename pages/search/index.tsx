@@ -62,15 +62,15 @@ const Page: NextPage = () => {
   useEffect(() => {
     setTooltipVisibility(true);
   }, []);
-  const title = `「${searchValue}」の検索結果 - ${settings.general[0].name}`;
-  const url = `${settings.general[0].url}/search?q=${searchValue}`;
+  const title = `「${searchValue}」の検索結果 - ${settings.general.name}`;
+  const url = `${settings.general.url}/search?q=${searchValue}`;
 
   const date = new Date();
   const seo_data: SEO_DATA = {
     publishedAt: date.toISOString(),
     updatedAt: date.toISOString(),
     revisedAt: date.toISOString(),
-    description: settings.general[0].description,
+    description: settings.general.description,
     topics: [],
   };
 
@@ -99,7 +99,7 @@ const Page: NextPage = () => {
       <Head>
         <link
           rel="preload"
-          href={process.env.NEXT_PUBLIC_CDN_URL + settings.general[0].logo}
+          href={process.env.NEXT_PUBLIC_CDN_URL + settings.general.logo}
           as="image"
         />
       </Head>
@@ -117,7 +117,7 @@ const Page: NextPage = () => {
                     transform: 'translateY(-50%)',
                   }}>
                   <Image
-                    src={settings.blogs[0].logo}
+                    src={settings.blogs.logo}
                     layout="fill"
                     objectFit="contain"
                   />
@@ -136,7 +136,7 @@ const Page: NextPage = () => {
                   <a>
                     <div className="relative h-full">
                       <Image
-                        src={settings.general[0].logo}
+                        src={settings.general.logo}
                         layout="fill"
                         objectFit="contain"
                       />

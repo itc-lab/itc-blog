@@ -30,7 +30,7 @@ export interface Content {
   category: Category;
   topics: Topic[];
   content: string;
-  seo_description: string;
+  description: string;
 }
 
 export interface RootObject {

@@ -37,9 +37,18 @@ declare module '*.yml' {
     images: Image[];
   }
 
+  interface RSS {
+    author: {
+      name: string;
+      email: string;
+      link: string;
+    };
+  }
+
   interface RootObject {
-    general: General[];
-    blogs: Blog[];
+    general: General;
+    blogs: Blog;
+    rss: RSS;
   }
 
   const data: RootObject;

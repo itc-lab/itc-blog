@@ -10,17 +10,17 @@ export const Footer: FC = () => {
     <footer className="py-2 mb-1 bg-white">
       <div className="flex items-center justify-center text-xs md:text-sm text-gray-700">
         <div>
-          ©{footer_year} {settings.general[0].name} /{' '}
+          ©{footer_year} {settings.general.name} /{' '}
           <span className="hidden iphone:inline">produced by </span>
         </div>
         <div className="h-4">
           <a
             className="text-gray-800 hover:text-pink-800"
-            href={settings.general[0].company_url}>
+            href={settings.general.company_url}>
             <div
               style={{ position: 'relative', width: '50px', height: '100%' }}>
               <Image
-                src={settings.general[0].company_logo}
+                src={settings.general.company_logo}
                 layout="fill"
                 objectFit="contain"
               />
@@ -30,8 +30,8 @@ export const Footer: FC = () => {
         <div>
           <a
             className="text-gray-800 hover:text-pink-800"
-            href={settings.general[0].company_url}>
-            {settings.general[0].company_name}
+            href={settings.general.company_url}>
+            {settings.general.company_name}
           </a>
         </div>
       </div>

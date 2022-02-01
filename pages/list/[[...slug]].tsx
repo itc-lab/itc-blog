@@ -26,6 +26,7 @@ import {
   SEO_DATA,
 } from '@/types/interface';
 import { IBlogService, BlogService } from '@utils/BlogService';
+import { generateRssFeed } from '@/components/RSS';
 
 interface Props {
   contents: IBlog[];
@@ -56,17 +57,17 @@ const Page: NextPage<Props> = ({
     setTooltipVisibility(true);
   }, []);
   const title = currentTopic
-    ? `${settings.general[0].name}/${currentTopic.topics}`
-    : settings.general[0].name;
+    ? `${settings.general.name}/${currentTopic.topics}`
+    : settings.general.name;
   const url =
-    (thisPage === 1 && !currentTopic && settings.general[0].url) ||
+    (thisPage === 1 && !currentTopic && settings.general.url) ||
     (currentTopic
-      ? `${settings.general[0].url}/list/${thisPage}/${currentTopic.id}`
-      : `${settings.general[0].url}/list/${thisPage}`);
+      ? `${settings.general.url}/list/${thisPage}/${currentTopic.id}`
+      : `${settings.general.url}/list/${thisPage}`);
   const twitter_param =
     '&text=' +
     encodeURIComponent(title) +
-    `&hashtags=${settings.general[0].hashtag}`;
+    `&hashtags=${settings.general.hashtag}`;
   const twitter_href = `https://twitter.com/share?url=${url}/${twitter_param}`;
   const hatena_href = 'https://b.hatena.ne.jp/entry/' + encodeURIComponent(url);
   const hatena_title = encodeURIComponent(title);
@@ -76,7 +77,7 @@ const Page: NextPage<Props> = ({
     updatedAt: date.toISOString(),
     revisedAt: date.toISOString(),
     description:
-      thisPage === 1 && !currentTopic ? settings.general[0].description : '',
+      thisPage === 1 && !currentTopic ? settings.general.description : '',
     topics: topics,
   };
 
@@ -118,7 +119,7 @@ const Page: NextPage<Props> = ({
         <Head>
           <link
             rel="preload"
-            href={process.env.NEXT_PUBLIC_CDN_URL + settings.general[0].logo}
+            href={process.env.NEXT_PUBLIC_CDN_URL + settings.general.logo}
             as="image"
           />
         </Head>
@@ -137,7 +138,7 @@ const Page: NextPage<Props> = ({
                     transform: 'translateY(-50%)',
                   }}>
                   <Image
-                    src={settings.blogs[0].logo}
+                    src={settings.blogs.logo}
                     layout="fill"
                     objectFit="contain"
                   />
@@ -216,7 +217,7 @@ const Page: NextPage<Props> = ({
                     <a>
                       <div className="relative h-full">
                         <Image
-                          src={settings.general[0].logo}
+                          src={settings.general.logo}
                           layout="fill"
                           objectFit="contain"
                         />
@@ -319,15 +320,16 @@ const Page: NextPage<Props> = ({
 export const getStaticProps: GetStaticProps<Props, Slug> = async ({
   params,
 }) => {
+  if (!params) await generateRssFeed();
   const [page, topic_id] = !params ? ['1'] : [params.slug[0], params.slug[1]];
-  //const offset = page ? (parseInt(page) - 1) * settings.general[0].per_page : 0;
+  //const offset = page ? (parseInt(page) - 1) * settings.general.per_page : 0;
 
   const service: IBlogService = new BlogService();
   const contents: MicroCmsResponse<IBlog> = !topic_id
-    ? await service.getBlogs(settings.general[0].per_page, parseInt(page)) //topic_idがundefinedの場合、全ブログ
+    ? await service.getBlogs(settings.general.per_page, parseInt(page)) //topic_idがundefinedの場合、全ブログ
     : //topic_idがある場合、topic_idで絞り込み
       await service.getBlogsByTopicId(
-        settings.general[0].per_page,
+        settings.general.per_page,
         parseInt(page),
         topic_id
       );
@@ -369,7 +371,7 @@ export const getStaticPaths: GetStaticPaths<Slug> = async () => {
   //ブログ全件数取得。データは無くて良いので、limit=0。
   const total_count: number = await service.getBlogsCount();
   const total_pages: number = Math.ceil(
-    total_count / settings.general[0].per_page
+    total_count / settings.general.per_page
   );
   const paths = Array.from(Array(total_pages).keys()).map((it) => ({
     params: { slug: [(it + 1).toString()] },
@@ -383,7 +385,7 @@ export const getStaticPaths: GetStaticPaths<Slug> = async () => {
       topic.id
     );
     const topic_pages = Math.ceil(
-      topic_posts_count / settings.general[0].per_page
+      topic_posts_count / settings.general.per_page
     );
     for (let i = 0; i < topic_pages; i++) {
       paths.push({

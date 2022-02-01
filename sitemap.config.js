@@ -1,8 +1,20 @@
 module.exports = {
-  siteUrl: 'https://itc-engineering-blog.netlify.app',
+  siteUrl:
+    process.env.NEXT_PUBLIC_BASEURL ||
+    'https://itc-engineering-blog.netlify.app',
   changefreq: 'weekly',
-  generateRobotsTxt: false,
+  generateRobotsTxt: true,
   sitemapSize: 7000,
   outDir: './out',
-  sitemapBaseFileName: 'site-map',
+  sitemapBaseFileName: 'sitemap',
+  exclude: ['/search', '/list/*'],
+  robotsTxtOptions: {
+    policies: [
+      {
+        userAgent: '*',
+        disallow: ['/search?q=', '/list/'],
+        allow: '/',
+      },
+    ],
+  },
 };
