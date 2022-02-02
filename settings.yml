@@ -17,7 +17,7 @@ blogs:
   url: 'https://itc-engineering-blog.netlify.app/blogs'
   logo: /ITC_Engineering_Blog2.png
   logo_mini: /ITC_Engineering_Blog3.png
-  description: ' - ITC Engineering Blog'
+  title_suffix: ''
   type: article
   authors:
     - author: 'https://itccorporation.jp'

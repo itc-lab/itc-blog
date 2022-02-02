@@ -31,7 +31,7 @@ declare module '*.yml' {
     url: string;
     logo: string;
     logo_mini: string;
-    description: string;
+    title_suffix: string;
     type: string;
     authors: Authors[];
     images: Image[];

@@ -102,7 +102,7 @@ const Page: NextPage<Props> = ({ blog, tweets }) => {
     });
   };
 
-  const title = `${blog.title}${settings.blogs.description}`;
+  const title = `${blog.title}${settings.blogs.title_suffix}`;
   const url = `${settings.blogs.url}/${blog.id}`;
 
   const twitter_param =
