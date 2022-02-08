@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { ITopic } from '@types';
 
@@ -7,18 +6,17 @@ interface Props {
   title: string;
   topics: ITopic[];
 }
-export const Topics: FC<Props> = ({ title, topics }) => {
-  const last_index = topics.length - 1;
 
+export const Topics: FC<Props> = ({ title, topics }) => {
   return (
-    <div className="mb-6 pt-4 px-5 pb-6 text-xs md:text-sm bg-white rounded-lg shadow">
+    <div className="mb-6 pt-4 px-3 pb-6 text-xs md:text-sm bg-white rounded-lg shadow">
       <div className="font-sans text-sm md:text-base leading-normal font-bold mb-1">
         {title}
       </div>
-      <div className="flex justify-between flex-wrap text-sm">
-        {topics.map((value: ITopic, index: number) => {
-          if (index % 2 == 0 && value.needs_title) {
-            //左側、文字有り
+      <div className="flex justify-between flex-wrap ">
+        {topics.map((value: ITopic) => {
+          if (value.needs_title) {
+            //文字有り
             return (
               <Link
                 key={value.id}
@@ -27,112 +25,39 @@ export const Topics: FC<Props> = ({ title, topics }) => {
                 prefetch={false}>
                 <a
                   key={`${value.id}1`}
-                  className="items-center my-2 flex-1 min-w-1/2"
+                  className="flex justify-center items-center border no-underline rounded-md w-32 h-12 mt-2"
                   href={`/tags/${value.id}`}>
                   <div
                     key={`${value.id}2`}
-                    className="inline-block align-middle max-w-full"
-                    style={{
-                      position: 'relative',
-                      width: '45px',
-                      height: '45px',
-                    }}>
-                    <Image src={value.logo} layout="fill" objectFit="contain" />
-                  </div>
-                  <span
-                    key={`${value.id}3`}
-                    className="inline-block align-middle ml-0.5 text-base text-black leading-tight">
-                    {value.topics}
-                  </span>
-                </a>
-              </Link>
-            );
-          } else if (index % 2 != 0 && value.needs_title) {
-            //右側、文字有り
-            return (
-              <Link
-                key={value.id}
-                href={'/list/[[...slug]]'}
-                as={`/list/1/${value.id}`}
-                prefetch={false}>
-                <a
-                  key={`${value.id}1`}
-                  className="items-center my-2 flex-1 min-w-1/2"
-                  href={`/tags/${value.id}`}>
-                  <div
-                    key={`${value.id}2`}
-                    className="inline-block align-middle max-w-full"
-                    style={{
-                      position: 'relative',
-                      width: '45px',
-                      height: '45px',
-                    }}>
-                    <Image src={value.logo} layout="fill" objectFit="contain" />
-                  </div>
-                  <span
-                    key={`${value.id}3`}
-                    className="inline-block align-middle ml-0.5 text-base text-black leading-tight">
-                    {value.topics}
-                  </span>
-                </a>
-              </Link>
-            );
-          } else if (
-            index % 2 == 0 &&
-            !value.needs_title &&
-            index !== last_index
-          ) {
-            //左側、文字無し、最後ではない
-            return (
-              <Link
-                key={value.id}
-                href={'/list/[[...slug]]'}
-                as={`/list/1/${value.id}`}
-                prefetch={false}>
-                <a
-                  key={`${value.id}1`}
-                  className="items-center mt-1 flex-1 min-w-1/2 pr-1"
-                  href={`/tags/${value.id}`}>
-                  <div
-                    key={`${value.id}2`}
-                    className="inline-block align-middle max-w-full"
-                    style={{
-                      position: 'relative',
-                      width: '100%',
-                      height: '45px',
-                    }}>
-                    <Image src={value.logo} layout="fill" objectFit="contain" />
-                  </div>
-                </a>
-              </Link>
-            );
-          } else if (index % 2 != 0 && !value.needs_title) {
-            //右側、文字無し、最後ではない。右側は最後かどうか判定しない。
-            return (
-              <Link
-                key={value.id}
-                href={'/list/[[...slug]]'}
-                as={`/list/1/${value.id}`}
-                prefetch={false}>
-                <a
-                  key={`${value.id}1`}
-                  className="items-center mt-1 flex-1 min-w-1/2 pl-1"
-                  href={`/tags/${value.id}`}>
-                  <div
-                    key={`${value.id}2`}
-                    className="inline-block align-middle max-w-full"
-                    style={{
-                      position: 'relative',
-                      width: '100%',
-                      height: '45px',
-                    }}>
-                    <Image src={value.logo} layout="fill" objectFit="contain" />
+                    className="flex float-left w-auto h-10">
+                    <div
+                      key={`${value.id}3`}
+                      className="inline-block m-auto w-auto h-9">
+                      <img
+                        loading="lazy"
+                        className="w-full h-full object-contain"
+                        style={{
+                          display: 'block',
+                        }}
+                        src={
+                          (process.env.NEXT_PUBLIC_CDN_URL
+                            ? process.env.NEXT_PUBLIC_CDN_URL.replace(/\/$/, '')
+                            : '') +
+                          '/' +
+                          value.logo.replace(/^\//, '')
+                        }></img>
+                    </div>
+                    <span
+                      key={`${value.id}5`}
+                      className="text-black border mt-auto mb-auto text-nomal">
+                      {value.topics}
+                    </span>
                   </div>
                 </a>
               </Link>
             );
           } else {
-            //左側、文字無し、最後（ここに来ると、それしか残っていない。）
+            //文字無し
             return (
               <Link
                 key={value.id}
@@ -141,17 +66,25 @@ export const Topics: FC<Props> = ({ title, topics }) => {
                 prefetch={false}>
                 <a
                   key={`${value.id}1`}
-                  className="items-center mt-1 flex-1 min-w-1/2 pr-1"
+                  className="flex items-center border rounded-md w-32 h-12 mt-2"
                   href={`/tags/${value.id}`}>
                   <div
                     key={`${value.id}2`}
-                    className="inline-block align-middle max-w-full"
-                    style={{
-                      position: 'relative',
-                      width: '47%',
-                      height: '45px',
-                    }}>
-                    <Image src={value.logo} layout="fill" objectFit="contain" />
+                    className="inline-block align-middle m-1 w-full h-full">
+                    <img
+                      loading="lazy"
+                      className="w-full h-full object-contain object-center"
+                      style={{
+                        display: 'block',
+                        margin: 'auto',
+                      }}
+                      src={
+                        (process.env.NEXT_PUBLIC_CDN_URL
+                          ? process.env.NEXT_PUBLIC_CDN_URL.replace(/\/$/, '')
+                          : '') +
+                        '/' +
+                        value.logo.replace(/^\//, '')
+                      }></img>
                   </div>
                 </a>
               </Link>
