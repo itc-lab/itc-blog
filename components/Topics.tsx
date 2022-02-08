@@ -9,7 +9,7 @@ interface Props {
 
 export const Topics: FC<Props> = ({ title, topics }) => {
   return (
-    <div className="mb-6 pt-4 px-3 pb-6 text-xs md:text-sm bg-white rounded-lg shadow">
+    <div className="mb-6 pt-4 px-4 pb-6 text-xs md:text-sm bg-white rounded-lg shadow">
       <div className="font-sans text-sm md:text-base leading-normal font-bold mb-1">
         {title}
       </div>
@@ -39,6 +39,7 @@ export const Topics: FC<Props> = ({ title, topics }) => {
                         style={{
                           display: 'block',
                         }}
+                        alt={`${value.topics} logo icon`}
                         src={
                           (process.env.NEXT_PUBLIC_CDN_URL
                             ? process.env.NEXT_PUBLIC_CDN_URL.replace(/\/$/, '')
@@ -49,7 +50,7 @@ export const Topics: FC<Props> = ({ title, topics }) => {
                     </div>
                     <span
                       key={`${value.id}5`}
-                      className="text-black border mt-auto mb-auto text-nomal">
+                      className="text-black mt-auto mb-auto text-nomal">
                       {value.topics}
                     </span>
                   </div>
@@ -78,6 +79,7 @@ export const Topics: FC<Props> = ({ title, topics }) => {
                         display: 'block',
                         margin: 'auto',
                       }}
+                      alt={`${value.topics} logo icon`}
                       src={
                         (process.env.NEXT_PUBLIC_CDN_URL
                           ? process.env.NEXT_PUBLIC_CDN_URL.replace(/\/$/, '')
