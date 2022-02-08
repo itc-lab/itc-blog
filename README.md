@@ -31,6 +31,7 @@ Access the following demo site:
 - Lint : Linter with [ESLint](https://eslint.org)
 - Formatter : Code formatted by [Prettier](https://prettier.io)
 - Site search : implemented in SSR, uses the microCMS API
+- RSS/Atom : Generate RSS / Atom feeds using [feed](https://github.com/jpmonette/feed)
 
 ## Requirements
 
@@ -116,6 +117,8 @@ NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION_META_CODE=[Google Search Console Site Verif
 GOOGLE_SITE_VERIFICATION_HTML_CODE=[Google Search Console Site Verification Code for html content]
 GOOGLE_SITE_VERIFICATION_HTML_FILE_NAME=[Google Search Console Site Verification html file name]
 NEXT_PUBLIC_BASEURL=[Base Url, e.g. https://itc-engineering-blog.netlify.app]
+#If you use a proxy server, add the following.
+#https_proxy=[Proxy Server Url, e.g. http://192.168.0.10:3128/]
 ```
 
 Run the following command on your local environment:
