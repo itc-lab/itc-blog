@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import Image from 'next/image';
 import '../settings.d.ts';
 import settings from '../settings.yml';
 
@@ -19,11 +18,20 @@ export const Footer: FC = () => {
             href={settings.general.company_url}>
             <div
               style={{ position: 'relative', width: '50px', height: '100%' }}>
-              <Image
-                src={settings.general.company_logo}
-                layout="fill"
-                objectFit="contain"
-              />
+              <img
+                loading="lazy"
+                className="w-full h-full object-contain"
+                style={{
+                  display: 'block',
+                }}
+                alt="company logo"
+                src={
+                  (process.env.NEXT_PUBLIC_CDN_URL
+                    ? process.env.NEXT_PUBLIC_CDN_URL.replace(/\/$/, '')
+                    : '') +
+                  '/' +
+                  settings.general.company_logo.replace(/^\//, '')
+                }></img>
             </div>
           </a>
         </div>

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import { Layout } from '../../components/Layout';
 import ReactTooltip from 'react-tooltip';
-import Image from 'next/image';
 import '../../settings.d.ts';
 import settings from '../../settings.yml';
 import { TopicsLinks } from '../../components/TopicsLinks';
@@ -99,7 +98,13 @@ const Page: NextPage = () => {
       <Head>
         <link
           rel="preload"
-          href={process.env.NEXT_PUBLIC_CDN_URL + settings.general.logo}
+          href={
+            (process.env.NEXT_PUBLIC_CDN_URL
+              ? process.env.NEXT_PUBLIC_CDN_URL.replace(/\/$/, '')
+              : '') +
+            '/' +
+            settings.general.logo.replace(/^\//, '')
+          }
           as="image"
         />
       </Head>
@@ -116,11 +121,20 @@ const Page: NextPage = () => {
                     top: '50%',
                     transform: 'translateY(-50%)',
                   }}>
-                  <Image
-                    src={settings.blogs.logo}
-                    layout="fill"
-                    objectFit="contain"
-                  />
+                  <img
+                    loading="lazy"
+                    className="w-full h-full object-contain"
+                    style={{
+                      display: 'block',
+                    }}
+                    alt="navbar logo"
+                    src={
+                      (process.env.NEXT_PUBLIC_CDN_URL
+                        ? process.env.NEXT_PUBLIC_CDN_URL.replace(/\/$/, '')
+                        : '') +
+                      '/' +
+                      settings.blogs.logo.replace(/^\//, '')
+                    }></img>
                 </div>
               </a>
             </Link>
@@ -135,11 +149,17 @@ const Page: NextPage = () => {
                 <Link href={'/'} as={'/'} prefetch={false}>
                   <a>
                     <div className="relative h-full">
-                      <Image
-                        src={settings.general.logo}
-                        layout="fill"
-                        objectFit="contain"
-                      />
+                      <img
+                        loading="lazy"
+                        className="w-full h-full object-contain"
+                        style={{
+                          display: 'block',
+                        }}
+                        alt="blog logo"
+                        src={
+                          process.env.NEXT_PUBLIC_CDN_URL +
+                          settings.general.logo
+                        }></img>
                     </div>
                   </a>
                 </Link>

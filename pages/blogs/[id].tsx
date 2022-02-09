@@ -5,7 +5,6 @@ import Tocbot from '../../components/Tocbot';
 import { useMediaQuery } from '../../libs/Functions';
 import { Markdown } from '../../components/Markdown';
 import ReactTooltip from 'react-tooltip';
-import Image from 'next/image';
 import '../../settings.d.ts';
 import settings from '../../settings.yml';
 import { Jadate } from '../../components/Jadate';
@@ -138,11 +137,20 @@ const Page: NextPage<Props> = ({ blog, tweets }) => {
                       top: '50%',
                       transform: 'translateY(-50%)',
                     }}>
-                    <Image
-                      src={settings.blogs.logo}
-                      layout="fill"
-                      objectFit="contain"
-                    />
+                    <img
+                      loading="lazy"
+                      className="w-full h-full object-contain"
+                      style={{
+                        display: 'block',
+                      }}
+                      alt="navbar logo"
+                      src={
+                        (process.env.NEXT_PUBLIC_CDN_URL
+                          ? process.env.NEXT_PUBLIC_CDN_URL.replace(/\/$/, '')
+                          : '') +
+                        '/' +
+                        settings.blogs.logo.replace(/^\//, '')
+                      }></img>
                   </div>
                 </a>
               </Link>
@@ -156,11 +164,20 @@ const Page: NextPage<Props> = ({ blog, tweets }) => {
                   <div
                     className="relative h-full"
                     onClick={() => setCheckbox(false)}>
-                    <Image
-                      src={settings.blogs.logo_mini}
-                      layout="fill"
-                      objectFit="contain"
-                    />
+                    <img
+                      loading="lazy"
+                      className="w-full h-full object-contain"
+                      style={{
+                        display: 'block',
+                      }}
+                      alt="navbar logo mini"
+                      src={
+                        (process.env.NEXT_PUBLIC_CDN_URL
+                          ? process.env.NEXT_PUBLIC_CDN_URL.replace(/\/$/, '')
+                          : '') +
+                        '/' +
+                        settings.blogs.logo_mini.replace(/^\//, '')
+                      }></img>
                   </div>
                 </a>
               </Link>
@@ -278,11 +295,20 @@ const Page: NextPage<Props> = ({ blog, tweets }) => {
                       width: '100%',
                       height: '100%',
                     }}>
-                    <Image
-                      src={blog.category.logo}
-                      layout="fill"
-                      objectFit="contain"
-                    />
+                    <img
+                      loading="lazy"
+                      className="w-full h-full object-contain"
+                      style={{
+                        display: 'block',
+                      }}
+                      alt="category logo"
+                      src={
+                        (process.env.NEXT_PUBLIC_CDN_URL
+                          ? process.env.NEXT_PUBLIC_CDN_URL.replace(/\/$/, '')
+                          : '') +
+                        '/' +
+                        blog.category.logo.replace(/^\//, '')
+                      }></img>
                   </div>
                 </div>
                 {/* タイトル表示 */}

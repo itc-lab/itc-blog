@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { NextPage, GetStaticPaths, GetStaticProps } from 'next';
 import { Layout } from '../../components/Layout';
 import ReactTooltip from 'react-tooltip';
-import Image from 'next/image';
 import '../../settings.d.ts';
 import settings from '../../settings.yml';
 import { TwitterIcon } from '../../components/TwitterIcon';
@@ -119,7 +118,13 @@ const Page: NextPage<Props> = ({
         <Head>
           <link
             rel="preload"
-            href={process.env.NEXT_PUBLIC_CDN_URL + settings.general.logo}
+            href={
+              (process.env.NEXT_PUBLIC_CDN_URL
+                ? process.env.NEXT_PUBLIC_CDN_URL.replace(/\/$/, '')
+                : '') +
+              '/' +
+              settings.general.logo.replace(/^\//, '')
+            }
             as="image"
           />
         </Head>
@@ -137,11 +142,20 @@ const Page: NextPage<Props> = ({
                     top: '50%',
                     transform: 'translateY(-50%)',
                   }}>
-                  <Image
-                    src={settings.blogs.logo}
-                    layout="fill"
-                    objectFit="contain"
-                  />
+                  <img
+                    loading="lazy"
+                    className="w-full h-full object-contain"
+                    style={{
+                      display: 'block',
+                    }}
+                    alt="navbar logo"
+                    src={
+                      (process.env.NEXT_PUBLIC_CDN_URL
+                        ? process.env.NEXT_PUBLIC_CDN_URL.replace(/\/$/, '')
+                        : '') +
+                      '/' +
+                      settings.blogs.logo.replace(/^\//, '')
+                    }></img>
                 </div>
               </a>
             </Link>
@@ -216,11 +230,17 @@ const Page: NextPage<Props> = ({
                   <Link href={'/'} as={'/'} prefetch={false}>
                     <a>
                       <div className="relative h-full">
-                        <Image
-                          src={settings.general.logo}
-                          layout="fill"
-                          objectFit="contain"
-                        />
+                        <img
+                          loading="lazy"
+                          className="w-full h-full object-contain"
+                          style={{
+                            display: 'block',
+                          }}
+                          alt="blog logo"
+                          src={
+                            process.env.NEXT_PUBLIC_CDN_URL +
+                            settings.general.logo
+                          }></img>
                       </div>
                     </a>
                   </Link>
@@ -229,11 +249,16 @@ const Page: NextPage<Props> = ({
                 <>
                   <div className="flex items-center justify-center h-20">
                     <div className="relative w-full h-full">
-                      <Image
-                        src={currentTopic.logo}
-                        layout="fill"
-                        objectFit="contain"
-                      />
+                      <img
+                        loading="lazy"
+                        className="w-full h-full object-contain"
+                        style={{
+                          display: 'block',
+                        }}
+                        alt="current topic logo"
+                        src={
+                          process.env.NEXT_PUBLIC_CDN_URL + currentTopic.logo
+                        }></img>
                     </div>
                   </div>
                   <h1 className="inline-block text-left text-4xl mt-1 mb-0 leading-normal max-w-screen-md">

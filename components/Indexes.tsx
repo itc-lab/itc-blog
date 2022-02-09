@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import Image from 'next/image';
 import { Jadate } from './Jadate';
 import { parseISO } from 'date-fns';
 import Link from 'next/link';
@@ -38,11 +37,20 @@ const IndexContent: FC<Props> = ({ content }) => {
       <Link href={'/blogs/[id]'} as={`/blogs/${content.id}`} prefetch={false}>
         <a className="hidden iphone:flex mr-4 border border-black iphone:w-16 iphone:h-16 md:w-24 md:h-24 flex items-center justify-center rounded-lg">
           <div className="m-1 relative iphone:w-16 iphone:h-16 md:w-24 md:h-24">
-            <Image
-              src={content.category.logo}
-              layout="fill"
-              objectFit="contain"
-            />
+            <img
+              loading="lazy"
+              className="w-full h-full object-contain"
+              style={{
+                display: 'block',
+              }}
+              alt="category logo"
+              src={
+                (process.env.NEXT_PUBLIC_CDN_URL
+                  ? process.env.NEXT_PUBLIC_CDN_URL.replace(/\/$/, '')
+                  : '') +
+                '/' +
+                content.category.logo.replace(/^\//, '')
+              }></img>
           </div>
         </a>
       </Link>
