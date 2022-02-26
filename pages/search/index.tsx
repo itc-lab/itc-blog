@@ -14,6 +14,7 @@ import { ITopic, SEO_DATA } from '@types';
 import { useQuery } from 'react-query';
 import FadeLoader from 'react-spinners/FadeLoader';
 import { useRouter } from 'next/router';
+import { BreadCrumbs } from '../../components/BreadCrumbs';
 
 const Page: NextPage = () => {
   const router = useRouter();
@@ -142,7 +143,23 @@ const Page: NextPage = () => {
         </div>
       </nav>
       <article className="bg-indigo-50">
-        <header className="py-10">
+        <header className="pb-10">
+          <div className="max-w-screen-xl h-10 ml-auto mr-auto px-2 iphone:px-10 md:px-11">
+            <div className="relative text-center">
+              <BreadCrumbs
+                breadcrumbslist={[
+                  {
+                    contents: '記事一覧',
+                    path: '/',
+                  },
+                  {
+                    contents: '検索結果',
+                    path: '/',
+                  },
+                ]}
+              />
+            </div>
+          </div>
           <div className="max-w-screen-xl m-auto px-10">
             <div className="relative text-center">
               <div className="inline-block h-40 w-80">

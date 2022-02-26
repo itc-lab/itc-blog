@@ -21,6 +21,7 @@ import tocbot from 'tocbot';
 import { useRouter } from 'next/dist/client/router';
 import { BlogService, IBlogService } from '@utils/BlogService';
 import { IBlog, ITweet, MicroCmsResponse } from '@types';
+import { BreadCrumbs } from '../../components/BreadCrumbs';
 
 interface Props {
   blog: IBlog;
@@ -282,7 +283,23 @@ const Page: NextPage<Props> = ({ blog, tweets }) => {
         )}
 
         <article className="bg-indigo-50">
-          <header className="py-10">
+          <header className="pb-10">
+            <div className="max-w-screen-xl h-10 ml-auto mr-auto px-2 iphone:px-10 md:px-11">
+              <div className="relative text-center">
+                <BreadCrumbs
+                  breadcrumbslist={[
+                    {
+                      contents: '記事一覧',
+                      path: '/',
+                    },
+                    {
+                      contents: 'ブログ記事',
+                      path: '/',
+                    },
+                  ]}
+                />
+              </div>
+            </div>
             <div className="max-w-screen-xl m-auto px-10">
               <div className="relative text-center">
                 {/* 最も関連する技術 */}

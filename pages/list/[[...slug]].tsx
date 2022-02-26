@@ -26,6 +26,7 @@ import {
 } from '@/types/interface';
 import { IBlogService, BlogService } from '@utils/BlogService';
 import { generateRssFeed } from '@/components/RSS';
+import { BreadCrumbs } from '../../components/BreadCrumbs';
 
 interface Props {
   contents: IBlog[];
@@ -111,6 +112,36 @@ const Page: NextPage<Props> = ({
       setter(false);
     }
   };
+
+  const breadcrumbslist = [
+    { contents: `記事一覧`, path: `/` },
+    ...(!currentTopic && !(thisPage == 1)
+      ? [
+          {
+            contents: thisPage + 'ページ目',
+            path: '/list/' + thisPage + '/',
+          },
+        ]
+      : currentTopic && !(thisPage == 1)
+      ? [
+          {
+            contents: currentTopic.topics,
+            path: '/list/1/' + '/' + currentTopic.id + '/',
+          },
+          {
+            contents: thisPage + 'ページ目',
+            path: '/list/' + thisPage + '/' + currentTopic.id + '/',
+          },
+        ]
+      : currentTopic
+      ? [
+          {
+            contents: currentTopic.topics,
+            path: '/list/1/' + '/' + currentTopic.id + '/',
+          },
+        ]
+      : []),
+  ];
 
   return (
     <Layout title={title} seo_data={seo_data} seo_url={url}>
@@ -220,7 +251,12 @@ const Page: NextPage<Props> = ({
       )}
 
       <article className="bg-indigo-50">
-        <header className="pt-7 pb-5 md:pt-10 md:pb-8">
+        <header className="pb-5 md:pb-8">
+          <div className="max-w-screen-xl px-2 iphone:px-10 md:px-11 mx-auto">
+            <div className="flex items-center h-7 md:h-10 justify-between">
+              {<BreadCrumbs breadcrumbslist={breadcrumbslist} />}
+            </div>
+          </div>
           <div className="max-w-screen-xl m-auto px-10">
             <div className="relative text-center">
               {/* currentTopic有り=関連技術で絞り込み有り */}

@@ -66,3 +66,12 @@ export interface SEO_DATA {
   twitter_site?: string;
   twitter_cardtype?: string;
 }
+
+export interface BreadCrumbsData {
+  contents: string;
+  path: string;
+}
+
+export interface BreadCrumbsList {
+  breadcrumbslist: BreadCrumbsData[];
+}
