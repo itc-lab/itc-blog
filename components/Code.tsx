@@ -8,7 +8,7 @@ interface Props {
   value: string;
 }
 const Code: FC<Props> = ({ language, value }) => {
-  const [lang, filename] = language.split(':');
+  const [lang, filename] = (language || '').split(':');
   return (
     <Fragment>
       {filename && (
@@ -17,7 +17,7 @@ const Code: FC<Props> = ({ language, value }) => {
         </div>
       )}
       <SyntaxHighlighter
-        language={(lang === 'js' ? 'javascript' : lang) || 'javascript'}
+        language={lang === '' ? 'javascript' : lang}
         style={okaidia}>
         {value}
       </SyntaxHighlighter>
