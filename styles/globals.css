@@ -92,6 +92,22 @@ a {
   padding: 0px;
 }
 
+.js-toc-content .code-block-filename-container .code-block-filename {
+  display: table;
+  max-width: 100%;
+  background: #334155;
+  color: #f8fafc;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  border-radius: 4px 4px 0 0;
+  padding: 6px 12px 20px;
+  padding-top: 6px;
+  padding-right: 12px;
+  padding-bottom: 20px;
+  padding-left: 12px;
+  margin-bottom: -20px;
+}
+
 .js-toc-content code {
   background-color: #00000010;
   border-radius: 4px;

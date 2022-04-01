@@ -7,12 +7,12 @@ module.exports = {
   sitemapSize: 7000,
   outDir: './out',
   sitemapBaseFileName: 'sitemap',
-  exclude: ['/search', '/list/*'],
+  exclude: ['/search'],
   robotsTxtOptions: {
     policies: [
       {
         userAgent: '*',
-        disallow: ['/search?q=', '/list/'],
+        disallow: ['/search?q='],
         allow: '/',
       },
     ],
