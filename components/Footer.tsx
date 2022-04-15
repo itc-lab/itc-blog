@@ -6,7 +6,7 @@ export const Footer: FC = () => {
   const date = new Date();
   const footer_year = date.getFullYear();
   return (
-    <footer className="py-2 mb-1 bg-white">
+    <footer className="py-2 mb-1 bg-white w-full absolute bottom-0">
       <div className="flex items-center justify-center text-xs md:text-sm text-gray-700">
         <div>
           ©{footer_year} {settings.general.name} /{' '}

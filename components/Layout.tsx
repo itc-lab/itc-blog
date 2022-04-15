@@ -16,8 +16,10 @@ export const Layout: FC<Props> = ({ children, title, seo_data, seo_url }) => {
     <>
       <Header title={title}></Header>
       <SEO data={seo_data} title={title} url={seo_url} />
-      <div className="border-box block float-none leading-7 static z-auto">
-        {children}
+      <div className="min-h-screen display:block relative pb-12 border-box bg-indigo-50">
+        <div className="border-box block float-none leading-7 static z-auto">
+          {children}
+        </div>
         <Footer />
       </div>
     </>
