@@ -108,6 +108,28 @@ a {
   margin-bottom: -20px;
 }
 
+.js-toc-content .code-block-copy-button {
+  position: absolute;
+  cursor: pointer;
+  color: #9ca3af;
+  top: 10px;
+  right: 16px;
+}
+
+.js-toc-content .code-block-copy-button .copied-tooltip {
+  cursor: default;
+  position: absolute;
+  top: 0px;
+  right: 26px;
+  padding: 0px 3px;
+  display: inline-block;
+  white-space: nowrap;
+  background: #374151;
+  color: #f9fafb;
+  border-radius: 3px;
+  transition: 0.3s ease-in;
+}
+
 .js-toc-content code {
   background-color: #00000010;
   border-radius: 4px;
