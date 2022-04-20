@@ -5,6 +5,7 @@ general:
   logo: /ITC_Engineering_Blog1.png
   hashtag: blog_itc
   per_page: 20
+  pagination: 5
   github: 'https://github.com/itc-lab'
   company_name: 株式会社アイティーシー
   company_logo: /ITC_logo.png

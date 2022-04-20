@@ -6,6 +6,7 @@ declare module '*.yml' {
     logo: string;
     hashtag: string;
     per_page: number;
+    pagination: number;
     github: string;
     company_name: string;
     company_logo: string;
