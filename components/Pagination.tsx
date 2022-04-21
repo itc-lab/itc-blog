@@ -121,7 +121,7 @@ export const Pagination: FC<Props> = ({
             <li
               key={`pagination${index}`}
               className={`bg-blue-${
-                number == thisPage ? '700' : '200'
+                number == thisPage ? '600' : '200'
               } w-8 h-8 md:w-10 md:h-10 rounded m-1 iphone:m-3`}>
               <Link
                 href="/list/[[...slug]]"
