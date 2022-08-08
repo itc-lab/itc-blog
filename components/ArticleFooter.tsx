@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Tweet } from 'react-static-tweets';
+import { Tweet } from './Tweets';
 import { GitHubIcon } from '../components/GitHubIcon';
 
 interface Props {

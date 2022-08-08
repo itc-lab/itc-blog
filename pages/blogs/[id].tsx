@@ -14,7 +14,7 @@ import { TopicsLinks } from '../../components/TopicsLinks';
 import { Topics } from '../../components/Topics';
 import Link from 'next/link';
 import { ArticleFooter } from '../../components/ArticleFooter';
-import { fetchTweetAst } from 'static-tweets';
+import { fetchTweetAst } from '../../components/FetchTweetAst';
 import useMobileDevice from '../../hooks/useMobileDevice';
 import MobileShare from '../../components/mobileShare';
 import tocbot from 'tocbot';
@@ -25,8 +25,7 @@ import { BreadCrumbs } from '../../components/BreadCrumbs';
 
 interface Props {
   blog: IBlog;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  tweets: { id: string; ast: any }[];
+  tweets: { id: string; ast: unknown }[];
 }
 
 type Slug = {

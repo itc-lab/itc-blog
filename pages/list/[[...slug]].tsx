@@ -11,7 +11,7 @@ import { Topics } from '../../components/Topics';
 import { Indexes } from '../../components/Indexes';
 import { Pagination } from '../../components/Pagination';
 import Link from 'next/link';
-import { fetchTweetAst } from 'static-tweets';
+import { fetchTweetAst } from '../../components/FetchTweetAst';
 import { ArticleFooter } from '../../components/ArticleFooter';
 import useMobileDevice from '../../hooks/useMobileDevice';
 import MobileShare from '../../components/mobileShare';
@@ -33,8 +33,7 @@ interface Props {
   topics: ITopic[];
   totalCount: number;
   thisPage: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  tweets: { id: string; ast: any }[];
+  tweets: { id: string; ast: unknown }[];
   currentTopic: ITopic | null;
 }
 
