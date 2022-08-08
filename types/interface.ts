@@ -75,3 +75,11 @@ export interface BreadCrumbsData {
 export interface BreadCrumbsList {
   breadcrumbslist: BreadCrumbsData[];
 }
+
+export interface CommentData {
+  id: string;
+  created_at: number;
+  url: string;
+  text: string;
+  name: string;
+}

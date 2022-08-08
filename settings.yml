@@ -18,6 +18,7 @@ blogs:
   url: 'https://itc-engineering-blog.netlify.app/blogs'
   logo: /ITC_Engineering_Blog2.png
   logo_mini: /ITC_Engineering_Blog3.png
+  comments: /comments.png
   title_suffix: ''
   type: article
   authors:

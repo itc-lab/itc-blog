@@ -32,6 +32,7 @@ declare module '*.yml' {
     url: string;
     logo: string;
     logo_mini: string;
+    comments: string;
     title_suffix: string;
     type: string;
     authors: Authors[];

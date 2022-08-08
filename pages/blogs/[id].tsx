@@ -14,6 +14,7 @@ import { TopicsLinks } from '../../components/TopicsLinks';
 import { Topics } from '../../components/Topics';
 import Link from 'next/link';
 import { ArticleFooter } from '../../components/ArticleFooter';
+import CommentForm from '../../components/Comment';
 import { fetchTweetAst } from '../../components/FetchTweetAst';
 import useMobileDevice from '../../hooks/useMobileDevice';
 import MobileShare from '../../components/mobileShare';
@@ -444,6 +445,7 @@ const Page: NextPage<Props> = ({ blog, tweets }) => {
                     </div>
                   </div>
                 </div>
+                <CommentForm />
                 <ArticleFooter tweets={tweets} />
               </section>
               <aside className="hidden lg:block lg:w-81">
