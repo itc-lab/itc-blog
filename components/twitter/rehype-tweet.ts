@@ -11,18 +11,10 @@ const TWITTER_URL = 'https://twitter.com';
 const ABSOLUTE_URL = /^https?:\/\/|^\/\//i;
 const HEADINGS = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
 
-type NodeX = Node & {
+type NodeCustom = Node & {
   tagName: string;
   properties: { href: string; dataId: string | undefined };
 };
-
-/*
-interface NodeY {
-  properties: { dataId: string | undefined };
-  data: tweetBasicInfo;
-  children: ReactChild[];
-}
-*/
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function visitAnchor(node: any): void {
@@ -72,8 +64,12 @@ export default function rehypeTweet(
   }
 
   return function transformer(tree: Node<Data>): void {
-    visit(tree, (node: NodeX) => node.properties?.dataId, visitData);
-    visit(tree, (node: NodeX) => node.tagName === 'a', visitAnchor);
-    visit(tree, (node: NodeX) => HEADINGS.includes(node.tagName), visitHeading);
+    visit(tree, (node: NodeCustom) => node.properties?.dataId, visitData);
+    visit(tree, (node: NodeCustom) => node.tagName === 'a', visitAnchor);
+    visit(
+      tree,
+      (node: NodeCustom) => HEADINGS.includes(node.tagName),
+      visitHeading
+    );
   };
 }
