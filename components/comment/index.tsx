@@ -3,9 +3,9 @@ import CommentForm from './form';
 import CommentList from './list';
 import useComments from '../../hooks/useComment';
 
-function Comment(): JSX.Element {
+function Comment({ url }: { url: string }): JSX.Element {
   const { text, setText, name, setName, comments, onSubmit, onDelete } =
-    useComments();
+    useComments(url);
 
   return (
     <div className="mx-8">

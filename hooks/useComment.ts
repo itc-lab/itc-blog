@@ -1,8 +1,8 @@
-import { useState, useEffect, Dispatch, SetStateAction } from 'react';
+import { useState, Dispatch, SetStateAction } from 'react';
 import useSWR from 'swr';
 import { CommentData } from 'types/interface';
 
-export default function useComments(): {
+export default function useComments(url: string): {
   text: string;
   setText: Dispatch<SetStateAction<string>>;
   name: string;
@@ -13,18 +13,12 @@ export default function useComments(): {
 } {
   const [text, setText] = useState('');
   const [name, setName] = useState('');
-  const [url, setUrl] = useState<string>('');
 
   const fetcher = (url: string) => fetch(url).then((r) => r.json());
   const { data: comments, mutate } = useSWR(() => {
     const query = new URLSearchParams({ url });
     return `/api/comment?${query.toString()}`;
   }, fetcher);
-
-  useEffect(() => {
-    const url = window.location.origin + window.location.pathname;
-    setUrl(url);
-  }, []);
 
   const onSubmit = async () => {
     try {

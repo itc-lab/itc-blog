@@ -445,7 +445,7 @@ const Page: NextPage<Props> = ({ blog, tweets }) => {
                     </div>
                   </div>
                 </div>
-                <CommentForm />
+                <CommentForm url={url} />
                 <ArticleFooter tweets={tweets} />
               </section>
               <aside className="hidden lg:block lg:w-81">
