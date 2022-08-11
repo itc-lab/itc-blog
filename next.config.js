@@ -2,6 +2,13 @@ const path = require('path');
 const generateSiteVerification = require('./scripts/generate-site-verification');
 module.exports = {
   webpack5: true,
+  webpackDevMiddleware: (config) => {
+    config.watchOptions = {
+      poll: 5000,
+      aggregateTimeout: 600,
+    };
+    return config;
+  },
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles/toc')],
   },
