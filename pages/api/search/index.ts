@@ -5,7 +5,7 @@ export default async (
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> => {
-  const query: string | string[] = req.query.q;
+  const query: string | string[] | undefined = req.query.q;
   if (!query) {
     res.status(400).json({ error: `missing queryparamaeter` });
   }
