@@ -29,13 +29,13 @@ export const Topics: FC<Props> = ({ title, topics }) => {
                   href={`/tags/${value.id}`}>
                   <div
                     key={`${value.id}2`}
-                    className="flex float-left w-auto h-10">
+                    className="flex h-10">
                     <div
                       key={`${value.id}3`}
                       className="inline-block m-auto w-auto h-9">
                       <img
                         loading="lazy"
-                        className="w-full h-full object-contain"
+                        className="max-w-full max-h-full object-contain"
                         style={{
                           display: 'block',
                         }}
@@ -50,7 +50,7 @@ export const Topics: FC<Props> = ({ title, topics }) => {
                     </div>
                     <span
                       key={`${value.id}5`}
-                      className="text-black mt-auto mb-auto text-nomal">
+                      className="text-black mt-auto mb-auto ml-2 whitespace-nowrap">
                       {value.topics}
                     </span>
                   </div>
