@@ -15,25 +15,29 @@ import { Topics } from '../../components/Topics';
 import Link from 'next/link';
 import { ArticleFooter } from '../../components/ArticleFooter';
 import CommentForm from '../../components/Comment';
-import { fetchTweetAst } from '../../components/FetchTweetAst';
+// import { fetchTweetAst } from '../../components/FetchTweetAst';
 import useMobileDevice from '../../hooks/useMobileDevice';
 import MobileShare from '../../components/mobileShare';
 import tocbot from 'tocbot';
 import { useRouter } from 'next/dist/client/router';
 import { BlogService, IBlogService } from '@utils/BlogService';
-import { IBlog, ITweet, MicroCmsResponse } from '@types';
+// import { IBlog, ITweet, MicroCmsResponse } from '@types';
+import { IBlog, MicroCmsResponse } from '@types';
 import { BreadCrumbs } from '../../components/BreadCrumbs';
 
 interface Props {
   blog: IBlog;
-  tweets: { id: string; ast: unknown }[];
+  // tweets: { id: string; ast: unknown }[];
 }
 
 type Slug = {
   id: string;
 };
 
-const Page: NextPage<Props> = ({ blog, tweets }) => {
+const Page: NextPage<Props> = ({
+  blog,
+  // , tweets
+}) => {
   const [isMobileOrTablet] = useMobileDevice();
 
   const [isCheck, setCheckbox] = useState(false);
@@ -446,7 +450,8 @@ const Page: NextPage<Props> = ({ blog, tweets }) => {
                   </div>
                 </div>
                 <CommentForm url={url} />
-                <ArticleFooter tweets={tweets} />
+                {/* <ArticleFooter tweets={tweets} /> */}
+                <ArticleFooter tweets={[]} />
               </section>
               <aside className="hidden lg:block lg:w-81">
                 <div className="h-full">
@@ -487,22 +492,22 @@ export const getStaticProps: GetStaticProps<Props, Slug> = async ({
   //ブログ全件数取得。データは無くて良いので、limit=0。
   const data: IBlog = await service.getBlogById(id);
 
-  const tweets_id_data: MicroCmsResponse<ITweet> = await service.getTweets();
-  const twitter_ids: string[] = [];
-  tweets_id_data.contents.forEach((content) =>
-    twitter_ids.push(content.twitter_id)
-  );
-  const tweets = await Promise.all(
-    twitter_ids.map(async (id: string) => {
-      const ast = await fetchTweetAst(id);
-      return { id, ast };
-    })
-  );
+  // const tweets_id_data: MicroCmsResponse<ITweet> = await service.getTweets();
+  // const twitter_ids: string[] = [];
+  // tweets_id_data.contents.forEach((content) =>
+  //   twitter_ids.push(content.twitter_id)
+  // );
+  // const tweets = await Promise.all(
+  //   twitter_ids.map(async (id: string) => {
+  //     const ast = await fetchTweetAst(id);
+  //     return { id, ast };
+  //   })
+  // );
 
   return {
     props: {
       blog: data,
-      tweets,
+      // tweets,
     },
   };
 };

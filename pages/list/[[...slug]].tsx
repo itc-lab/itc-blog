@@ -11,7 +11,7 @@ import { Topics } from '../../components/Topics';
 import { Indexes } from '../../components/Indexes';
 import { Pagination } from '../../components/Pagination';
 import Link from 'next/link';
-import { fetchTweetAst } from '../../components/FetchTweetAst';
+// import { fetchTweetAst } from '../../components/FetchTweetAst';
 import { ArticleFooter } from '../../components/ArticleFooter';
 import useMobileDevice from '../../hooks/useMobileDevice';
 import MobileShare from '../../components/mobileShare';
@@ -21,7 +21,7 @@ import {
   IBlog,
   ITopic,
   MicroCmsResponse,
-  ITweet,
+  // ITweet,
   SEO_DATA,
 } from '@/types/interface';
 import { IBlogService, BlogService } from '@utils/BlogService';
@@ -33,7 +33,7 @@ interface Props {
   topics: ITopic[];
   totalCount: number;
   thisPage: number;
-  tweets: { id: string; ast: unknown }[];
+  // tweets: { id: string; ast: unknown }[];
   currentTopic: ITopic | null;
 }
 
@@ -46,7 +46,7 @@ const Page: NextPage<Props> = ({
   topics,
   totalCount,
   thisPage,
-  tweets,
+  // tweets,
   currentTopic,
 }) => {
   const [isSearchModal, setSearchModal] = useState(false);
@@ -358,7 +358,8 @@ const Page: NextPage<Props> = ({
                 totalCount={totalCount}
                 currentTopic={currentTopic}
               />
-              <ArticleFooter tweets={tweets} />
+              {/* <ArticleFooter tweets={tweets} /> */}
+              <ArticleFooter tweets={[]} />
             </section>
             <aside className="hidden lg:block lg:w-81">
               <div className="h-full">
@@ -401,24 +402,24 @@ export const getStaticProps: GetStaticProps<Props, Slug> = async ({
     ? await service.getTopicById(topic_id)
     : null;
 
-  const tweets_id_data: MicroCmsResponse<ITweet> = await service.getTweets();
-  const twitter_ids: string[] = [];
-  tweets_id_data.contents.forEach((content) =>
-    twitter_ids.push(content.twitter_id)
-  );
-  const tweets = await Promise.all(
-    twitter_ids.map(async (id) => {
-      const ast = await fetchTweetAst(id);
-      return { id, ast };
-    })
-  );
+  // const tweets_id_data: MicroCmsResponse<ITweet> = await service.getTweets();
+  // const twitter_ids: string[] = [];
+  // tweets_id_data.contents.forEach((content) =>
+  //   twitter_ids.push(content.twitter_id)
+  // );
+  // const tweets = await Promise.all(
+  //   twitter_ids.map(async (id) => {
+  //     const ast = await fetchTweetAst(id);
+  //     return { id, ast };
+  //   })
+  // );
 
   const props = {
     contents: contents.contents,
     topics: topics.contents,
     totalCount: contents.totalCount,
     thisPage: parseInt(page),
-    tweets,
+    // tweets,
     currentTopic,
   };
   return {
