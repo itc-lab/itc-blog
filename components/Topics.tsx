@@ -27,9 +27,7 @@ export const Topics: FC<Props> = ({ title, topics }) => {
                   key={`${value.id}1`}
                   className="flex justify-center items-center border no-underline rounded-md w-32 h-12 mt-2"
                   href={`/tags/${value.id}`}>
-                  <div
-                    key={`${value.id}2`}
-                    className="flex h-10">
+                  <div key={`${value.id}2`} className="flex h-10">
                     <div
                       key={`${value.id}3`}
                       className="inline-block m-auto w-auto h-9">
@@ -50,7 +48,7 @@ export const Topics: FC<Props> = ({ title, topics }) => {
                     </div>
                     <span
                       key={`${value.id}5`}
-                      className="text-black mt-auto mb-auto ml-2 whitespace-nowrap">
+                      className="text-black mt-auto mb-auto ml-2 max-w-[74px] break-normal">
                       {value.topics}
                     </span>
                   </div>
