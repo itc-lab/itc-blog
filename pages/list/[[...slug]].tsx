@@ -11,30 +11,24 @@ import { Topics } from '../../components/Topics';
 import { Indexes } from '../../components/Indexes';
 import { Pagination } from '../../components/Pagination';
 import Link from 'next/link';
-// import { fetchTweetAst } from '../../components/FetchTweetAst';
 import { ArticleFooter } from '../../components/ArticleFooter';
 import useMobileDevice from '../../hooks/useMobileDevice';
 import MobileShare from '../../components/mobileShare';
 import Head from 'next/head';
 import { useRouter } from 'next/dist/client/router';
-import {
-  IBlog,
-  ITopic,
-  MicroCmsResponse,
-  // ITweet,
-  SEO_DATA,
-} from '@/types/interface';
+import { IBlog, ITopic, MicroCmsResponse, SEO_DATA } from '@/types/interface';
 import { IBlogService, BlogService } from '@utils/BlogService';
 import { generateRssFeed } from '@/components/RSS';
 import { BreadCrumbs } from '../../components/BreadCrumbs';
+import { getRanking } from '@utils/Ranking';
 
 interface Props {
   contents: IBlog[];
   topics: ITopic[];
   totalCount: number;
   thisPage: number;
-  // tweets: { id: string; ast: unknown }[];
   currentTopic: ITopic | null;
+  ranking: IBlog[] | null;
 }
 
 type Slug = {
@@ -46,8 +40,8 @@ const Page: NextPage<Props> = ({
   topics,
   totalCount,
   thisPage,
-  // tweets,
   currentTopic,
+  ranking,
 }) => {
   const [isSearchModal, setSearchModal] = useState(false);
   const [isMobileOrTablet] = useMobileDevice();
@@ -358,8 +352,7 @@ const Page: NextPage<Props> = ({
                 totalCount={totalCount}
                 currentTopic={currentTopic}
               />
-              {/* <ArticleFooter tweets={tweets} /> */}
-              <ArticleFooter tweets={[]} />
+              <ArticleFooter ranking={ranking} />
             </section>
             <aside className="hidden lg:block lg:w-81">
               <div className="h-full">
@@ -402,28 +395,30 @@ export const getStaticProps: GetStaticProps<Props, Slug> = async ({
     ? await service.getTopicById(topic_id)
     : null;
 
-  // const tweets_id_data: MicroCmsResponse<ITweet> = await service.getTweets();
-  // const twitter_ids: string[] = [];
-  // tweets_id_data.contents.forEach((content) =>
-  //   twitter_ids.push(content.twitter_id)
-  // );
-  // const tweets = await Promise.all(
-  //   twitter_ids.map(async (id) => {
-  //     const ast = await fetchTweetAst(id);
-  //     return { id, ast };
-  //   })
-  // );
-
-  const props = {
+  const blog_data = {
     contents: contents.contents,
     topics: topics.contents,
     totalCount: contents.totalCount,
     thisPage: parseInt(page),
-    // tweets,
     currentTopic,
   };
+  // アクセスランキング取得
+  const ranking_data: IBlog[] | string | null = await getRanking();
+  if (typeof ranking_data === 'string') {
+    console.log('error:', ranking_data);
+    return {
+      props: {
+        ...blog_data,
+        ranking: null,
+      },
+    };
+  }
+
   return {
-    props: props,
+    props: {
+      ...blog_data,
+      ranking: ranking_data,
+    },
   };
 };
 

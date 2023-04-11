@@ -213,10 +213,6 @@ blockquote.alert {
   margin-top: -40px;
 }
 
-article.static-tweet {
-  margin: 0 auto 20px;
-}
-
 /* diff2html */
 .d2h-d-none {
   display: none;

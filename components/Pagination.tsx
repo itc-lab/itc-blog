@@ -113,7 +113,7 @@ export const Pagination: FC<Props> = ({
   };
 
   return (
-    <div>
+    <div className="mb-5 iphone:mb-7 md:mb-10">
       <ul className="flex flex-wrap justify-center items-center pt-6 md:pt-10 list-none">
         <PreviousButton />
         {range(GetStartPage(), GetEndPage()).map((number, index) => {

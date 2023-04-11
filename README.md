@@ -21,7 +21,6 @@ Access the following demo site:
   - Support [TypeScript](https://www.typescriptlang.org)
 - Headless CMS : built with [microCMS](https://microcms.io) for quick posting, maintenance
 - Table of contents (TOC) : [Tocbot](https://tscanlin.github.io/tocbot/) builds a table of contents (TOC) from headings in an HTML document
-- Static Tweet : tweets are rendered statically using [static-tweet](https://github.com/lfades/static-tweet), [react-static-tweets](https://github.com/transitive-bullshit/react-static-tweets)
 - Syntax Highlighting : with [react-syntax-highlighter](https://github.com/react-syntax-highlighter/react-syntax-highlighter)
 - Markdown : supported by [react-markdown](https://github.com/remarkjs/react-markdown)
 - Pagination : limits the number of posts per page
@@ -60,17 +59,6 @@ type: リスト形式
 | ------------- | ------ | ------------------ |
 | author        | author | テキストフィールド |
 
-### Twitter
-
-endpoint: twitter  
-type: リスト形式
-
-| フィールド ID | 表示名     | 種類               |
-| ------------- | ---------- | ------------------ |
-| twitter_id    | twitter_id | テキストフィールド |
-| caption       | caption    | テキストエリア     |
-| memo          | memo       | テキストエリア     |
-
 ### 関連技術
 
 endpoint: topics  
@@ -99,9 +87,6 @@ type: リスト形式
 | seo_images        | seo_images        | 複数コンテンツ参照 - SEO-IMAGES  |
 | seo_type          | seo_type          | テキストフィールド               |
 | seo_authors       | seo_authors       | 複数コンテンツ参照 - SEO-AUTHORS |
-| twitter_handle    | twitter_handle    | テキストフィールド               |
-| twitter_site      | twitter_site      | テキストフィールド               |
-| twitter_cardtype  | twitter_cardtype  | テキストフィールド               |
 
 ## Getting started
 
@@ -110,7 +95,6 @@ Create a .env.local file similar to .env.example:
 ```
 API_URL=[microCMS API URL]
 API_KEY=[microCMS API KEY]
-TWITTER_API_TOKEN=[Twitter API Token]
 NEXT_PUBLIC_CDN_URL=[CDN(Cloudinary) URL for images]
 NEXT_PUBLIC_GOOGLE_ANALYTICS_ID=[Google Analytics Tracking ID]
 NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION_META_CODE=[Google Search Console Site Verification Code for meta tag]
@@ -119,6 +103,19 @@ GOOGLE_SITE_VERIFICATION_HTML_FILE_NAME=[Google Search Console Site Verification
 NEXT_PUBLIC_BASEURL=[Base Url, e.g. https://itc-engineering-blog.netlify.app]
 #If you use a proxy server, add the following.
 #https_proxy=[Proxy Server Url, e.g. http://192.168.0.10:3128/]
+REDIS_URL=[upstash redis api url for comment posting function, e.g. redis://redis.example.com:33333]
+#Settings of access ranking display part
+GOOGLE_APPLICATION_KEY_FILE=[Google Analytics Data API (GA4) key file]
+GOOGLE_APPLICATION_PROPERTYID=[Google Analytics Data API (GA4) propertyId]
+GOOGLE_APPLICATION_PROJECT_ID=[project_id value of Google Analytics Data API (GA4) secret json file]
+GOOGLE_APPLICATION_PRIVATE_KEY_ID=[private_key_id value of Google Analytics Data API (GA4) secret json file]
+GOOGLE_APPLICATION_PRIVATE_KEY=[private_key value of Google Analytics Data API (GA4) secret json file]
+GOOGLE_APPLICATION_CLIENT_EMAIL=[client_email value of Google Analytics Data API (GA4) secret json file]
+GOOGLE_APPLICATION_CLIENT_ID=[client_id value of Google Analytics Data API (GA4) secret json file]
+GOOGLE_APPLICATION_CLIENT_X509_CERT_URL=[client_x509_cert_url value of Google Analytics Data API (GA4) secret json file]
+GOOGLE_APPLICATION_RANKING_DATE_RANGE_START_DATE=[Google Analytics Data API (GA4) dateRanges startDate daysAgo]
+GOOGLE_APPLICATION_RANKING_REPORT_REQUEST_LIMIT=[Google Analytics Data API (GA4) limit]
+GOOGLE_APPLICATION_RANKING_DATA_FILE=[Cache file of results retrieved from Google Analytics Data API (GA4)]
 ```
 
 Run the following command on your local environment:

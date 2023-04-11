@@ -11,8 +11,6 @@ import SEO from '../next-seo.config';
 import '../styles/toc/styles.scss';
 import '../styles/toc/tocbot.scss';
 
-import '../styles/react-static-tweets/styles.css';
-
 const queryClient = new QueryClient();
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => {

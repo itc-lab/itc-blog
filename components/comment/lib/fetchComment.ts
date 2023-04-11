@@ -1,10 +1,9 @@
 import redis from './redis';
 import { CommentData } from 'types/interface';
 
-import { reqInterface, resInterface } from '../../../pages/api/comment';
+import { reqInterface, resInterface } from 'pages/api/comment';
 
 interface resData {
-  message?: string;
   id?: string;
   created_at?: number;
   url?: string;

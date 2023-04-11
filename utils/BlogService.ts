@@ -1,4 +1,4 @@
-import { IBlog, ITopic, ITweet, MicroCmsResponse } from '@/types/interface';
+import { IBlog, ITopic, MicroCmsResponse } from '@/types/interface';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 
 const header: HeadersInit = new Headers();
@@ -73,11 +73,6 @@ export interface IBlogService {
    * @param topic_id 関連技術ID
    */
   getTopicById(topic_id: string): Promise<ITopic>;
-
-  /**
-   * twitterを全件数取得します
-   */
-  getTweets(): Promise<MicroCmsResponse<ITweet>>;
 
   /**
    * クエリで絞ったblogを取得します。
@@ -160,12 +155,6 @@ export class BlogService implements IBlogService {
 
   public async getTopicsIds(): Promise<MicroCmsResponse<{ id: string }>> {
     return await fetch(`${process.env.API_URL}topics?limit=9999&fields=id`, opt)
-      .then((res) => res.json())
-      .catch(() => null);
-  }
-
-  public async getTweets(): Promise<MicroCmsResponse<ITweet>> {
-    return await fetch(`${process.env.API_URL}twitter?limit=9999`, opt)
       .then((res) => res.json())
       .catch(() => null);
   }

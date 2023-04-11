@@ -1,13 +1,13 @@
 import { useState, Dispatch, SetStateAction } from 'react';
 import useSWR from 'swr';
-import { CommentData } from 'types/interface';
+import { CommentData, Message } from 'types/interface';
 
 export default function useComments(url: string): {
   text: string;
   setText: Dispatch<SetStateAction<string>>;
   name: string;
   setName: Dispatch<SetStateAction<string>>;
-  comments: CommentData[];
+  comments: CommentData[] | Message | undefined;
   onSubmit: () => Promise<void>;
   onDelete: (comment: CommentData) => Promise<void>;
 } {

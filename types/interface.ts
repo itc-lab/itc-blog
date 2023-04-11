@@ -14,6 +14,7 @@ export interface IBlog extends IMicroCmsResponseBase {
   seo_images_width?: string;
   seo_images_height?: string;
   seo_images_alt?: string;
+  rank?: number;
 }
 
 export interface IBlogs {
@@ -28,12 +29,6 @@ export interface ITopic extends IMicroCmsResponseBase {
 
 export interface ISeoAuthors extends IMicroCmsResponseBase {
   author: string;
-}
-
-export interface ITweet extends IMicroCmsResponseBase {
-  twitter_id: string;
-  caption: string;
-  memo: string;
 }
 
 export type MicroCmsResponse<T> = {
@@ -82,4 +77,8 @@ export interface CommentData {
   url: string;
   text: string;
   name: string;
+}
+
+export interface Message {
+  message: string;
 }

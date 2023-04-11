@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import distanceToNow from './lib/dateRelative';
-import { CommentData } from 'types/interface';
+import { CommentData, Message } from 'types/interface';
 
 function CommentList({
   comments,
   onDelete,
 }: {
-  comments: CommentData[];
+  comments: CommentData[] | Message | undefined;
   onDelete: (comment: CommentData) => Promise<void>;
 }): JSX.Element {
   const [isConfirm, setConfirm] = useState(false);
@@ -23,9 +23,24 @@ function CommentList({
     setConfirm(true);
   };
 
+  if (!comments) {
+    return <div className="space-y-6 mt-10 -my-5">loading...</div>;
+  }
+
+  if ('message' in comments) {
+    console.log('error:', comments.message);
+    return (
+      <div className="space-y-6 mt-10 -my-5">
+        <p className="font-bold text-lg text-red-600">
+          コメントが取得できませんでした。
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6 mt-10 -my-5">
-      {comments !== undefined ? (
+      {Array.isArray(comments) ? (
         comments.map((comment: CommentData) => {
           return (
             <div key={comment.created_at} className="flex space-x-4">

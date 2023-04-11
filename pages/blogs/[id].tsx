@@ -13,31 +13,29 @@ import { HatenaIcon } from '../../components/HatenaIcon';
 import { TopicsLinks } from '../../components/TopicsLinks';
 import { Topics } from '../../components/Topics';
 import Link from 'next/link';
-import { ArticleFooter } from '../../components/ArticleFooter';
 import CommentForm from '../../components/Comment';
-// import { fetchTweetAst } from '../../components/FetchTweetAst';
+import { Indexes } from 'components/Indexes';
 import useMobileDevice from '../../hooks/useMobileDevice';
 import MobileShare from '../../components/mobileShare';
 import tocbot from 'tocbot';
 import { useRouter } from 'next/dist/client/router';
 import { BlogService, IBlogService } from '@utils/BlogService';
-// import { IBlog, ITweet, MicroCmsResponse } from '@types';
+import { getRanking } from '@utils/Ranking';
 import { IBlog, MicroCmsResponse } from '@types';
 import { BreadCrumbs } from '../../components/BreadCrumbs';
+import { GitHubIcon } from 'components/GitHubIcon';
+import { ArticleFooter } from '@components/ArticleFooter';
 
 interface Props {
   blog: IBlog;
-  // tweets: { id: string; ast: unknown }[];
+  ranking: IBlog[] | null;
 }
 
 type Slug = {
   id: string;
 };
 
-const Page: NextPage<Props> = ({
-  blog,
-  // , tweets
-}) => {
+const Page: NextPage<Props> = ({ blog, ranking }) => {
   const [isMobileOrTablet] = useMobileDevice();
 
   const [isCheck, setCheckbox] = useState(false);
@@ -249,7 +247,7 @@ const Page: NextPage<Props> = ({
                     onClick={(e) => {
                       closeWithClickOutSideMethod(e, setCheckbox);
                     }}>
-                    <div className="menu iphone5se:mr-6 bg-white pt-5 px-5 pb-6 overflow-auto rounded-lg shadow-lg">
+                    <div className="menu iphone5se:mr-6 bg-white pt-5 px-5 pb-6 overflow-auto rounded-lg shadow-lg max-h-[95vh]">
                       <div className="font-sans text-base leading-normal font-bold mb-3">
                         [目次]
                       </div>
@@ -450,8 +448,7 @@ const Page: NextPage<Props> = ({
                   </div>
                 </div>
                 <CommentForm url={url} />
-                {/* <ArticleFooter tweets={tweets} /> */}
-                <ArticleFooter tweets={[]} />
+                <ArticleFooter ranking={ranking} />
               </section>
               <aside className="hidden lg:block lg:w-81">
                 <div className="h-full">
@@ -492,22 +489,22 @@ export const getStaticProps: GetStaticProps<Props, Slug> = async ({
   //ブログ全件数取得。データは無くて良いので、limit=0。
   const data: IBlog = await service.getBlogById(id);
 
-  // const tweets_id_data: MicroCmsResponse<ITweet> = await service.getTweets();
-  // const twitter_ids: string[] = [];
-  // tweets_id_data.contents.forEach((content) =>
-  //   twitter_ids.push(content.twitter_id)
-  // );
-  // const tweets = await Promise.all(
-  //   twitter_ids.map(async (id: string) => {
-  //     const ast = await fetchTweetAst(id);
-  //     return { id, ast };
-  //   })
-  // );
+  // アクセスランキング取得
+  const ranking_data: IBlog[] | string | null = await getRanking();
+  if (typeof ranking_data === 'string') {
+    console.log('error:', ranking_data);
+    return {
+      props: {
+        blog: data,
+        ranking: null,
+      },
+    };
+  }
 
   return {
     props: {
       blog: data,
-      // tweets,
+      ranking: ranking_data,
     },
   };
 };
