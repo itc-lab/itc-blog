@@ -14,7 +14,6 @@ import { TopicsLinks } from '../../components/TopicsLinks';
 import { Topics } from '../../components/Topics';
 import Link from 'next/link';
 import CommentForm from '../../components/Comment';
-import { Indexes } from 'components/Indexes';
 import useMobileDevice from '../../hooks/useMobileDevice';
 import MobileShare from '../../components/mobileShare';
 import tocbot from 'tocbot';
@@ -23,7 +22,6 @@ import { BlogService, IBlogService } from '@utils/BlogService';
 import { getRanking } from '@utils/Ranking';
 import { IBlog, MicroCmsResponse } from '@types';
 import { BreadCrumbs } from '../../components/BreadCrumbs';
-import { GitHubIcon } from 'components/GitHubIcon';
 import { ArticleFooter } from '@components/ArticleFooter';
 
 interface Props {
