@@ -25,6 +25,13 @@ export interface IBlogService {
   getBlogs(limit: number, page?: number): Promise<MicroCmsResponse<IBlog>>;
 
   /**
+   * 記事本文を除くcontentsを取得します
+   * @param limit 一ページあたりの表示件数
+   * @param page ページ
+   */
+  getBlogsNoContent(limit: number, page?: number): Promise<MicroCmsResponse<IBlog>>;
+
+  /**
    * ブログを一件取得します。
    * @param id 記事ID
    */
@@ -82,6 +89,19 @@ export interface IBlogService {
 }
 
 export class BlogService implements IBlogService {
+  public async getBlogsNoContent(
+    limit: number,
+    page: number
+  ): Promise<MicroCmsResponse<IBlog>> {
+    const offset = page ? (page - 1) * limit : 0;
+    return await fetch(
+      `${process.env.API_URL}contents?offset=${offset}&limit=${limit}&orders=-publishedAt&fields=id,reflect_updatedAt,updatedAt,reflect_revisedAt,revisedAt,publishedAt,title,description`,
+      opt
+    )
+      .then((res) => res.json())
+      .catch(() => null);
+  }
+
   public async getBlogs(
     limit: number,
     page: number

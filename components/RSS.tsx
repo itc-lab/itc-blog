@@ -15,7 +15,7 @@ export async function generateRssFeed(): Promise<void> {
   }
 
   const service: IBlogService = new BlogService();
-  const posts: MicroCmsResponse<IBlog> = await service.getBlogs(9999, 1); //全コンテンツ取得
+  const posts: MicroCmsResponse<IBlog> = await service.getBlogsNoContent(9999, 1); //全コンテンツ取得
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
     ? `${process.env.NEXT_PUBLIC_BASE_URL}/`
     : 'https://itc-engineering-blog.netlify.app/';
