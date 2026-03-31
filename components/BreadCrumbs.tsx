@@ -1,7 +1,6 @@
-import React, { FC } from 'react';
 import { BreadCrumbsList } from '@types';
 
-export const BreadCrumbs: FC<BreadCrumbsList> = ({ breadcrumbslist }) => {
+export const BreadCrumbs = ({ breadcrumbslist }: BreadCrumbsList) => {
   return (
     <ol
       className="flex overflow-x-auto whitespace-nowrap"

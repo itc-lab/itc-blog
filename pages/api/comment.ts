@@ -1,50 +1,57 @@
+import type { NextApiRequest, NextApiResponse } from 'next';
 import fetchComment from '../../components/comment/lib/fetchComment';
 import createComments from '../../components/comment/lib/createComment';
 import deleteComments from '../../components/comment/lib/deleteComment';
+import { pickHeaderString } from '../../components/comment/lib/commentHelpers';
 
-export interface reqInterface {
-  method?: unknown;
+export type reqInterface = NextApiRequest & {
   body: {
-    id: string;
-    url: string;
-    created_at: number;
-    text: string;
-    name: string;
-    comment: string;
+    id?: string;
+    url?: string;
+    created_at?: number;
+    text?: string;
+    name?: string;
+    comment?: string;
   };
-  query: { url: string };
-}
+  query: NextApiRequest['query'] & {
+    url?: string | string[];
+  };
+};
 
-export interface resInterface {
-  status: (arg0: number) => {
-    (): unknown;
-    new (): unknown;
-    json: {
-      (arg0: {
-        message?: string;
-        id?: string;
-        created_at?: number;
-        url?: string;
-        text?: string;
-        name?: string;
-      }): unknown;
-      new (): unknown;
-    };
-  };
-}
+export type resInterface = NextApiResponse;
 
 export default async function handler(
   req: reqInterface,
-  res: resInterface
-): Promise<unknown> {
+  res: resInterface,
+): Promise<void> {
   switch (req.method) {
     case 'GET':
-      return fetchComment(req, res);
+      await fetchComment(req, res);
+      return;
+
     case 'POST':
-      return createComments(req, res);
-    case 'DELETE':
-      return deleteComments(req, res);
+      await createComments(req, res);
+      return;
+
+    case 'DELETE': {
+      const adminToken = pickHeaderString(req.headers['x-comment-admin-token']);
+
+      if (
+        !process.env.COMMENT_ADMIN_TOKEN ||
+        !adminToken ||
+        adminToken !== process.env.COMMENT_ADMIN_TOKEN
+      ) {
+        res.status(403).json({ message: 'Forbidden.' });
+        return;
+      }
+
+      await deleteComments(req, res);
+      return;
+    }
+
     default:
-      return res.status(400).json({ message: 'Invalid method.' });
+      res.setHeader('Allow', ['GET', 'POST', 'DELETE']);
+      res.status(405).json({ message: 'Method Not Allowed' });
+      return;
   }
 }

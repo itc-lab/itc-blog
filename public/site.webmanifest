@@ -13,7 +13,8 @@
             "type": "image/png"
         }
     ],
-    "start_url": "https://itccorporation.netlify.app",
+    "start_url": "/",
+    "scope": "/",
     "theme_color": "#eef2ff",
     "background_color": "#eef2ff",
     "display": "standalone"

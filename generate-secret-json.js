@@ -1,62 +1,77 @@
+const path = require('path');
 const fs = require('fs');
 const dotenv = require('dotenv');
 
+// This runs as a standalone Node script before the Next.js build,
+// so explicitly load .env.local.
+// Values already injected into process.env by Netlify or similar platforms
+// will still be used as-is.
 dotenv.config({ path: '.env.local' });
 
-const keyFile = process.env.GOOGLE_APPLICATION_KEY_FILE;
-if (!keyFile) {
-  throw new Error(
-    'GOOGLE_APPLICATION_KEY_FILE environment variable is not defined.'
+// List of env vars required to generate the service account JSON.
+// GOOGLE_APPLICATION_KEY_FILE is optional,
+// and .secrets/google-analytics-key.json is used by default if it is not set.
+const requiredEnvNames = [
+  'GOOGLE_APPLICATION_PROJECT_ID',
+  'GOOGLE_APPLICATION_PRIVATE_KEY_ID',
+  'GOOGLE_APPLICATION_PRIVATE_KEY',
+  'GOOGLE_APPLICATION_CLIENT_EMAIL',
+  'GOOGLE_APPLICATION_CLIENT_ID',
+  'GOOGLE_APPLICATION_CLIENT_X509_CERT_URL',
+];
+
+// Output path. Use the default value if not specified.
+const configuredKeyFile =
+  process.env.GOOGLE_APPLICATION_KEY_FILE ||
+  '.secrets/google-analytics-key.json';
+
+// Do nothing if the key file already exists.
+// This avoids breaking setups that are intended to use an existing file.
+if (fs.existsSync(configuredKeyFile)) {
+  console.log(
+    `[generate-secret-json] Skip generation. Key file already exists: ${configuredKeyFile}`,
   );
+  process.exit(0);
 }
-const project_id = process.env.GOOGLE_APPLICATION_PROJECT_ID;
-if (!project_id) {
-  throw new Error(
-    'GOOGLE_APPLICATION_PROJECT_ID environment variable is not defined.'
+
+const missingEnvNames = requiredEnvNames.filter((name) => !process.env[name]);
+
+// For public repos / local builds:
+// If secret env vars are missing, do not stop the build;
+// just skip the file generation.
+if (missingEnvNames.length > 0) {
+  console.warn(
+    `[generate-secret-json] Skip secret json generation. Missing env: ${missingEnvNames.join(
+      ', ',
+    )}`,
   );
+  process.exit(0);
 }
-const private_key_id = process.env.GOOGLE_APPLICATION_PRIVATE_KEY_ID;
-if (!private_key_id) {
-  throw new Error(
-    'GOOGLE_APPLICATION_PRIVATE_KEY_ID environment variable is not defined.'
-  );
-}
-const private_key = process.env.GOOGLE_APPLICATION_PRIVATE_KEY;
-if (!private_key) {
-  throw new Error(
-    'GOOGLE_APPLICATION_PRIVATE_KEY environment variable is not defined.'
-  );
-}
-const client_email = process.env.GOOGLE_APPLICATION_CLIENT_EMAIL;
-if (!client_email) {
-  throw new Error(
-    'GOOGLE_APPLICATION_CLIENT_EMAIL environment variable is not defined.'
-  );
-}
-const client_id = process.env.GOOGLE_APPLICATION_CLIENT_ID;
-if (!client_id) {
-  throw new Error(
-    'GOOGLE_APPLICATION_CLIENT_ID environment variable is not defined.'
-  );
-}
-const client_x509_cert_url =
-  process.env.GOOGLE_APPLICATION_CLIENT_X509_CERT_URL;
-if (!client_x509_cert_url) {
-  throw new Error(
-    'GOOGLE_APPLICATION_CLIENT_X509_CERT_URL environment variable is not defined.'
-  );
-}
+
+// If the path is relative, resolve it from the project root.
+// Example: .secrets/google-analytics-key.json
+const outputPath = path.resolve(process.cwd(), configuredKeyFile);
+
+// Create the output directory first.
+fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+
+// Build the Google service account JSON.
+// private_key may be stored in .env using "\n",
+// so convert it back to real line breaks.
 const secretData = {
   type: 'service_account',
-  project_id: project_id,
-  private_key_id: private_key_id,
-  private_key: private_key,
-  client_email: client_email,
-  client_id: client_id,
+  project_id: process.env.GOOGLE_APPLICATION_PROJECT_ID,
+  private_key_id: process.env.GOOGLE_APPLICATION_PRIVATE_KEY_ID,
+  private_key: process.env.GOOGLE_APPLICATION_PRIVATE_KEY.replace(/\\n/g, '\n'),
+  client_email: process.env.GOOGLE_APPLICATION_CLIENT_EMAIL,
+  client_id: process.env.GOOGLE_APPLICATION_CLIENT_ID,
   auth_uri: 'https://accounts.google.com/o/oauth2/auth',
   token_uri: 'https://oauth2.googleapis.com/token',
   auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
-  client_x509_cert_url: client_x509_cert_url,
+  client_x509_cert_url: process.env.GOOGLE_APPLICATION_CLIENT_X509_CERT_URL,
 };
 
-fs.writeFileSync(`./${keyFile}`, JSON.stringify(secretData));
+// Write the JSON key file used during the build.
+fs.writeFileSync(outputPath, JSON.stringify(secretData));
+
+console.log(`[generate-secret-json] Wrote ${outputPath}`);

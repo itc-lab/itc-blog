@@ -1,5 +1,6 @@
 import React, { useState, Dispatch, SetStateAction } from 'react';
-import settings from '../../settings.yml';
+import Image from 'next/image';
+import settings from '../../settings';
 
 function CommentForm({
   text,
@@ -13,7 +14,7 @@ function CommentForm({
   name: string;
   setName: Dispatch<SetStateAction<string>>;
   onSubmit: () => Promise<void>;
-}): JSX.Element {
+}): React.JSX.Element {
   const [isConfirm, setConfirm] = useState(false);
 
   return (
@@ -24,7 +25,9 @@ function CommentForm({
         <span className="font-medium">
           コメント投稿機能です。以下のように投稿されます。
         </span>
-        <img
+        <Image
+          width={308}
+          height={162}
           loading="lazy"
           className="mt-1"
           alt="comments example"
@@ -34,7 +37,8 @@ function CommentForm({
               : '') +
             '/' +
             settings.blogs.comments.replace(/^\//, '')
-          }></img>
+          }
+        />
       </div>
       <div
         className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
@@ -48,7 +52,7 @@ function CommentForm({
           <br />
           このコメント機能は、予告無く廃止する可能性があります。ご了承ください。
           <br />
-          コメントの削除をご依頼の場合はTwitterのDM等でご連絡ください。
+          コメントの削除をご依頼の場合はXのDM等でご連絡ください。
         </span>
       </div>
       <textarea
@@ -80,7 +84,7 @@ function CommentForm({
           <div>
             {text !== '' && name !== '' ? (
               <button
-                className="py-2 px-4 rounded bg-blue-600 text-white disabled:opacity-40 hover:bg-blue-700"
+                className="py-2 px-4 rounded bg-blue-600 text-white enabled:cursor-pointer disabled:opacity-40 hover:bg-blue-700"
                 onClick={() => setConfirm(true)}>
                 書き込む
               </button>
@@ -92,9 +96,7 @@ function CommentForm({
             {isConfirm && (
               <div
                 style={{ margin: '0px', zIndex: 999 }}
-                className={
-                  'bg-gray-200 bg-opacity-70 fixed inset-0 w-full h-full'
-                }>
+                className={'bg-gray-200/70 fixed inset-0 w-full h-full'}>
                 <div
                   className={
                     'h-screen w-screen flex justify-center items-center'
@@ -109,7 +111,7 @@ function CommentForm({
                     <div className={'text-right m-3'}>
                       <button
                         className={
-                          'py-2 px-4 rounded bg-blue-600 text-white disabled:opacity-40 hover:bg-blue-700 mx-1'
+                          'py-2 px-4 rounded bg-blue-600 text-white cursor-pointer disabled:opacity-40 hover:bg-blue-700 mx-1'
                         }
                         type="button"
                         onClick={() => {
@@ -120,7 +122,7 @@ function CommentForm({
                       </button>
                       <button
                         className={
-                          'py-2 px-4 border border-gray-300 rounded bg-white text-blue-700 disabled:opacity-40 hover:bg-gray-100 mx-1'
+                          'py-2 px-4 border border-gray-300 rounded bg-white text-blue-700 cursor-pointer disabled:opacity-40 hover:bg-gray-100 mx-1'
                         }
                         type="button"
                         onClick={() => setConfirm(false)}

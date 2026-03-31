@@ -1,8 +1,7 @@
-import React, { FC } from 'react';
-import '../settings.d.ts';
-import settings from '../settings.yml';
+import Image from 'next/image';
+import settings from '../settings';
 
-export const Footer: FC = () => {
+export const Footer = () => {
   const date = new Date();
   const footer_year = date.getFullYear();
   return (
@@ -18,7 +17,9 @@ export const Footer: FC = () => {
             href={settings.general.company_url}>
             <div
               style={{ position: 'relative', width: '50px', height: '100%' }}>
-              <img
+              <Image
+                width={68}
+                height={32}
                 loading="lazy"
                 className="w-full h-full object-contain"
                 style={{
@@ -31,7 +32,8 @@ export const Footer: FC = () => {
                     : '') +
                   '/' +
                   settings.general.company_logo.replace(/^\//, '')
-                }></img>
+                }
+              />
             </div>
           </a>
         </div>

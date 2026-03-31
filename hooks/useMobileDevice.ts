@@ -1,13 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { isMobileOrTabletDevice } from '../libs/detectDevice';
 
 const useMobileDevice = (): [boolean] => {
-  const [isMobileOrTablet, setIsMobileOrTablet] = useState(false);
-
-  useEffect(() => {
-    setIsMobileOrTablet(isMobileOrTabletDevice());
-  }, []);
+  const [isMobileOrTablet] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    return isMobileOrTabletDevice();
+  });
 
   return [isMobileOrTablet];
 };

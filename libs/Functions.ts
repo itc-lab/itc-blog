@@ -1,52 +1,102 @@
 import {
   createElement,
-  useState,
-  useCallback,
+  isValidElement,
   useEffect,
+  useState,
   ReactElement,
   ReactNode,
 } from 'react';
 
 export const useMediaQuery = (width: number): boolean => {
-  const [targetReached, setTargetReached] = useState(false);
-
-  const updateTarget = useCallback((e: { matches: boolean }) => {
-    if (e.matches) {
-      setTargetReached(true);
-    } else {
-      setTargetReached(false);
-    }
-  }, []);
+  const [targetReached, setTargetReached] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    return window.matchMedia(`(max-width: ${width}px)`).matches;
+  });
 
   useEffect(() => {
-    const media = window.matchMedia(`(max-width: ${width}px)`);
-    media.addListener(updateTarget);
+    if (typeof window === 'undefined') return;
 
-    // Check on mount (callback is not called until a change occurs)
-    if (media.matches) {
-      setTargetReached(true);
+    const mql = window.matchMedia(`(max-width: ${width}px)`);
+
+    const onChange = (e: MediaQueryListEvent) => {
+      setTargetReached(e.matches);
+    };
+
+    if (typeof mql.addEventListener === 'function') {
+      mql.addEventListener('change', onChange);
+      return () => mql.removeEventListener('change', onChange);
     }
 
-    return () => media.removeListener(updateTarget);
-  }, [updateTarget, width]);
+    const legacy = mql as unknown as {
+      addListener: (cb: (e: { matches: boolean }) => void) => void;
+      removeListener: (cb: (e: { matches: boolean }) => void) => void;
+    };
+    const onLegacyChange = (e: { matches: boolean }) => {
+      setTargetReached(e.matches);
+    };
+
+    legacy.addListener(onLegacyChange);
+    return () => legacy.removeListener(onLegacyChange);
+  }, [width]);
 
   return targetReached;
 };
 
-const generateId = (() => {
-  let i = 0;
-  return (prefix = '') => {
-    i += 1;
-    return `${prefix}-${i}`;
-  };
-})();
+export function extractText(node: ReactNode): string {
+  if (node == null || typeof node === 'boolean') {
+    return '';
+  }
+
+  if (typeof node === 'string' || typeof node === 'number') {
+    return String(node);
+  }
+
+  if (Array.isArray(node)) {
+    return node.map(extractText).join('');
+  }
+
+  if (isValidElement<{ children?: ReactNode }>(node)) {
+    return extractText(node.props.children);
+  }
+
+  return '';
+}
+
+export function slugifyHeading(text: string): string {
+  const normalized = text.normalize('NFKC').trim().toLowerCase();
+
+  const slug = normalized
+    .replace(/\s+/g, '-')
+    .replace(/[^\p{Letter}\p{Number}\-]+/gu, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+
+  return slug || 'section';
+}
+
+export function createHeadingId(
+  text: string,
+  counts: Map<string, number>,
+): string {
+  const base = slugifyHeading(text);
+  const nextCount = (counts.get(base) ?? 0) + 1;
+  counts.set(base, nextCount);
+  return nextCount === 1 ? base : `${base}-${nextCount}`;
+}
 
 export function HeadingRenderer(props: {
-  level: string;
+  level: number | string;
   children: ReactNode;
+  id?: string;
 }): ReactElement {
-  const slug = `h${props.level + 1}-${generateId('titile')}`;
-  return createElement(`h${props.level + 1}`, { id: slug }, props.children);
+  const rawLevel =
+    typeof props.level === 'string' ? Number(props.level) : props.level;
+
+  const baseLevel = Number.isFinite(rawLevel) ? rawLevel : 1;
+  const headingLevel = Math.min(6, Math.max(1, baseLevel + 1));
+  const headingId = props.id ?? slugifyHeading(extractText(props.children));
+
+  return createElement(`h${headingLevel}`, { id: headingId }, props.children);
 }
 
 const HTML_ESCAPE_TEST_RE = /[&<>"]/;
@@ -57,9 +107,11 @@ const HTML_REPLACEMENTS: { [key: string]: string } = {
   '>': '&gt;',
   '"': '&quot;',
 };
+
 function replaceUnsafeChar(ch: string): string {
   return HTML_REPLACEMENTS[ch];
 }
+
 export function escapeHtml(str: string): string {
   if (HTML_ESCAPE_TEST_RE.test(str)) {
     return str.replace(HTML_ESCAPE_REPLACE_RE, replaceUnsafeChar);

@@ -1,195 +1,300 @@
 import { IBlog, ITopic, MicroCmsResponse } from '@/types/interface';
-import { HttpsProxyAgent } from 'https-proxy-agent';
+import { fetch as undiciFetch, ProxyAgent } from 'undici';
+import type { Dispatcher, RequestInit as UndiciRequestInit } from 'undici';
 
-const header: HeadersInit = new Headers();
-header.set('X-API-KEY', process.env.API_KEY || '');
-const proxy = process.env.https_proxy;
-const opt = proxy
-  ? {
-      headers: header,
-      agent: new HttpsProxyAgent(proxy),
+const headers: Record<string, string> = {
+  'X-MICROCMS-API-KEY': process.env.API_KEY ?? '',
+};
+
+const microCmsContentUrlReplaceFrom =
+  process.env.CMS_CONTENT_URL_REPLACE_FROM ?? '';
+
+const microCmsContentUrlReplaceTo =
+  process.env.CMS_CONTENT_URL_REPLACE_TO ?? '';
+
+const proxy =
+  process.env.HTTPS_PROXY ??
+  process.env.https_proxy ??
+  process.env.HTTP_PROXY ??
+  process.env.http_proxy ??
+  '';
+
+const dispatcher: Dispatcher | undefined = proxy
+  ? new ProxyAgent(proxy)
+  : undefined;
+
+const opt: UndiciRequestInit = dispatcher
+  ? { headers, dispatcher }
+  : { headers };
+
+const MICROCMS_MAX_LIMIT = 100;
+const BLOG_NO_CONTENT_FIELDS =
+  'id,reflect_updatedAt,updatedAt,reflect_revisedAt,revisedAt,publishedAt,title,description';
+
+function replaceMicroCmsContentUrlsInString(value: string): string {
+  if (
+    !microCmsContentUrlReplaceFrom ||
+    !microCmsContentUrlReplaceTo ||
+    microCmsContentUrlReplaceFrom === microCmsContentUrlReplaceTo
+  ) {
+    return value;
+  }
+
+  return value
+    .split(microCmsContentUrlReplaceFrom)
+    .join(microCmsContentUrlReplaceTo);
+}
+
+function replaceMicroCmsContentUrlsDeep<T>(value: T): T {
+  if (typeof value === 'string') {
+    return replaceMicroCmsContentUrlsInString(value) as T;
+  }
+
+  if (Array.isArray(value)) {
+    return value.map((item) => replaceMicroCmsContentUrlsDeep(item)) as T;
+  }
+
+  if (value && typeof value === 'object') {
+    const result: Record<string, unknown> = {};
+
+    for (const [key, item] of Object.entries(
+      value as Record<string, unknown>,
+    )) {
+      result[key] = replaceMicroCmsContentUrlsDeep(item);
     }
-  : {
-      headers: header,
-    };
+
+    return result as T;
+  }
+
+  return value;
+}
+
+async function fetchJson<T>(url: string, init?: UndiciRequestInit): Promise<T> {
+  const res = await undiciFetch(url, init);
+
+  if (!res.ok) {
+    const body = await res.text().catch(() => '');
+    throw new Error(`Request failed: ${res.status} ${res.statusText} ${body}`);
+  }
+
+  const data = (await res.json()) as T;
+  return replaceMicroCmsContentUrlsDeep(data);
+}
 
 /**
- * blog取得用サービスのインターフェース
+ * Interface for the blog service
  */
 export interface IBlogService {
   /**
-   * contentsを取得します
-   * @param limit 一ページあたりの表示件数
-   * @param page ページ
+   * Retrieves blog posts
+   * @param limit Number of items per page
+   * @param page Page number
    */
   getBlogs(limit: number, page?: number): Promise<MicroCmsResponse<IBlog>>;
 
   /**
-   * 記事本文を除くcontentsを取得します
-   * @param limit 一ページあたりの表示件数
-   * @param page ページ
+   * Retrieves blog posts without article content
+   * @param limit Number of items per page
+   * @param page Page number
    */
-  getBlogsNoContent(limit: number, page?: number): Promise<MicroCmsResponse<IBlog>>;
+  getBlogsNoContent(
+    limit: number,
+    page?: number,
+  ): Promise<MicroCmsResponse<IBlog>>;
 
   /**
-   * ブログを一件取得します。
-   * @param id 記事ID
+   * Retrieves all blog posts without article content
+   */
+  getAllBlogsNoContent(): Promise<MicroCmsResponse<IBlog>>;
+
+  /**
+   * Retrieves a single blog post
+   * @param id Article ID
    */
   getBlogById(id?: string): Promise<IBlog>;
 
   /**
-   * ブログのIDだけを取得します
+   * Retrieves blog IDs only
    */
   getBlogsIds(): Promise<MicroCmsResponse<{ id: string }>>;
 
   /**
-   * contentsの全件数を取得します
+   * Retrieves the total number of blog posts
    */
   getBlogsCount(): Promise<number>;
 
   /**
-   * 関連技術で絞ったblogを取得します
-   * @param limit 上限
-   * @param page ページNumber
-   * @param topic_id カテゴリーID
+   * Retrieves blog posts filtered by topic
+   * @param limit Maximum number of items
+   * @param page Page number
+   * @param topic_id Topic ID
    */
   getBlogsByTopicId(
     limit: number,
     page: number,
-    topic_id: string
+    topic_id: string,
   ): Promise<MicroCmsResponse<IBlog>>;
 
   /**
-   * 関連技術で絞ったblogの件数を取得します
-   * @param topic_id カテゴリーID
+   * Retrieves the number of blog posts filtered by topic
+   * @param topic_id Topic ID
    */
   getBlogsCountByTopicId(topic_id: string): Promise<number>;
 
   /**
-   * 関連技術を取得します
+   * Retrieves topics
    */
   getTopics(): Promise<MicroCmsResponse<ITopic>>;
 
   /**
-   * 関連技術のIDだけを取得します
+   * Retrieves topic IDs only
    */
   getTopicsIds(): Promise<MicroCmsResponse<{ id: string }>>;
 
   /**
-   * topic_idに合致する関連技術データを取得します
-   * @param topic_id 関連技術ID
+   * Retrieves topic data for the given topic_id
+   * @param topic_id Topic ID
    */
   getTopicById(topic_id: string): Promise<ITopic>;
 
   /**
-   * クエリで絞ったblogを取得します。
-   * @param query クエリ
+   * Retrieves blog posts filtered by query
+   * @param query Search query
    */
   getBlogsByQuery(query: string): Promise<MicroCmsResponse<IBlog>>;
 }
 
 export class BlogService implements IBlogService {
+  private async fetchAllPages<T>(
+    endpoint: string,
+    query: Record<string, string> = {},
+  ): Promise<MicroCmsResponse<T>> {
+    const contents: T[] = [];
+    let totalCount = 0;
+    let offset = 0;
+
+    do {
+      const params = new URLSearchParams({
+        ...query,
+        offset: String(offset),
+        limit: String(MICROCMS_MAX_LIMIT),
+      });
+      const separator = endpoint.includes('?') ? '&' : '?';
+      const url = `${process.env.API_URL}${endpoint}${separator}${params.toString()}`;
+      const response = await fetchJson<MicroCmsResponse<T>>(url, opt);
+
+      contents.push(...response.contents);
+      totalCount = response.totalCount;
+      offset += response.contents.length;
+
+      if (response.contents.length === 0) {
+        break;
+      }
+    } while (offset < totalCount);
+
+    return {
+      contents,
+      totalCount,
+      offset: 0,
+      limit: contents.length,
+    };
+  }
+
   public async getBlogsNoContent(
     limit: number,
-    page: number
+    page?: number,
   ): Promise<MicroCmsResponse<IBlog>> {
     const offset = page ? (page - 1) * limit : 0;
-    return await fetch(
-      `${process.env.API_URL}contents?offset=${offset}&limit=${limit}&orders=-publishedAt&fields=id,reflect_updatedAt,updatedAt,reflect_revisedAt,revisedAt,publishedAt,title,description`,
-      opt
-    )
-      .then((res) => res.json())
-      .catch(() => null);
+
+    const url =
+      `${process.env.API_URL}contents?offset=${offset}&limit=${limit}` +
+      `&orders=-publishedAt&fields=${BLOG_NO_CONTENT_FIELDS}`;
+
+    return fetchJson<MicroCmsResponse<IBlog>>(url, opt);
+  }
+
+  public async getAllBlogsNoContent(): Promise<MicroCmsResponse<IBlog>> {
+    return this.fetchAllPages<IBlog>('contents', {
+      orders: '-publishedAt',
+      fields: BLOG_NO_CONTENT_FIELDS,
+    });
   }
 
   public async getBlogs(
     limit: number,
-    page: number
+    page?: number,
   ): Promise<MicroCmsResponse<IBlog>> {
     const offset = page ? (page - 1) * limit : 0;
-    return await fetch(
-      `${process.env.API_URL}contents?offset=${offset}&limit=${limit}&orders=-publishedAt`,
-      opt
-    )
-      .then((res) => res.json())
-      .catch(() => null);
+
+    const url =
+      `${process.env.API_URL}contents?offset=${offset}&limit=${limit}` +
+      `&orders=-publishedAt`;
+
+    return fetchJson<MicroCmsResponse<IBlog>>(url, opt);
   }
 
   public async getBlogById(id?: string): Promise<IBlog> {
-    return await fetch(`${process.env.API_URL}contents/${id}`, opt)
-      .then((res) => res.json())
-      .catch(() => null);
+    if (!id) {
+      throw new Error('id is required');
+    }
+
+    const url = `${process.env.API_URL}contents/${id}`;
+    return fetchJson<IBlog>(url, opt);
   }
 
   public async getBlogsIds(): Promise<MicroCmsResponse<{ id: string }>> {
-    return await fetch(
-      `${process.env.API_URL}contents?limit=9999&fields=id`,
-      opt
-    )
-      .then((res) => res.json())
-      .catch(() => null);
+    return this.fetchAllPages<{ id: string }>('contents', { fields: 'id' });
   }
 
   public async getBlogsCount(): Promise<number> {
-    const data = await fetch(`${process.env.API_URL}contents/?limit=0`, opt)
-      .then((res) => res.json())
-      .catch(() => null);
+    const url = `${process.env.API_URL}contents/?limit=0`;
+    const data = await fetchJson<MicroCmsResponse<unknown>>(url, opt);
     return data.totalCount as number;
   }
 
   public async getBlogsByTopicId(
     limit: number,
     page: number,
-    topic_id: string
+    topic_id: string,
   ): Promise<MicroCmsResponse<IBlog>> {
     const offset = page ? (page - 1) * limit : 0;
-    return await fetch(
-      `${process.env.API_URL}contents?offset=${offset}&limit=${limit}&filters=topics[contains]${topic_id}`,
-      opt
-    )
-      .then((res) => res.json())
-      .catch(() => null);
+
+    const url =
+      `${process.env.API_URL}contents?offset=${offset}&limit=${limit}` +
+      `&filters=topics[contains]${topic_id}`;
+
+    return fetchJson<MicroCmsResponse<IBlog>>(url, opt);
   }
 
   public async getBlogsCountByTopicId(topic_id: string): Promise<number> {
-    const data = await fetch(
-      `${process.env.API_URL}contents?limit=0&filters=topics[contains]${topic_id}`,
-      opt
-    )
-      .then((res) => res.json())
-      .catch(() => null);
+    const url =
+      `${process.env.API_URL}contents?limit=0` +
+      `&filters=topics[contains]${topic_id}`;
+
+    const data = await fetchJson<MicroCmsResponse<unknown>>(url, opt);
     return data.totalCount as number;
   }
 
   public async getTopicById(topic_id: string): Promise<ITopic> {
-    return await fetch(`${process.env.API_URL}topics/${topic_id}`, opt)
-      .then((res) => res.json())
-      .catch(() => null);
+    const url = `${process.env.API_URL}topics/${topic_id}`;
+    return fetchJson<ITopic>(url, opt);
   }
 
   public async getTopics(): Promise<MicroCmsResponse<ITopic>> {
-    return await fetch(`${process.env.API_URL}topics?limit=9999`, opt)
-      .then((res) => res.json())
-      .catch(() => null);
+    return this.fetchAllPages<ITopic>('topics');
   }
 
   public async getTopicsIds(): Promise<MicroCmsResponse<{ id: string }>> {
-    return await fetch(`${process.env.API_URL}topics?limit=9999&fields=id`, opt)
-      .then((res) => res.json())
-      .catch(() => null);
+    return this.fetchAllPages<{ id: string }>('topics', { fields: 'id' });
   }
 
   public async getBlogsByQuery(
-    query: string
+    query: string,
   ): Promise<MicroCmsResponse<IBlog>> {
-    return await fetch(
-      `${process.env.NEXT_PUBLIC_BASEURL}/api/search?q=${encodeURIComponent(
-        query
-      )}`
-    )
-      .then((res) => {
-        return res.json();
-      })
-      .catch(() => null);
+    const url = `${
+      process.env.NEXT_PUBLIC_BASEURL
+    }/api/search?q=${encodeURIComponent(query)}`;
+
+    return fetchJson<MicroCmsResponse<IBlog>>(url, opt);
   }
 }

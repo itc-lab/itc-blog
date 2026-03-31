@@ -1,4 +1,4 @@
-export default {
+const SEO = {
   openGraph: {
     type: 'blog',
     locale: 'ja_JP',
@@ -10,3 +10,5 @@ export default {
     cardType: 'summary_large_image',
   },
 };
+
+export default SEO;

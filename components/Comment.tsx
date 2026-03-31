@@ -1,10 +1,10 @@
 import React from 'react';
-import Comment from './comment';
+import Comment from './comment/index';
 
-function CommentForm({ url }: { url: string }): JSX.Element {
+function CommentForm({ url }: { url: string }): React.JSX.Element {
   return (
     <div className="my-6 md:my-10 bg-white rounded-lg shadow py-10 text-base">
-      <div className="max-w-screen-lg m-auto px-5 iphone:px-10"></div>
+      <div className="max-w-(--breakpoint-lg) m-auto px-5 iphone:px-10"></div>
       <Comment url={url} />
     </div>
   );

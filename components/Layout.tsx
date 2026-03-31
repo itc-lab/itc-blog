@@ -1,8 +1,9 @@
-import React, { FC, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { Header } from './Header';
 import { SEO } from './SEO';
 import { Footer } from './Footer';
 import { SEO_DATA } from '@/types';
+import { Tooltip } from 'react-tooltip';
 
 interface Props {
   children: ReactNode;
@@ -11,7 +12,7 @@ interface Props {
   seo_url: string;
 }
 
-export const Layout: FC<Props> = ({ children, title, seo_data, seo_url }) => {
+export const Layout = ({ children, title, seo_data, seo_url }: Props) => {
   return (
     <>
       <Header title={title}></Header>
@@ -20,6 +21,7 @@ export const Layout: FC<Props> = ({ children, title, seo_data, seo_url }) => {
         <div className="border-box block float-none leading-7 static z-auto">
           {children}
         </div>
+        <Tooltip id="global-tooltip" place="right" variant="dark" float />
         <Footer />
       </div>
     </>

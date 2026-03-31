@@ -3,11 +3,7 @@ import fs from 'fs';
 import { Feed } from 'feed';
 
 import { IBlogService, BlogService } from '@utils/BlogService';
-import { IBlog, MicroCmsResponse } from '@/types/interface';
-import settings from '@settings.yml';
-//import { renderToString } from 'react-dom/server';
-//import { Markdown } from '@components/Markdown';
-//import React from 'react';
+import settings from '../settings';
 
 export async function generateRssFeed(): Promise<void> {
   if (process.env.NODE_ENV === 'development') {
@@ -15,9 +11,9 @@ export async function generateRssFeed(): Promise<void> {
   }
 
   const service: IBlogService = new BlogService();
-  const posts: MicroCmsResponse<IBlog> = await service.getBlogsNoContent(9999, 1); //全コンテンツ取得
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
-    ? `${process.env.NEXT_PUBLIC_BASE_URL}/`
+  const posts = await service.getAllBlogsNoContent();
+  const baseUrl = process.env.NEXT_PUBLIC_BASEURL
+    ? `${process.env.NEXT_PUBLIC_BASEURL}/`
     : 'https://itc-engineering-blog.netlify.app/';
   const date = new Date();
   const author = {
@@ -52,13 +48,13 @@ export async function generateRssFeed(): Promise<void> {
       (post.reflect_updatedAt && post.updatedAt) ||
       (post.reflect_revisedAt && post.revisedAt) ||
       post.publishedAt;
+
     feed.addItem({
       title: post.title,
       id: url,
       link: url,
       description: post.description,
       content: post.description,
-      //content: renderToString(<Markdown source={post.content} />),
       author: [author],
       contributor: [author],
       date: new Date(update_timestamp),

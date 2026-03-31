@@ -34,7 +34,7 @@ Access the following demo site:
 
 ## Requirements
 
-- Node.js and npm
+- Node.js 24.x and npm
 
 ## Headless CMS (microCMS) API Schema
 
@@ -90,7 +90,7 @@ type: リスト形式
 
 ## Getting started
 
-Create a .env.local file similar to .env.example:
+Create a local-only .env.local file similar to .env.example (do not commit it):
 
 ```
 API_URL=[microCMS API URL]
@@ -138,6 +138,8 @@ Open http://localhost:3000 with your favorite browser to see your project.
 
 [Next.js microCMS GitHub Netlify で Jamstack なブログを公開 - ITC Engineering Blog](https://itc-engineering-blog.netlify.app/blogs/efxq_5j84z)
 を参考に Netlify へデプロイしてください。(Japanese text only)
+
+Netlify build settings are also tracked in `netlify.toml` (`npm run build`, publish directory `.next`).
 
 ## License
 

@@ -1,0 +1,4 @@
+# Node.js version is pinned in .nvmrc and package.json (engines.node).
+[build]
+  command = "npm run build"
+  publish = ".next"

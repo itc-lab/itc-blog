@@ -1,6 +1,6 @@
-import getDate from 'date-fns/getDate';
-import getMonth from 'date-fns/getMonth';
-import getYear from 'date-fns/getYear';
+import { getDate } from 'date-fns/getDate';
+import { getMonth } from 'date-fns/getMonth';
+import { getYear } from 'date-fns/getYear';
 
 export default function distanceToNow(dateTime: number): string {
   const date = new Date(dateTime);

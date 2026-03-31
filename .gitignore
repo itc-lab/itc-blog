@@ -2,7 +2,7 @@
 
 # dependencies
 /node_modules
-package-lock.json
+# package-lock.json
 yarn.lock
 !/yarn.lock
 test/node_modules
@@ -40,5 +40,16 @@ yarn-error.log*
 # vscode
 .vscode/
 
-# secret json
+# generated secrets
+.secrets/
 secret*.json
+
+# CodeX
+.codex
+# Local Netlify folder
+.netlify
+# generated site artifacts
+/public/rss/
+/public/google*.html
+/ranking_data.json
+/utils/ranking_data.json

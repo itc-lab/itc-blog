@@ -1,9 +1,7 @@
-import React, { FC } from 'react';
-import '../settings.d.ts';
-import settings from '../settings.yml';
+import settings from '../settings';
 import * as gtag from '@utils/gtag';
 
-export const GitHubIcon: FC = () => {
+export const GitHubIcon = () => {
   const handleClick = () => {
     gtag.event({
       action: 'Click',
@@ -18,7 +16,8 @@ export const GitHubIcon: FC = () => {
       href={settings.general.github}
       rel="nofollow noopener noreferrer"
       target="_blank"
-      data-tip="弊社GitHubページへ"
+      data-tooltip-id="global-tooltip"
+      data-tooltip-content="弊社GitHubページへ"
       onClick={handleClick}>
       <svg
         className="github-svg w-7 h-7 text-gray-500"

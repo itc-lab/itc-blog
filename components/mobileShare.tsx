@@ -1,4 +1,3 @@
-import React, { FC } from 'react';
 import * as gtag from '@utils/gtag';
 
 interface Props {
@@ -6,7 +5,7 @@ interface Props {
   siteTitle: string;
 }
 
-const MobileShare: FC<Props> = ({ postTitle, siteTitle }) => {
+const MobileShare = ({ postTitle, siteTitle }: Props) => {
   const handleOnClick = () => {
     gtag.event({
       action: 'Click',

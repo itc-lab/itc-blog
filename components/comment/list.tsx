@@ -8,7 +8,7 @@ function CommentList({
 }: {
   comments: CommentData[] | Message | undefined;
   onDelete: (comment: CommentData) => Promise<void>;
-}): JSX.Element {
+}): React.JSX.Element {
   const [isConfirm, setConfirm] = useState(false);
   const [delcomment, setDelData] = useState({
     id: '',
@@ -44,7 +44,7 @@ function CommentList({
         comments.map((comment: CommentData) => {
           return (
             <div key={comment.created_at} className="flex space-x-4">
-              <div className="flex-grow">
+              <div className="grow">
                 <div className="flex space-x-2">
                   <b>{comment.name}</b>
                   <time className="text-gray-400 whitespace-nowrap">
@@ -72,7 +72,7 @@ function CommentList({
       {isConfirm && (
         <div
           style={{ margin: '0px', zIndex: 999 }}
-          className={'bg-gray-200 bg-opacity-70 fixed inset-0 w-full h-full'}>
+          className={'bg-gray-200/70 fixed inset-0 w-full h-full'}>
           <div className={'h-screen w-screen flex justify-center items-center'}>
             <div className={'rounded-xl bg-white'}>
               <div className={'m-5'}>コメントを削除しますか？</div>

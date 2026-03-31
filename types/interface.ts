@@ -1,4 +1,4 @@
-import { OpenGraphMedia } from 'next-seo/lib/types';
+import type { OpenGraphMedia } from 'next-seo/pages';
 
 export interface IBlog extends IMicroCmsResponseBase {
   reflect_updatedAt?: boolean;
@@ -57,9 +57,9 @@ export interface SEO_DATA {
   seo_type?: string;
   seo_authors?: { author: string }[];
   seo_images?: OpenGraphMedia[];
-  twitter_handle?: string;
-  twitter_site?: string;
-  twitter_cardtype?: string;
+  x_handle?: string;
+  x_site?: string;
+  x_cardtype?: string;
 }
 
 export interface BreadCrumbsData {

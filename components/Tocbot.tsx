@@ -1,6 +1,6 @@
-import { FC, useEffect } from 'react';
+import { useEffect } from 'react';
 import tocbot from 'tocbot';
-const Tocbot: FC = () => {
+const Tocbot = () => {
   useEffect(() => {
     tocbot.init({
       headingsOffset: 85,

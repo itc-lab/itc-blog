@@ -1,4 +1,3 @@
-import React, { FC } from 'react';
 import { format, formatISO, parseISO } from 'date-fns';
 
 interface Props {
@@ -6,7 +5,7 @@ interface Props {
   date: string;
 }
 
-export const Jadate: FC<Props> = ({ date }) => {
+export const Jadate = ({ date }: Props) => {
   return (
     <time
       className="text-gray-600 text-center"

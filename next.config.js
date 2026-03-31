@@ -1,41 +1,52 @@
+// next.config.js
 const path = require('path');
+const { PHASE_PRODUCTION_BUILD } = require('next/constants');
+const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
 const generateSiteVerification = require('./scripts/generate-site-verification');
-module.exports = {
-  webpack5: true,
-  webpackDevMiddleware: (config) => {
-    config.watchOptions = {
-      poll: 5000,
-      aggregateTimeout: 600,
-    };
-    return config;
-  },
-  sassOptions: {
-    includePaths: [path.join(__dirname, 'styles/toc')],
-  },
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.resolve = {
-        fallback: {
-          fs: false,
-        },
-        ...config.resolve,
-      };
-    }
 
-    config.module.rules.push({
-      test: /\.ya?ml$/,
-      use: 'js-yaml-loader',
-    });
+function buildRemotePatternFromCdnUrl() {
+  const cdnUrl = process.env.NEXT_PUBLIC_CDN_URL;
+  if (!cdnUrl) throw new Error('NEXT_PUBLIC_CDN_URL is not set');
 
-    if (isServer) {
-      generateSiteVerification();
-    }
+  let u;
+  try {
+    u = new URL(cdnUrl);
+  } catch {
+    throw new Error(`NEXT_PUBLIC_CDN_URL must be an absolute URL: ${cdnUrl}`);
+  }
 
-    return config;
-  },
-  images: {
-    domains: ['pbs.twimg.com'],
-    loader: 'cloudinary',
-    path: process.env.NEXT_PUBLIC_CDN_URL,
-  },
+  const protocol = u.protocol.replace(':', '');
+  const hostname = u.hostname;
+
+  const basePath = u.pathname.replace(/\/$/, '');
+  const pathname = basePath ? `${basePath}/**` : '/**';
+
+  return { protocol, hostname, pathname };
+}
+
+module.exports = (phase) => {
+  if (phase === PHASE_PRODUCTION_BUILD) {
+    generateSiteVerification();
+  }
+
+  const cdnPattern = buildRemotePatternFromCdnUrl();
+
+  return {
+    experimental: {
+      largePageDataBytes: 2 * 1024 * 1024, // 2 MB
+    },
+
+    sassOptions: {
+      includePaths: [path.join(__dirname, 'styles/toc')],
+    },
+
+    turbopack: {
+      rules: {},
+    },
+
+    images: {
+      unoptimized: phase === PHASE_DEVELOPMENT_SERVER,
+      remotePatterns: [cdnPattern],
+    },
+  };
 };

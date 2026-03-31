@@ -1,22 +1,31 @@
-import { reqInterface, resInterface } from '@pages/api/comment';
 import redis from './redis';
+import type { reqInterface, resInterface } from 'pages/api/comment';
+import { isAllowedCommentUrl, pickString } from './commentHelpers';
 
 export default async function deleteComments(
   req: reqInterface,
-  res: resInterface
-): Promise<unknown> {
-  const { url, comment } = req.body;
+  res: resInterface,
+): Promise<void> {
+  const url = pickString(req.body?.url);
+  const comment = req.body?.comment;
 
   if (!url || !comment) {
-    return res.status(400).json({ message: 'Missing parameter.' });
+    res.status(400).json({ message: 'Missing parameter.' });
+    return;
   }
 
-  try {
-    // delete
-    await redis.lrem(url, 0, JSON.stringify(comment));
+  if (!isAllowedCommentUrl(url)) {
+    res.status(400).json({ message: 'Invalid URL.' });
+    return;
+  }
 
-    return res.status(200).json({ message: 'Success.' });
-  } catch (err) {
-    return res.status(400);
+  const serialized =
+    typeof comment === 'string' ? comment : JSON.stringify(comment);
+
+  try {
+    await redis.lrem(url, 0, serialized);
+    res.status(200).json({ message: 'Success.' });
+  } catch {
+    res.status(400).json({ message: 'Unexpected error occurred.' });
   }
 }
