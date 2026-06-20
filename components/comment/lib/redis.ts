@@ -1,28 +1,23 @@
 import Redis from 'ioredis';
 
-function fixUrl(url: string) {
-  if (!url) {
-    return '';
-  }
-  if (url.startsWith('redis://') && !url.startsWith('redis://:')) {
-    return url.replace('redis://', 'redis://:');
-  }
-  if (url.startsWith('rediss://') && !url.startsWith('rediss://:')) {
-    return url.replace('rediss://', 'rediss://:');
-  }
-  return url;
-}
-
 class ClientRedis {
-  static instance: Redis;
-  constructor() {
-    throw new Error('Use Singleton.getInstance()');
+  static instance: Redis | undefined;
+
+  private constructor() {
+    throw new Error('Use ClientRedis.getInstance()');
   }
 
-  static getInstance() {
-    if (!ClientRedis.instance && process.env.REDIS_URL !== undefined) {
-      ClientRedis.instance = new Redis(fixUrl(process.env.REDIS_URL));
+  static getInstance(): Redis {
+    if (!ClientRedis.instance) {
+      const redisUrl = process.env.REDIS_URL;
+
+      if (!redisUrl) {
+        throw new Error('REDIS_URL is not configured.');
+      }
+
+      ClientRedis.instance = new Redis(redisUrl);
     }
+
     return ClientRedis.instance;
   }
 }
